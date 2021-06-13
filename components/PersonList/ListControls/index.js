@@ -13,7 +13,7 @@ const ListControls = () => {
 
   return (
     <div className="flex items-center mt-6 justify-between">
-      <Button icon={<FiUserPlus />} onClick={addPerson}>
+      <Button primary icon={<FiUserPlus />} onClick={addPerson}>
         Add Person
       </Button>
       <div className="ml-auto mr-2">
