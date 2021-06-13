@@ -66,7 +66,7 @@ const Modal = () => {
                   {...register("quickNote")}
                 />
                 <div className="flex justify-between">
-                  <Button onClick={onSubmit} type="submit">
+                  <Button primary onClick={onSubmit} type="submit">
                     Add Person
                   </Button>
                   <Button onClick={() => dispatch(closeModal())}>Cancel</Button>
