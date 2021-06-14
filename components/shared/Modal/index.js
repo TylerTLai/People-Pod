@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "./modalSlice";
+import { closeModal } from "../../../redux/slices/modalSlice";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
 

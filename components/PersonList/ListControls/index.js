@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { openModal, closeModal } from "../../shared/Modal/modalSlice";
+import { openModal } from "../../../redux/slices/modalSlice";
 import { FiUserPlus, FiFilter, FiAlignJustify } from "react-icons/fi";
 import Button from "../../shared/Button";
 
