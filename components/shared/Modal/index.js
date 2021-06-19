@@ -1,3 +1,4 @@
+import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../redux/slices/modalSlice";
@@ -27,7 +28,18 @@ const Modal = () => {
 
           <div className="bg-white rounded w-3/4 sm:w-1/3 mx-auto z-20 p-6">
             <Dialog.Title>
-              <p className="text-2xl bold text-gray-800">Add Person Form</p>
+              <div className="flex justify-between">
+                <p className="text-2xl text-gray-800 font-semibold">Add Person Form</p>
+                <button
+                  className="focus:outline-none"
+                  type="button"
+                  aria-label="close modal"
+                  aria-hidden="true"
+                  onClick={() => dispatch(closeModal())}
+                >
+                  <FiXCircle size={24} color="#1F2937" />
+                </button>
+              </div>
             </Dialog.Title>
             <Dialog.Description className="text-sm text-gray-500 mb-5">
               Add someone new to your People Pod.
@@ -65,11 +77,13 @@ const Modal = () => {
                   placeholder="Quick note..."
                   {...register("quickNote")}
                 />
-                <div className="flex justify-between">
+                <div className="flex space-x-4">
                   <Button primary onClick={onSubmit} type="submit">
                     Add Person
                   </Button>
-                  <Button onClick={() => dispatch(closeModal())}>Cancel</Button>
+                  <Button secondary onClick={() => dispatch(closeModal())}>
+                    Cancel
+                  </Button>
                 </div>
               </form>
             </div>
