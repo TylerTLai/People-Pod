@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState } from "react";
 import Layout from "../components/Layout";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -11,13 +12,15 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default function Home({ people }) {
+  const [localPeople, setLocalPeople] = useState(people);
+
   return (
     <>
       <Modal />
       <Navbar />
       <Layout>
         <Sidebar />
-        <PersonList people={people} />
+        <PersonList people={localPeople} />
         <PersonDetails />
       </Layout>
     </>

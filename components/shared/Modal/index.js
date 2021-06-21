@@ -1,20 +1,36 @@
 import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../redux/slices/modalSlice";
+import { addPerson } from "../../../redux/slices/personSlice";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
 
 const Modal = () => {
   const isOpen = useSelector((state) => state.modal.isOpen);
+  const peopleRedux = useSelector((state) => state.person.people);
   const dispatch = useDispatch();
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm({
+    mode: "onChange",
+  });
 
-  const onSubmit = (data, e) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      let person = {};
+      const { firstName, lastName, quickNote } = data;
+      person = { firstName, lastName, quickNote };
+      dispatch(addPerson(person));
+      // const response = await axios.post("/api/people/", person);
+      dispatch(closeModal());
+      return response.json();
+    } catch (error) {
+      console.error("error ", error);
+    }
   };
+
+  console.log("people redux ", peopleRedux );
 
   return (
     <Transition show={isOpen}>

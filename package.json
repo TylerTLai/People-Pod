@@ -9,9 +9,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.2.0",
-    "@prisma/client": "^2.24.1",
+    "@prisma/client": "^2.25.0",
     "@reduxjs/toolkit": "^1.6.0",
     "@tailwindcss/line-clamp": "^0.2.1",
+    "axios": "^0.21.1",
     "next": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -22,7 +23,7 @@
   "devDependencies": {
     "autoprefixer": "^10.0.4",
     "postcss": "^8.1.10",
-    "prisma": "^2.24.1",
+    "prisma": "^2.25.0",
     "tailwindcss": "^2.1.1"
   }
 }
