@@ -3,7 +3,7 @@ const PersonPic = () => {
     <img
       src="https://dummyimage.com/200x200/F3F4F7/8693ac"
       alt="placeholder"
-      className="rounded-md h-full w-32"
+      className="rounded-md h-full w-32 pt-2"
     />
   );
 };

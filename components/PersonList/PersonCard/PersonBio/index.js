@@ -5,8 +5,11 @@ const PersonBio = ({ person }) => {
         {person.firstName} {person.lastName}
       </h2>
       <p className="mb-1 text-sm text-gray-400 tracking-wider">Los Angeles, California</p>
-      <p className="break-words mb-3 text-base leading-relaxed">
-        Millionare, playboy, genius, philantropist.
+      <p className="break-words mb-3 text-base leading-relaxed line-clamp-3">
+        Millionare, playboy, genius, philantropist. Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Earum dignissimos voluptate, quis magnam molestias
+        molestiae adipisci hic ipsa quaerat quos officia cumque officiis veniam iste ea
+        sint explicabo ullam incidunt!
       </p>
     </div>
   );

@@ -1,7 +1,7 @@
 const Button = ({ children, icon, onClick, primary, secondary, type }) => {
   const btnColor = primary ? "bg-gray-600" : "bg-white";
   const btnTextColor = primary ? "text-white" : "text-gray-500";
-  const btnBorder = secondary ? "border-gray-600 border-2" : null;
+  const btnBorder = secondary ? "border-gray-400 border-2" : null;
 
   return (
     <button
