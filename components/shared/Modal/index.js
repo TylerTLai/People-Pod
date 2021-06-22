@@ -1,13 +1,13 @@
 import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../../redux/slices/modalSlice";
+import { useContext } from 'react';
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
+import { ModalContext } from "../../../context/ModalContext";
 
 const Modal = () => {
-  const isOpen = useSelector((state) => state.modal.isOpen);
-  const dispatch = useDispatch();
+
+  const {isOpen, setIsOpen} = useContext(ModalContext);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -16,11 +16,19 @@ const Modal = () => {
     reset();
   };
 
+  const handleClose = () => {
+    setIsOpen(prev => !prev)
+  }
+  
+  const handleOpen = () => {
+   setIsOpen(prev => !prev)
+  }
+
   return (
     <Transition show={isOpen}>
       <Dialog
         open={isOpen}
-        onClose={() => dispatch(closeModal())}
+        onClose={handleClose}
         className="fixed z-10 inset-0 overflow-y-auto"
       >
         <div className="flex items-center justify-center min-h-screen">
@@ -35,7 +43,7 @@ const Modal = () => {
                   type="button"
                   aria-label="close modal"
                   aria-hidden="true"
-                  onClick={() => dispatch(closeModal())}
+                  onClick={handleClose}
                 >
                   <FiXCircle size={24} color="#1F2937" />
                 </button>
@@ -78,10 +86,10 @@ const Modal = () => {
                   {...register("quickNote")}
                 />
                 <div className="flex space-x-4">
-                  <Button primary onClick={onSubmit} type="submit">
+                  <Button primary onClick={handleOpen} type="submit">
                     Add Person
                   </Button>
-                  <Button secondary onClick={() => dispatch(closeModal())}>
+                  <Button secondary onClick={handleClose}>
                     Cancel
                   </Button>
                 </div>
