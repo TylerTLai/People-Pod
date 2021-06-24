@@ -1,28 +1,34 @@
 import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { useContext } from 'react';
+import { useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
 import { ModalContext } from "../../../context/ModalContext";
+import axiosInstance from "../../../config/axios";
+import people from "../../../pages/api/people";
 
-const Modal = () => {
-
-  const {isOpen, setIsOpen} = useContext(ModalContext);
+const Modal = ({ people, setPeople }) => {
+  const { isOpen, setIsOpen } = useContext(ModalContext);
 
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data, e) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data, e) => {
+    setPeople([...people, data]);
+    try {
+      const res = await axiosInstance.post("people", data);
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleClose = () => {
-    setIsOpen(prev => !prev)
-  }
-  
+    setIsOpen((prev) => !prev);
+  };
+
   const handleOpen = () => {
-   setIsOpen(prev => !prev)
-  }
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <Transition show={isOpen}>
