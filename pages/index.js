@@ -8,17 +8,7 @@ import PersonDetails from "../components/PersonDetails";
 import Modal from "../components/shared/Modal";
 import axiosInstance from "../config/axios";
 
-export async function getServerSideProps() {
-  const response = await axiosInstance.get("people");
-  const data = response.data;
-  return {
-    props: {
-      data,
-    },
-  };
-}
-
-export default function Home({ data }) {
+const Home = ({ data }) => {
   const [people, setPeople] = useState(data);
 
   return (
@@ -27,9 +17,21 @@ export default function Home({ data }) {
       <Navbar />
       <Layout>
         <Sidebar />
-        <PersonList people={people} />
+        <PersonList setPeople={setPeople} people={people} />
         <PersonDetails />
       </Layout>
     </>
   );
+};
+
+export async function getServerSideProps() {
+  const response = await axiosInstance.get("people");
+  let data = response.data;
+  return {
+    props: {
+      data,
+    },
+  };
 }
+
+export default Home;

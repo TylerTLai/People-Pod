@@ -1,11 +1,11 @@
 import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
 import { ModalContext } from "../../../context/ModalContext";
 import axiosInstance from "../../../config/axios";
-import people from "../../../pages/api/people";
 
 const Modal = ({ people, setPeople }) => {
   const { isOpen, setIsOpen } = useContext(ModalContext);
@@ -13,9 +13,10 @@ const Modal = ({ people, setPeople }) => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data, e) => {
-    setPeople([...people, data]);
     try {
-      const res = await axiosInstance.post("people", data);
+      const newPerson = { ...data, personId: uuidv4()};
+      setPeople([...people, newPerson]);
+      const res = await axiosInstance.post("people", newPerson);
       reset();
     } catch (error) {
       console.error(error);

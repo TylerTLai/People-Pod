@@ -13,10 +13,10 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        const { firstName, lastName, quickNote } = req.body;
+        const { firstName, lastName, quickNote, personId } = req.body;
 
         const newPerson = await prisma.person.create({
-          data: { firstName, lastName, quickNote },
+          data: { personId, firstName, lastName, quickNote },
         });
 
         res.status(200).json(newPerson);
@@ -28,7 +28,21 @@ export default async (req, res) => {
       console.log("put request");
       break;
     case "DELETE":
-      console.log("delete request");
+      try {
+        const { personId } = req.body;
+
+        const deletedPerson = await prisma.person.delete({
+          where: {
+            personId,
+          },
+        });
+
+        const people = await prisma.person.findMany();
+
+        res.status(200).json({ deletedPerson, people });
+      } catch (error) {
+        console.error(error);
+      }
       break;
     default:
       res.status(405).json({ message: "Method not allowed." }).end(); //Method not allowed
