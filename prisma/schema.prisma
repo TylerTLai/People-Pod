@@ -9,8 +9,9 @@ generator client {
 
 model Person {
   id Int @id @default(autoincrement())
+  personId String @unique
   firstName String
   lastName String
+  email String?
   quickNote String?
 }
-
