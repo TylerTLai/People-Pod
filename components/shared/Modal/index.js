@@ -1,34 +1,32 @@
 import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
-import { ModalContext } from "../../../context/ModalContext";
 import axiosInstance from "../../../config/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, openModal } from "../../../redux/slices/modalSlice";
+import { addOnePerson } from "../../../redux/slices/peopleSlice";
 
-const Modal = ({ people, setPeople }) => {
-  const { isOpen, setIsOpen } = useContext(ModalContext);
-
+const Modal = () => {
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.modalReducer.isOpen);
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data, e) => {
     try {
-      const newPerson = { ...data, personId: uuidv4()};
-      setPeople([...people, newPerson]);
+      const newPerson = { ...data, personId: uuidv4() };
+      dispatch(addOnePerson(newPerson));
       const res = await axiosInstance.post("people", newPerson);
       reset();
+      dispatch(closeModal());
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleClose = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleOpen = () => {
-    setIsOpen((prev) => !prev);
+    dispatch(closeModal());
   };
 
   return (
@@ -93,7 +91,7 @@ const Modal = ({ people, setPeople }) => {
                   {...register("quickNote")}
                 />
                 <div className="flex space-x-4">
-                  <Button primary onClick={handleOpen} type="submit">
+                  <Button primary type="submit">
                     Add Person
                   </Button>
                   <Button secondary onClick={handleClose}>

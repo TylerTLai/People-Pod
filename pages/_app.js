@@ -1,17 +1,14 @@
 import "tailwindcss/tailwind.css";
-import { ModalContext } from "../context/ModalContext";
-import { useState } from 'react';
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 function MyApp({ Component, pageProps }) {
-
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <ModalContext.Provider value={{isOpen, setIsOpen} }>
-        <div className="text-gray-800">
-          <Component {...pageProps} />
-        </div>
-      </ModalContext.Provider>
+    <Provider store={store}>
+      <div className="text-gray-800">
+        <Component {...pageProps} />
+      </div>
+    </Provider>
   );
 }
 

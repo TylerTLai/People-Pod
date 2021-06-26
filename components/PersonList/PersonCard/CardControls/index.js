@@ -1,8 +1,11 @@
 import { FiEdit, FiHeart, FiTrash2 } from "react-icons/fi";
 import Button from "../../../shared/Button";
 import axiosInstance from "../../../../config/axios";
+import { useDispatch } from "react-redux";
+import { setAllPeople } from "../../../../redux/slices/peopleSlice";
 
-const CardControls = ({ setPeople, person }) => {
+const CardControls = ({ person }) => {
+  const dispatch = useDispatch();
   const { personId } = person;
   const handleFavorite = () => {
     console.log("favorite");
@@ -16,9 +19,9 @@ const CardControls = ({ setPeople, person }) => {
     const res = await axiosInstance.delete("people", {
       data: { personId },
     });
-    
+
     const { deletedPerson, people } = res.data;
-    setPeople(people);
+    dispatch(setAllPeople(people));
   };
 
   return (
