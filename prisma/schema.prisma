@@ -7,11 +7,20 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Group {
+  id Int @id @default(autoincrement())
+  groupId String @unique
+  groupName String
+  person Person @relation(fields: [personId], references: [personId])
+  personId String
+}
+
 model Person {
   id Int @id @default(autoincrement())
   personId String @unique
   firstName String
   lastName String
+  groups Group[]
   email String?
   quickNote String?
 }
