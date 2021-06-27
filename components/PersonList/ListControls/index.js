@@ -1,12 +1,13 @@
 import { FiUserPlus, FiFilter, FiAlignJustify } from "react-icons/fi";
 import Button from "../../shared/Button";
 import { useDispatch } from "react-redux";
-import { openModal } from "../../../redux/slices/modalSlice";
+import { openModal, setFormType } from "../../../redux/slices/modalSlice";
 
 const ListControls = () => {
   const dispatch = useDispatch();
 
   const addPerson = () => {
+    dispatch(setFormType("add"));
     dispatch(openModal());
   };
 

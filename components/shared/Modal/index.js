@@ -5,23 +5,47 @@ import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
 import axiosInstance from "../../../config/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal, openModal } from "../../../redux/slices/modalSlice";
-import { addOnePerson } from "../../../redux/slices/peopleSlice";
+import { closeModal } from "../../../redux/slices/modalSlice";
+import { addOnePerson, updateOnePerson } from "../../../redux/slices/peopleSlice";
 
 const Modal = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.modalReducer.isOpen);
+  const formType = useSelector((state) => state.modalReducer.formType);
+  const formData = useSelector((state) => state.modalReducer.formData);
+
+  const FORM_TITLE = formType === "edit" ? "Edit Person Form" : "Add Person Form";
+  const FORM_DESCRIPTION =
+    formType === "edit"
+      ? "Edit this person's info"
+      : "Add someone new to your People Pod.";
+  const FORM_SUBMIT = formType === "edit" ? "Save Changes" : "Add Person";
+
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data, e) => {
-    try {
-      const newPerson = { ...data, personId: uuidv4() };
-      dispatch(addOnePerson(newPerson));
-      const res = await axiosInstance.post("people", newPerson);
-      reset();
-      dispatch(closeModal());
-    } catch (error) {
-      console.error(error);
+    if (formType === "edit") {
+      try {
+        dispatch(closeModal());
+        const updatedPerson = { ...data, personId: formData.personId };
+        dispatch(updateOnePerson(updatedPerson));
+        const res = await axiosInstance.put("people", updatedPerson);
+        reset();
+        dispatch(setFormType("add"));
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        dispatch(closeModal());
+        const newPerson = { ...data, personId: uuidv4() };
+        dispatch(addOnePerson(newPerson));
+        const res = await axiosInstance.post("people", newPerson);
+        reset();
+        dispatch(setFormType("add"));
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -42,7 +66,7 @@ const Modal = () => {
           <div className="bg-white rounded w-3/4 sm:w-1/3 mx-auto z-20 p-6">
             <Dialog.Title>
               <div className="flex justify-between">
-                <p className="text-2xl text-gray-800 font-semibold">Add Person Form</p>
+                <p className="text-2xl text-gray-800 font-semibold">{FORM_TITLE}</p>
                 <button
                   className="focus:outline-none"
                   type="button"
@@ -55,7 +79,7 @@ const Modal = () => {
               </div>
             </Dialog.Title>
             <Dialog.Description className="text-sm text-gray-500 mb-5">
-              Add someone new to your People Pod.
+              {FORM_DESCRIPTION}
             </Dialog.Description>
             <div>
               <p className="text-xl font-bold text-gray-800">Full name</p>
@@ -69,7 +93,11 @@ const Modal = () => {
                   id="firstName"
                   name="firstName"
                   type="text"
-                  placeholder="First name..."
+                  placeholder={
+                    formType === "edit" && formData?.firstName
+                      ? formData.firstName
+                      : "First name..."
+                  }
                   {...register("firstName")}
                 />
                 <label htmlFor="lastName">Last Name</label>
@@ -78,7 +106,11 @@ const Modal = () => {
                   id="lastName"
                   name="lastName"
                   type="text"
-                  placeholder="Last name..."
+                  placeholder={
+                    formType === "edit" && formData?.lastName
+                      ? formData.lastName
+                      : "Last name..."
+                  }
                   {...register("lastName")}
                 />
                 <label htmlFor="quickNote">Quick Note</label>
@@ -87,12 +119,16 @@ const Modal = () => {
                   id="quickNote"
                   name="quickNote"
                   type="text"
-                  placeholder="Quick note..."
+                  placeholder={
+                    formType === "edit" && formData?.quickNote
+                      ? formData.quickNote
+                      : "Quick note..."
+                  }
                   {...register("quickNote")}
                 />
                 <div className="flex space-x-4">
                   <Button primary type="submit">
-                    Add Person
+                    {FORM_SUBMIT}
                   </Button>
                   <Button secondary onClick={handleClose}>
                     Cancel

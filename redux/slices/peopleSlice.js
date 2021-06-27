@@ -17,8 +17,14 @@ export const peopleSlice = createSlice({
     addOnePerson: (state, action) => {
       state.people.push(action.payload);
     },
+    updateOnePerson: (state, action) => {
+      const { personId } = action.payload;
+      state.people = state.people.map((person) =>
+        person.personId === personId ? (person = action.payload) : person
+      );
+    },
   },
 });
 
-export const { setAllPeople, addOnePerson } = peopleSlice.actions;
+export const { setAllPeople, addOnePerson, updateOnePerson } = peopleSlice.actions;
 export default peopleSlice.reducer;
