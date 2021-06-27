@@ -1,18 +1,24 @@
 import { FiEdit, FiHeart, FiTrash2 } from "react-icons/fi";
 import Button from "../../../shared/Button";
 import axiosInstance from "../../../../config/axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAllPeople } from "../../../../redux/slices/peopleSlice";
+import { openModal, setFormData, setFormType } from "../../../../redux/slices/modalSlice";
 
 const CardControls = ({ person }) => {
+  const formType = useSelector((state) => state.modalReducer.formType);
   const dispatch = useDispatch();
+
   const { personId } = person;
+
   const handleFavorite = () => {
     console.log("favorite");
   };
 
   const handleEdit = () => {
-    console.log("edit");
+    dispatch(openModal());
+    dispatch(setFormData(person));
+    dispatch(setFormType("edit"));
   };
 
   const handleDelete = async () => {

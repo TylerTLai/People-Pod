@@ -25,7 +25,22 @@ export default async (req, res) => {
       }
       break;
     case "PUT":
-      console.log("put request");
+      try {
+        const { firstName, lastName, quickNote, personId } = req.body;
+
+        const updatedPerson = await prisma.person.update({
+          where: {
+            personId,
+          },
+          data: { personId, firstName, lastName, quickNote },
+        });
+
+        const people = await prisma.person.findMany();
+
+        res.status(200).json({ updatedPerson, people });
+      } catch (error) {
+        console.error(error);
+      }
       break;
     case "DELETE":
       try {
