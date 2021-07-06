@@ -12,7 +12,7 @@ model Group {
   groupId String @unique
   groupName String
   person Person @relation(fields: [personId], references: [personId])
-  personId String
+  personId String @unique
 }
 
 model Person {
@@ -20,6 +20,7 @@ model Person {
   personId String @unique
   firstName String
   lastName String
+  favorite Boolean? @default(false)
   groups Group[]
   email String?
   quickNote String?

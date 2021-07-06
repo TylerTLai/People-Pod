@@ -13,10 +13,10 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        const { firstName, lastName, quickNote, personId } = req.body;
+        const { firstName, lastName, quickNote, personId, favorite } = req.body;
 
         const newPerson = await prisma.person.create({
-          data: { personId, firstName, lastName, quickNote },
+          data: { personId, firstName, lastName, quickNote, favorite },
         });
 
         res.status(200).json(newPerson);
@@ -26,13 +26,13 @@ export default async (req, res) => {
       break;
     case "PUT":
       try {
-        const { firstName, lastName, quickNote, personId } = req.body;
+        const { firstName, lastName, quickNote, personId, favorite } = req.body;
 
         const updatedPerson = await prisma.person.update({
           where: {
             personId,
           },
-          data: { personId, firstName, lastName, quickNote },
+          data: { personId, firstName, lastName, quickNote, favorite },
         });
 
         const people = await prisma.person.findMany();

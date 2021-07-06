@@ -1,4 +1,5 @@
-import { FiPlusCircle, FiHeart, FiUsers } from "react-icons/fi";
+import { FiPlusCircle, FiUsers } from "react-icons/fi";
+import { AiOutlineHeart } from "react-icons/Ai";
 import Link from "next/link";
 
 const Sidebar = () => {
@@ -32,7 +33,7 @@ const Sidebar = () => {
                 className="inline-flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 hover:border-gray-800 focus:outline-none hover:text-gray-800"
                 href="#"
               >
-                <FiHeart size={20} />
+                <AiOutlineHeart size="18" />
                 <span className="ml-4">Favorites</span>
               </a>
             </li>
