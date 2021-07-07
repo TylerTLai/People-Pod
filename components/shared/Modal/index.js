@@ -1,18 +1,25 @@
 import { FiXCircle } from "react-icons/fi";
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Dialog, Transition } from "@headlessui/react";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/Ai";
 import Button from "../Button";
 import axiosInstance from "../../../config/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../../redux/slices/modalSlice";
-import { addOnePerson, updateOnePerson } from "../../../redux/slices/peopleSlice";
+import { closeModal, setFormType } from "../../../redux/slices/modalSlice";
+import {
+  addOnePerson,
+  favoritePerson,
+  updateOnePerson,
+} from "../../../redux/slices/peopleSlice";
 
 const Modal = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.modalReducer.isOpen);
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
+  const [favorite, setFavorite] = useState(null);
 
   const FORM_TITLE = formType === "edit" ? "Edit Person Form" : "Add Person Form";
   const FORM_DESCRIPTION =
@@ -23,11 +30,31 @@ const Modal = () => {
 
   const { register, handleSubmit, reset } = useForm();
 
+  useEffect(() => {
+    console.log("form data ", formData.favorite);
+    setFavorite(formData.favorite);
+  }, [formData.favorite]);
+
+  const handleFavorite = async () => {
+    // update person.favorite directly to be the opposite of favorite.
+    setFavorite((prevState) => !prevState);
+    dispatch(favoritePerson({ personId: formData.personId, favorite }));
+
+    // const res = await axiosInstance.put("people", {
+    //   ...formData,
+    //   favorite: !favorite,
+    // });
+
+    // setFavorite(res.data.updatedPerson.favorite);
+  };
+
+  console.log("favorite ", favorite);
+
   const onSubmit = async (data, e) => {
     if (formType === "edit") {
       try {
         dispatch(closeModal());
-        const updatedPerson = { ...data, personId: formData.personId };
+        const updatedPerson = { ...data, personId: formData.personId, favorite };
         dispatch(updateOnePerson(updatedPerson));
         const res = await axiosInstance.put("people", updatedPerson);
         reset();
@@ -38,7 +65,7 @@ const Modal = () => {
     } else {
       try {
         dispatch(closeModal());
-        const newPerson = { ...data, personId: uuidv4() };
+        const newPerson = { ...data, personId: uuidv4(), groups: [], favorite };
         dispatch(addOnePerson(newPerson));
         const res = await axiosInstance.post("people", newPerson);
         reset();
@@ -126,6 +153,11 @@ const Modal = () => {
                   }
                   {...register("quickNote")}
                 />
+                {favorite ? (
+                  <AiFillHeart color="red" size="18" onClick={handleFavorite} />
+                ) : (
+                  <AiOutlineHeart size="18" onClick={handleFavorite} />
+                )}
                 <div className="flex space-x-4">
                   <Button primary type="submit">
                     {FORM_SUBMIT}

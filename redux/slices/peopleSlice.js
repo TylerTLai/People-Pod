@@ -14,17 +14,28 @@ export const peopleSlice = createSlice({
     setAllPeople: (state, action) => {
       state.people = action.payload;
     },
+
     addOnePerson: (state, action) => {
       state.people.push(action.payload);
     },
+
     updateOnePerson: (state, action) => {
-      const { personId } = action.payload;
+      const { favorite, personId } = action.payload;
       state.people = state.people.map((person) =>
-        person.personId === personId ? (person = action.payload) : person
+        person.personId === personId ? { ...person, ...action.payload } : person
+      );
+    },
+
+    favoritePerson: (state, action) => {
+      const { personId, favorite } = action.payload;
+
+      state.people = state.people.map((person) =>
+        person.personId === personId ? { ...person, favorite } : person
       );
     },
   },
 });
 
-export const { setAllPeople, addOnePerson, updateOnePerson } = peopleSlice.actions;
+export const { setAllPeople, addOnePerson, favoritePerson, updateOnePerson } =
+  peopleSlice.actions;
 export default peopleSlice.reducer;
