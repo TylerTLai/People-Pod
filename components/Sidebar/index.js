@@ -1,8 +1,18 @@
 import { FiPlusCircle, FiUsers } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/Ai";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal, setFormType } from "../../redux/slices/modalSlice";
+
 import Link from "next/link";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const handleAddGroup = () => {
+    dispatch(setFormType("addGroup"));
+    dispatch(openModal());
+  };
+
   return (
     <div className="flex-col w-full md:flex md:flex-row md:min-h-screen pt-6 border-r border-gray-200">
       <div className="flex flex-col flex-shrink-0 w-full md:w-64">
@@ -13,6 +23,7 @@ const Sidebar = () => {
             type="button"
             aria-label="new group"
             aria-hidden="true"
+            onClick={handleAddGroup}
           >
             <FiPlusCircle size={24} color="#1F2937" />
           </button>

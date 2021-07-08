@@ -7,7 +7,7 @@ const ListControls = () => {
   const dispatch = useDispatch();
 
   const addPerson = () => {
-    dispatch(setFormType("add"));
+    dispatch(setFormType("addPerson"));
     dispatch(openModal());
   };
 

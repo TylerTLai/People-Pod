@@ -29,7 +29,7 @@ const CardControls = ({ person }) => {
   const handleEdit = () => {
     dispatch(openModal());
     dispatch(setFormData(person));
-    dispatch(setFormType("edit"));
+    dispatch(setFormType("editPerson"));
   };
 
   const handleDelete = async () => {
@@ -40,8 +40,6 @@ const CardControls = ({ person }) => {
     const { deletedPerson, people } = res.data;
     dispatch(setAllPeople(people));
   };
-
-  console.log("person ", person);
 
   return (
     <div className="flex flex-wrap justify-between mt-4 ">
