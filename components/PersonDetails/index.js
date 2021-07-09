@@ -17,7 +17,7 @@ const PersonDetails = () => {
   };
 
   return (
-    <div className="border-l border-gray-200 py-7 px-5 overflow-y-auto">
+    <div className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto">
       <Button
         onClick={handleExpand}
         icon={expandView ? <FiMaximize2 size={15} /> : <CgArrowsExpandLeft size={15} />}

@@ -2,7 +2,7 @@ import { FiUsers } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/Ai";
 const NavItems = ({ showSidebar }) => {
   return (
-    <nav className={`${!showSidebar && "hidden"} min-h-screen text-gray-300`}>
+    <nav className={`${!showSidebar && "hidden"} h-full text-gray-300`}>
       <ul>
         <li>
           <a

@@ -14,16 +14,16 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`flex flex-col pt-6 bg-gray-800 text-white w-${
+      className={`max-h-full flex flex-col pt-6 bg-gray-800 text-white w-${
         showSidebar ? "64" : "0.5"
       }`}
     >
       <FiSidebar
         className={`ml-5 ${!showSidebar && "mr-5"} mb-9 mt-3 hover:cursor-pointer`}
-        size={24}
+        size={!showSidebar ? 24 : 34}
         onClick={handleSidebarToggle}
       />
-      <div className={`flex items-center ${!showSidebar && "hidden"}`}>
+      <div className={`max-h-full flex items-center ${!showSidebar && "hidden"}`}>
         <p className="font-bold uppercase tracking-wide ml-5">Groups</p>
         <button
           className="p-1 m-2 ml-auto focus:outline-none"
