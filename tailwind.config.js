@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         layout: "auto repeat(2, 1fr)",
+        expand: "auto 1fr",
       },
     },
   },
