@@ -4,7 +4,7 @@ import Contacts from "./Contacts";
 import SocialMedia from "./SocialMedia";
 import { CgArrowsExpandLeft } from "react-icons/cg";
 import { FiMaximize2 } from "react-icons/fi";
-import Button from "../shared/Button";
+import IconButton from "../shared/IconButton";
 import { useDispatch, useSelector } from "react-redux";
 import { setExpandView } from "../../redux/slices/viewSlice";
 
@@ -18,9 +18,9 @@ const PersonDetails = () => {
 
   return (
     <div className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto">
-      <Button
+      <IconButton
         onClick={handleExpand}
-        icon={expandView ? <FiMaximize2 size={15} /> : <CgArrowsExpandLeft size={15} />}
+        icon={expandView ? <FiMaximize2 size={16} /> : <CgArrowsExpandLeft size={16} />}
       />
       <Summary />
       <About />
