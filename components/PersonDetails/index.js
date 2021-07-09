@@ -14,6 +14,7 @@ const PersonDetails = () => {
   const dispatch = useDispatch();
   const expandView = useSelector((state) => state.viewReducer.expandView);
   const personId = useSelector((state) => state.peopleReducer.personId);
+  const people = useSelector((state) => state.peopleReducer.people);
   const [person, setPerson] = useState({});
 
   useEffect(() => {
@@ -27,23 +28,35 @@ const PersonDetails = () => {
     };
 
     getPerson();
-  }, [personId]);
+  }, [personId, people]);
 
   const handleExpand = () => {
     dispatch(setExpandView());
   };
 
+  console.log("what si person id ", personId);
+
   return (
-    <div className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto">
-      <IconButton
-        onClick={handleExpand}
-        icon={expandView ? <FiMaximize2 size={16} /> : <CgArrowsExpandLeft size={16} />}
-      />
-      <Summary person={person} />
-      <About person={person} />
-      <Contacts person={person} />
-      <SocialMedia person={person} />
-    </div>
+    <>
+      {personId ? (
+        <div className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto">
+          <IconButton
+            onClick={handleExpand}
+            icon={
+              expandView ? <FiMaximize2 size={16} /> : <CgArrowsExpandLeft size={16} />
+            }
+          />
+          <Summary person={person} />
+          <About person={person} />
+          <Contacts person={person} />
+          <SocialMedia person={person} />
+        </div>
+      ) : (
+        <div className="flex items-center justify-center text-xl uppercase font-bold ">
+          People Pod
+        </div>
+      )}
+    </>
   );
 };
 

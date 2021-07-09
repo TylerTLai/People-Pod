@@ -30,6 +30,10 @@ export const peopleSlice = createSlice({
       state.personId = action.payload;
     },
 
+    resetPersonId: (state) => {
+      state.personId = null;
+    },
+
     favoritePerson: (state, action) => {
       const { personId, favorite } = action.payload;
 
@@ -43,6 +47,7 @@ export const peopleSlice = createSlice({
 export const {
   setAllPeople,
   setPersonId,
+  resetPersonId,
   addOnePerson,
   favoritePerson,
   updateOnePerson,
