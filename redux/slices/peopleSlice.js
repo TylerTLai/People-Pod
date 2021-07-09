@@ -26,6 +26,11 @@ export const peopleSlice = createSlice({
       );
     },
 
+    getOnePerson: (state, action) => {
+      const { personId } = action.payload;
+      state.people = state.people.filter((person) => person.personId === personId);
+    },
+
     favoritePerson: (state, action) => {
       const { personId, favorite } = action.payload;
 

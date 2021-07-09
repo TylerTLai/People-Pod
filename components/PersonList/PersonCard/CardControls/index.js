@@ -41,8 +41,6 @@ const CardControls = ({ person }) => {
     dispatch(setAllPeople(people));
   };
 
-  console.log("person ", person);
-
   return (
     <div className="flex flex-wrap justify-between mt-4 ">
       <div>

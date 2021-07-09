@@ -31,7 +31,6 @@ const Modal = () => {
   const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
-    console.log("form data ", formData.favorite);
     setFavorite(formData.favorite);
   }, [formData.favorite]);
 
@@ -47,8 +46,6 @@ const Modal = () => {
 
     // setFavorite(res.data.updatedPerson.favorite);
   };
-
-  console.log("favorite ", favorite);
 
   const onSubmit = async (data, e) => {
     if (formType === "edit") {
