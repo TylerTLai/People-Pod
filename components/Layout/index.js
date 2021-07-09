@@ -1,6 +1,15 @@
+import { useSelector } from "react-redux";
+
 const Layout = ({ children }) => {
+  const expandView = useSelector((state) => state.viewReducer.expandView);
   return (
-    <div className="h-screen sm:grid flex flex-col sm:grid-cols-layout">{children}</div>
+    <div
+      className={`h-screen flex flex-col sm:grid sm:grid-cols-${
+        expandView ? "expand" : "layout"
+      }`}
+    >
+      {children}
+    </div>
   );
 };
 

@@ -1,10 +1,12 @@
 import { FiUserPlus, FiFilter, FiAlignJustify, FiGrid } from "react-icons/fi";
 import Button from "../../shared/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal, setFormType } from "../../../redux/slices/modalSlice";
+import { setListView } from "../../../redux/slices/viewSlice";
 
-const ListControls = ({ handleView, listView }) => {
+const ListControls = () => {
   const dispatch = useDispatch();
+  const listView = useSelector((state) => state.viewReducer.listView);
 
   const addPerson = () => {
     dispatch(setFormType("add"));
@@ -19,7 +21,10 @@ const ListControls = ({ handleView, listView }) => {
       <div className="ml-auto mr-2">
         <Button icon={<FiFilter />}>Filter</Button>
       </div>
-      <Button onClick={handleView} icon={listView ? <FiGrid /> : <FiAlignJustify />}>
+      <Button
+        onClick={() => dispatch(setListView())}
+        icon={listView ? <FiGrid /> : <FiAlignJustify />}
+      >
         View
       </Button>
     </div>
