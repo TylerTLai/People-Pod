@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Head from "next/head";
 import Layout from "../components/Layout";
 import Navbar from "../components/Navbar";
@@ -7,12 +7,11 @@ import PeopleList from "../components/PeopleList";
 import PersonDetails from "../components/PersonDetails";
 import Modal from "../components/shared/Modal";
 import axiosInstance from "../config/axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAllPeople } from "../redux/slices/peopleSlice";
 
 const Home = ({ data }) => {
   const dispatch = useDispatch();
-  const people = useSelector((state) => state.peopleReducer.people);
 
   useEffect(() => {
     dispatch(setAllPeople(data));

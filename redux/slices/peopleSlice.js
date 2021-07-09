@@ -4,7 +4,7 @@ export const peopleSlice = createSlice({
   name: "people",
   initialState: {
     people: [],
-    person: null,
+    personId: null,
     favorite: false,
     searchQuery: "",
     loading: true,
@@ -20,10 +20,14 @@ export const peopleSlice = createSlice({
     },
 
     updateOnePerson: (state, action) => {
-      const { favorite, personId } = action.payload;
+      const { personId } = action.payload;
       state.people = state.people.map((person) =>
         person.personId === personId ? { ...person, ...action.payload } : person
       );
+    },
+
+    setPersonId: (state, action) => {
+      state.personId = action.payload;
     },
 
     favoritePerson: (state, action) => {
@@ -36,6 +40,11 @@ export const peopleSlice = createSlice({
   },
 });
 
-export const { setAllPeople, addOnePerson, favoritePerson, updateOnePerson } =
-  peopleSlice.actions;
+export const {
+  setAllPeople,
+  setPersonId,
+  addOnePerson,
+  favoritePerson,
+  updateOnePerson,
+} = peopleSlice.actions;
 export default peopleSlice.reducer;
