@@ -3,7 +3,7 @@ import Head from "next/head";
 import Layout from "../components/Layout";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import PersonList from "../components/PersonList";
+import PeopleList from "../components/PeopleList";
 import PersonDetails from "../components/PersonDetails";
 import Modal from "../components/shared/Modal";
 import axiosInstance from "../config/axios";
@@ -24,7 +24,7 @@ const Home = ({ data }) => {
       <Navbar />
       <Layout>
         <Sidebar />
-        <PersonList />
+        <PeopleList />
         <PersonDetails />
       </Layout>
     </>
