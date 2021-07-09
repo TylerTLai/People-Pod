@@ -7,10 +7,27 @@ import { FiMaximize2 } from "react-icons/fi";
 import IconButton from "../shared/IconButton";
 import { useDispatch, useSelector } from "react-redux";
 import { setExpandView } from "../../redux/slices/viewSlice";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../config/axios";
 
 const PersonDetails = () => {
   const dispatch = useDispatch();
   const expandView = useSelector((state) => state.viewReducer.expandView);
+  const personId = useSelector((state) => state.peopleReducer.personId);
+  const [person, setPerson] = useState({});
+
+  useEffect(() => {
+    const getPerson = async () => {
+      const res = await axiosInstance.get("people", {
+        params: {
+          personId,
+        },
+      });
+      setPerson(res.data);
+    };
+
+    getPerson();
+  }, [personId]);
 
   const handleExpand = () => {
     dispatch(setExpandView());
@@ -22,10 +39,10 @@ const PersonDetails = () => {
         onClick={handleExpand}
         icon={expandView ? <FiMaximize2 size={16} /> : <CgArrowsExpandLeft size={16} />}
       />
-      <Summary />
-      <About />
-      <Contacts />
-      <SocialMedia />
+      <Summary person={person} />
+      <About person={person} />
+      <Contacts person={person} />
+      <SocialMedia person={person} />
     </div>
   );
 };

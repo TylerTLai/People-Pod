@@ -3,12 +3,27 @@ import prisma from "../../config/prisma";
 export default async (req, res) => {
   switch (req.method) {
     case "GET":
-      try {
-        const people = await prisma.person.findMany();
-        res.status(200).json(people);
-      } catch (error) {
-        console.error(error);
-        res.status(500).end();
+      const { personId } = req.query;
+      if (personId) {
+        try {
+          const fetchedPerson = await prisma.person.findUnique({
+            where: {
+              personId,
+            },
+          });
+          res.status(200).json(fetchedPerson);
+        } catch (error) {
+          console.error(error);
+          res.status(500).end();
+        }
+      } else {
+        try {
+          const people = await prisma.person.findMany();
+          res.status(200).json(people);
+        } catch (error) {
+          console.error(error);
+          res.status(500).end();
+        }
       }
       break;
     case "POST":

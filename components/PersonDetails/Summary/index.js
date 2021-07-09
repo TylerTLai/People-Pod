@@ -1,4 +1,4 @@
-const Summary = () => {
+const Summary = ({ person }) => {
   return (
     <section className="flex flex-col items-center justify-center border-b border-gray-200 pb-6">
       <img
@@ -8,9 +8,9 @@ const Summary = () => {
       />
       <div className="flex flex-col w-full items-center">
         <h2 className="mb-1 text-2xl font-semibold tracking-wider uppercase title-font text-gray-800">
-          John Smith
+          {person.firstName} {person.lastName}
         </h2>
-        <p className="my-1 text-gray-400 tracking-wider">CEO, Stark Industries Inc.</p>
+        <p className="my-1 text-gray-400 tracking-wider">{person.quickNotes}</p>
       </div>
     </section>
   );
