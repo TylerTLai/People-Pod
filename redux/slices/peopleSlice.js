@@ -1,14 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../config/axios";
+
+export const filterPeople = createAsyncThunk(
+  "people/filterPeople",
+  async (searchTerm) => {
+    try {
+      const res = await axiosInstance.get("people");
+      return { people: res.data, searchTerm };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const peopleSlice = createSlice({
   name: "people",
   initialState: {
     people: [],
     personId: null,
+    searchTerm: "",
     favorite: false,
-    searchQuery: "",
     loading: true,
-    error: {},
+    error: "",
   },
   reducers: {
     setAllPeople: (state, action) => {
@@ -36,6 +49,24 @@ export const peopleSlice = createSlice({
       state.people = state.people.map((person) =>
         person.personId === personId ? { ...person, favorite } : person
       );
+    },
+  },
+  extraReducers: {
+    [filterPeople.fulfilled]: (state, action) => {
+      const { people, searchTerm } = action.payload;
+      const filteredPeople = people.filter((person) => {
+        return (
+          person.firstName.toLowerCase().includes(searchTerm) ||
+          person.lastName.toLowerCase().includes(searchTerm)
+        );
+      });
+      state.people = filteredPeople;
+    },
+    [filterPeople.pending]: (state) => {
+      state.loading = true;
+    },
+    [filterPeople.rejected]: (state) => {
+      state.error = "error";
     },
   },
 });
