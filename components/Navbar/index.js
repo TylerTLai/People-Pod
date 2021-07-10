@@ -1,7 +1,17 @@
 import Link from "next/Link";
 import { FiSearch } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { filterPeople } from "../../redux/slices/peopleSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const people = useSelector((state) => state.peopleReducer.people);
+
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    dispatch(filterPeople(searchTerm));
+  };
+
   return (
     <div className="border-b py-3 px-6 flex sm:justify-start justify-center items-center sm:space-x-20 md:space-x-12 lg:space-x-8 xl:space-x-4 2xl:space-x-0">
       <Link href="/">
@@ -15,6 +25,7 @@ const Navbar = () => {
           className="px-10 py-2 rounded w-full lg:w-1/2 placeholder-gray-500 border border-gray-200 hover:border-gray-800 transition duration-300 ease-in-out focus:outline-none"
           type="text"
           placeholder="Find a person..."
+          onChange={handleInputChange}
         />
       </div>
     </div>

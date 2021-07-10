@@ -34,8 +34,6 @@ const PersonDetails = () => {
     dispatch(setExpandView());
   };
 
-  console.log("what si person id ", personId);
-
   return (
     <>
       {personId ? (
