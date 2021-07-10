@@ -28,7 +28,10 @@ const PersonCard = ({ person }) => {
           <CardControls person={person} />
         </div>
       ) : (
-        <div className="border-2 hover:border-gray-300 transition duration-300 ease-in-out hover:cursor-pointer rounded-lg mt-9 bg-white">
+        <div
+          onClick={handleClick}
+          className="border-2 hover:border-gray-300 transition duration-300 ease-in-out hover:cursor-pointer rounded-lg mt-9 bg-white"
+        >
           <div className="flex flex-col items-center px-3 py-3">
             <PersonPic person={person} />
             <p className="mt-5 text-center font-semibold tracking-wider uppercase title-font text-gray-800">
