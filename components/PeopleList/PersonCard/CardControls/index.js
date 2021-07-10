@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   favoritePerson,
-  resetPersonId,
+  setPersonId,
   setAllPeople,
 } from "../../../../redux/slices/peopleSlice";
 import { openModal, setFormData, setFormType } from "../../../../redux/slices/modalSlice";
@@ -43,7 +43,7 @@ const CardControls = ({ person }) => {
 
     const { deletedPerson, people } = res.data;
     dispatch(setAllPeople(people));
-    dispatch(resetPersonId());
+    dispatch(setPersonId(null));
   };
 
   return (
