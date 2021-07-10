@@ -4,11 +4,7 @@ import Button from "../../../shared/Button";
 import axiosInstance from "../../../../config/axios";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  favoritePerson,
-  setPersonId,
-  setAllPeople,
-} from "../../../../redux/slices/peopleSlice";
+import { favoritePerson, setAllPeople } from "../../../../redux/slices/peopleSlice";
 import { openModal, setFormData, setFormType } from "../../../../redux/slices/modalSlice";
 
 const CardControls = ({ person }) => {
@@ -43,7 +39,6 @@ const CardControls = ({ person }) => {
 
     const { deletedPerson, people } = res.data;
     dispatch(setAllPeople(people));
-    dispatch(setPersonId(null));
   };
 
   return (
