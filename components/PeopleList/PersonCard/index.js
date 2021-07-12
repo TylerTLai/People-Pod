@@ -10,7 +10,7 @@ const PersonCard = ({ person }) => {
 
   const { personId } = person;
 
-  const handleClick = () => {
+  const handleLoadPersonDetails = () => {
     dispatch(setPersonId(personId));
   };
 
@@ -18,7 +18,7 @@ const PersonCard = ({ person }) => {
     <>
       {listView ? (
         <div
-          onClick={handleClick}
+          onClick={handleLoadPersonDetails}
           className="flex flex-col bg-white border-2 border-white rounded-lg p-5 mt-9 hover:border-gray-300 hover:cursor-pointer transition duration-300 ease-in-out"
         >
           <div className="flex space-x-4">
@@ -28,7 +28,10 @@ const PersonCard = ({ person }) => {
           <CardControls person={person} />
         </div>
       ) : (
-        <div className="border-2 hover:border-gray-300 transition duration-300 ease-in-out hover:cursor-pointer rounded-lg mt-9 bg-white">
+        <div
+          onClick={handleLoadPersonDetails}
+          className="border-2 hover:border-gray-300 transition duration-300 ease-in-out hover:cursor-pointer rounded-lg mt-9 bg-white"
+        >
           <div className="flex flex-col items-center px-3 py-3">
             <PersonPic person={person} />
             <p className="mt-5 text-center font-semibold tracking-wider uppercase title-font text-gray-800">

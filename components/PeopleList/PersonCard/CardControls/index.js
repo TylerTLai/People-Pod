@@ -22,7 +22,7 @@ const CardControls = ({ person }) => {
     setLocalStatePerson(person);
   }, [person]);
 
-  const handleFavorite = async () => {
+  const handleFavoritePerson = async () => {
     dispatch(favoritePerson({ personId, favorite: !person.favorite }));
     await axiosInstance.put("people", {
       ...person,
@@ -30,13 +30,13 @@ const CardControls = ({ person }) => {
     });
   };
 
-  const handleEdit = () => {
-    dispatch(openModal());
+  const handleEditPerson = () => {
+    dispatch(setFormType("editPerson"));
     dispatch(setFormData(person));
-    dispatch(setFormType("edit"));
+    dispatch(openModal());
   };
 
-  const handleDelete = async () => {
+  const handleDeletePerson = async () => {
     const res = await axiosInstance.delete("people", {
       data: { personId },
     });
@@ -50,7 +50,7 @@ const CardControls = ({ person }) => {
     <div className="flex flex-wrap justify-between mt-4 ">
       <div>
         <Button
-          onClick={handleFavorite}
+          onClick={handleFavoritePerson}
           icon={
             localStatePerson.favorite ? (
               <AiFillHeart color="red" size="18" />
@@ -63,12 +63,12 @@ const CardControls = ({ person }) => {
         </Button>
       </div>
       <div className="mx-4">
-        <Button onClick={handleEdit} icon={<FiEdit />}>
+        <Button onClick={handleEditPerson} icon={<FiEdit />}>
           Edit
         </Button>
       </div>
       <div className="ml-auto">
-        <Button onClick={handleDelete} icon={<FiTrash2 />}>
+        <Button onClick={handleDeletePerson} icon={<FiTrash2 />}>
           Delete
         </Button>
       </div>

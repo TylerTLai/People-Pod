@@ -8,14 +8,14 @@ const ListControls = () => {
   const dispatch = useDispatch();
   const listView = useSelector((state) => state.viewReducer.listView);
 
-  const addPerson = () => {
-    dispatch(setFormType("add"));
+  const handleAddPerson = () => {
+    dispatch(setFormType("addPerson"));
     dispatch(openModal());
   };
 
   return (
     <div className="flex items-center mt-6 justify-between">
-      <Button primary icon={<FiUserPlus />} onClick={addPerson}>
+      <Button primary icon={<FiUserPlus />} onClick={handleAddPerson}>
         Add Person
       </Button>
       <div className="ml-auto mr-2">
