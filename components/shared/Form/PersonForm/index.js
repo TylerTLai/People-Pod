@@ -90,7 +90,7 @@ const PersonForm = ({ handleModalClose }) => {
           placeholder={
             formType === "editPerson" && formData?.firstName
               ? formData.firstName
-              : "Last name..."
+              : "First name..."
           }
           {...register("firstName")}
         />
