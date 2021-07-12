@@ -1,9 +1,9 @@
 import Link from "next/Link";
 import { FiSearch } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { filterPeople } from "../../redux/slices/peopleSlice";
+import { filterPeople } from "../../../redux/slices/peopleSlice";
 
-const Navbar = () => {
+const DashboardNavbar = () => {
   const dispatch = useDispatch();
   const people = useSelector((state) => state.peopleReducer.people);
 
@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="border-b py-3 px-6 flex sm:justify-start justify-center items-center sm:space-x-20 md:space-x-12 lg:space-x-8 xl:space-x-4 2xl:space-x-0">
+    <nav className="border-b py-3 px-6 flex sm:justify-start justify-center items-center sm:space-x-20 md:space-x-12 lg:space-x-8 xl:space-x-4 2xl:space-x-0">
       <Link href="/">
         <a className="hidden sm:inline text-xl uppercase font-bold cursor-pointer w-64">
           People Pod
@@ -28,8 +28,8 @@ const Navbar = () => {
           onChange={handleInputChange}
         />
       </div>
-    </div>
+    </nav>
   );
 };
 
-export default Navbar;
+export default DashboardNavbar;

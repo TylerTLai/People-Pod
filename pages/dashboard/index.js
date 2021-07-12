@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout";
-import Navbar from "../../components/Navbar";
+import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Sidebar from "../../components/Sidebar";
 import PeopleList from "../../components/PeopleList";
 import PersonDetails from "../../components/PersonDetails";
@@ -20,7 +20,7 @@ const Dashboard = ({ data }) => {
   return (
     <>
       <Modal />
-      <Navbar />
+      <DashboardNavbar />
       <Layout>
         <Sidebar />
         <PeopleList />
