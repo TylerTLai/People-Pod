@@ -1,16 +1,23 @@
-import { FiPlusCircle, FiUsers, FiSidebar } from "react-icons/fi";
-import { AiOutlineHeart } from "react-icons/Ai";
+import { FiPlusCircle, FiSidebar } from "react-icons/fi";
 import { useState } from "react";
-import Link from "next/link";
+import { useDispatch } from "react-redux";
+
 import NavItems from "./NavItems";
 import UserProfile from "./UserProfile";
 import IconButton from "../shared/IconButton";
+import { openModal, setFormType } from "../../redux/slices/modalSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const [showSidebar, setShowSidebar] = useState(true);
 
   const handleSidebarToggle = () => {
     setShowSidebar((prev) => !prev);
+  };
+
+  const handleAddGroup = () => {
+    dispatch(setFormType("addGroup"));
+    dispatch(openModal());
   };
 
   return (
@@ -32,6 +39,7 @@ const Sidebar = () => {
         <IconButton
           className={`p-1 m-2 ml-auto focus:outline-none hover:text-white text-gray-300`}
           dark
+          onClick={handleAddGroup}
           icon={<FiPlusCircle size={27} />}
         />
       </div>

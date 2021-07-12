@@ -4,7 +4,7 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState: {
     isOpen: false,
-    formType: "add",
+    formType: "",
     formData: {},
   },
   reducers: {
