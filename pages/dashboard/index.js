@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import Head from "next/head";
+import { useSession } from "next-auth/client";
+import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Sidebar from "../../components/Sidebar";
@@ -12,6 +14,12 @@ import { setAllPeople } from "../../redux/slices/peopleSlice";
 
 const Dashboard = ({ data }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const [session] = useSession();
+
+  useEffect(() => {
+    session === null && router.push("/");
+  }, [session]);
 
   useEffect(() => {
     dispatch(setAllPeople(data));
@@ -19,13 +27,17 @@ const Dashboard = ({ data }) => {
 
   return (
     <>
-      <Modal />
-      <DashboardNavbar />
-      <Layout>
-        <Sidebar />
-        <PeopleList />
-        <PersonDetails />
-      </Layout>
+      {session && (
+        <>
+          <Modal />
+          <DashboardNavbar />
+          <Layout>
+            <Sidebar />
+            <PeopleList />
+            <PersonDetails />
+          </Layout>
+        </>
+      )}
     </>
   );
 };

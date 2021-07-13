@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/client";
 import Button from "../../../components/shared/Button";
 
 const SiteNavbar = () => {
+  const [session] = useSession();
+
   return (
     <nav className="py-5 flex items-center">
       <div className="">
@@ -13,20 +16,30 @@ const SiteNavbar = () => {
       </div>
       <div className="ml-auto">
         <ul className="flex items-center space-x-4">
-          <Link href="/dashboard">
-            <a>
-              <li>
-                <Button secondary>Dashboard</Button>
-              </li>
-            </a>
-          </Link>
-          <Link href="/signin">
-            <a>
-              <li>
-                <Button primary>Sign in</Button>
-              </li>
-            </a>
-          </Link>
+          {session && (
+            <Link href="/dashboard">
+              <a>
+                <li>
+                  <Button secondary>Dashboard</Button>
+                </li>
+              </a>
+            </Link>
+          )}
+
+          <a>
+            <li>
+              <Button
+                primary
+                onClick={() =>
+                  session
+                    ? signOut()
+                    : signIn("auth0", { callbackUrl: "http://localhost:3000/dashboard" })
+                }
+              >
+                {session ? "Sign Out" : "Sign In"}
+              </Button>
+            </li>
+          </a>
         </ul>
       </div>
     </nav>
