@@ -1,5 +1,9 @@
 import NextAuth from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import Providers from "next-auth/providers";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const options = {
   providers: [
@@ -20,6 +24,7 @@ const options = {
     //   from: {},
     // }),
   ],
+  adapter: PrismaAdapter(prisma),
 };
 
 export default (req, res) => NextAuth(req, res, options);
