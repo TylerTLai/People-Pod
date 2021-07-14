@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/client";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/Ai";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -17,6 +18,7 @@ const _ = require("lodash");
 
 const PersonForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
+  const [session] = useSession();
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
@@ -67,7 +69,15 @@ const PersonForm = ({ handleModalClose }) => {
     } else {
       try {
         handleModalClose();
-        const newPerson = { ...data, personId: uuidv4(), groups: [], favorite };
+        const { userId, user } = session;
+        const newPerson = {
+          ...data,
+          personId: uuidv4(),
+          groups: [],
+          favorite,
+          userId,
+          user,
+        };
         dispatch(addOnePerson(newPerson));
         await axiosInstance.post("people", newPerson);
         reset();
