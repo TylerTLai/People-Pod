@@ -10,9 +10,9 @@ generator client {
 model Group {
   id Int @id @default(autoincrement())
   groupId String @unique
-  groupName String
-  person Person @relation(fields: [personId], references: [personId])
-  personId String @unique
+  groupName String @default("everyone")
+  person Person? @relation(fields: [personId], references: [personId])
+  personId String? @unique
 }
 
 model Person {

@@ -27,7 +27,7 @@ const GroupForm = ({ handleModalClose }) => {
     } else {
       try {
         handleModalClose();
-        const newGroup = { ...data, groupId: uuidv4(), groups: [], favorite };
+        const newGroup = { ...data, groupId: uuidv4() };
         dispatch(addOneGroup(newGroup));
         await axiosInstance.post("groups", newGroup);
         reset();
