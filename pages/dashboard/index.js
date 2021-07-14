@@ -12,18 +12,24 @@ import axiosInstance from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { setAllPeople } from "../../redux/slices/peopleSlice";
 
-const Dashboard = ({ data }) => {
+const Dashboard = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [session] = useSession();
 
   useEffect(() => {
-    session === null && router.push("/");
-  }, [session]);
+    const fetchData = async (userId, user) => {
+      const res = await axiosInstance.get("people", {
+        params: {
+          userId,
+          user,
+        },
+      });
+      dispatch(setAllPeople(res.data));
+    };
 
-  useEffect(() => {
-    dispatch(setAllPeople(data));
-  }, []);
+    session === null ? router.push("/") : fetchData(session?.userId, session?.user);
+  }, [session]);
 
   return (
     <>
@@ -41,15 +47,5 @@ const Dashboard = ({ data }) => {
     </>
   );
 };
-
-export async function getServerSideProps() {
-  const response = await axiosInstance.get("people");
-  let data = response.data;
-  return {
-    props: {
-      data,
-    },
-  };
-}
 
 export default Dashboard;
