@@ -13,6 +13,8 @@ model Group {
   groupName String @default("everyone")
   person Person? @relation(fields: [personId], references: [personId])
   personId String? @unique
+  userId String
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Person {
@@ -66,6 +68,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   people Person[]
+  groups Group[]
 }
 
 model VerificationRequest {

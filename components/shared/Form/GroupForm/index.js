@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/client";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../Button";
 import axiosInstance from "../../../../config/axios";
@@ -8,6 +9,7 @@ import { setFormType } from "../../../../redux/slices/modalSlice";
 
 const GroupForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
+  const [session] = useSession();
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
@@ -27,7 +29,9 @@ const GroupForm = ({ handleModalClose }) => {
     } else {
       try {
         handleModalClose();
-        const newGroup = { ...data, groupId: uuidv4() };
+        const { userId, user } = session;
+
+        const newGroup = { ...data, groupId: uuidv4(), userId, user };
         dispatch(addOneGroup(newGroup));
         await axiosInstance.post("groups", newGroup);
         reset();

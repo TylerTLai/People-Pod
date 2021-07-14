@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import groupReducer from "./slices/groupSlice";
+import groupsReducer from "./slices/groupSlice";
 import modalReducer from "./slices/modalSlice";
 import peopleReducer from "./slices/peopleSlice";
 import viewReducer from "./slices/viewSlice";
 
 export const store = configureStore({
   reducer: {
-    groupReducer,
+    groupsReducer,
     modalReducer,
     peopleReducer,
     viewReducer,

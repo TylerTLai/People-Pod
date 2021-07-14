@@ -33,10 +33,10 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        const { groupName, groupId } = req.body;
+        const { groupName, groupId, userId } = req.body;
 
         const newGroup = await prisma.group.create({
-          data: { groupName, groupId },
+          data: { groupName, groupId, userId },
         });
         res.status(200).json(newGroup);
       } catch (error) {
