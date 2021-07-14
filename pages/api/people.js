@@ -13,8 +13,8 @@ export default async (req, res) => {
           });
           res.status(200).json(fetchedPerson);
         } catch (error) {
-          console.error(error);
-          res.status(500).end();
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
         }
       } else if (userId) {
         try {
@@ -25,8 +25,8 @@ export default async (req, res) => {
           });
           res.status(200).json(people);
         } catch (error) {
-          console.error(error);
-          res.status(500).end();
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
         }
       }
 
@@ -41,7 +41,8 @@ export default async (req, res) => {
 
         res.status(200).json(newPerson);
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     case "PUT":
@@ -59,7 +60,8 @@ export default async (req, res) => {
 
         res.status(200).json({ updatedPerson, people });
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     case "DELETE":
@@ -76,7 +78,8 @@ export default async (req, res) => {
 
         res.status(200).json({ deletedPerson, people });
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     default:

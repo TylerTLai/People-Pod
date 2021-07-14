@@ -20,31 +20,41 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchPeople = async (userId, user) => {
-      const res = await axiosInstance.get("people", {
-        params: {
-          userId,
-          user,
-        },
-      });
-      dispatch(setAllPeople(res.data));
+      try {
+        const res = await axiosInstance.get("people", {
+          params: {
+            userId,
+            user,
+          },
+        });
+        dispatch(setAllPeople(res.data));
+      } catch (error) {
+        console.error(error.message);
+      }
     };
 
     const fetchGroups = async (userId, user) => {
-      const res = await axiosInstance.get("groups", {
-        params: {
-          userId,
-          user,
-        },
-      });
-      dispatch(setAllGroups(res.data));
+      try {
+        const res = await axiosInstance.get("groups", {
+          params: {
+            userId,
+            user,
+          },
+        });
+        dispatch(setAllGroups(res.data));
+      } catch (error) {
+        console.error(error.message);
+      }
     };
 
-    if (session === null) {
-      router.push("/");
-    } else {
-      fetchPeople(session?.userId, session?.user);
-      fetchGroups(session?.userId, session?.user);
-    }
+    return () => {
+      if (session === null) {
+        router.push("/");
+      } else {
+        fetchPeople(session?.userId, session?.user);
+        fetchGroups(session?.userId, session?.user);
+      }
+    };
   }, [session]);
 
   return (

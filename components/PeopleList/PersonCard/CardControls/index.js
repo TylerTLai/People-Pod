@@ -24,10 +24,14 @@ const CardControls = ({ person }) => {
 
   const handleFavoritePerson = async () => {
     dispatch(favoritePerson({ personId, favorite: !person.favorite }));
-    await axiosInstance.put("people", {
-      ...person,
-      favorite: !person.favorite,
-    });
+    try {
+      await axiosInstance.put("people", {
+        ...person,
+        favorite: !person.favorite,
+      });
+    } catch (error) {
+      console.error("error message: ", error.message);
+    }
   };
 
   const handleEditPerson = () => {
@@ -37,13 +41,17 @@ const CardControls = ({ person }) => {
   };
 
   const handleDeletePerson = async () => {
-    const res = await axiosInstance.delete("people", {
-      data: { personId },
-    });
+    try {
+      const res = await axiosInstance.delete("people", {
+        data: { personId },
+      });
 
-    const { deletedPerson, people } = res.data;
-    dispatch(setAllPeople(people));
-    dispatch(setPersonId(null));
+      const { deletedPerson, people } = res.data;
+      dispatch(setAllPeople(people));
+      dispatch(setPersonId(null));
+    } catch (error) {
+      console.error("error message: ", error.message);
+    }
   };
 
   return (
