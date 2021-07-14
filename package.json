@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.2.0",
-    "@prisma/client": "^2.25.0",
+    "@next-auth/prisma-adapter": "^0.5.3",
+    "@prisma/client": "^2.27.0",
     "@reduxjs/toolkit": "^1.6.0",
     "@tailwindcss/line-clamp": "^0.2.1",
     "axios": "^0.21.1",

@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import SiteNavbar from "../components/Navbars/SiteNavbar";
 import { useSession } from "next-auth/client";
 
@@ -7,7 +6,11 @@ const Home = () => {
 
   return (
     <div className="px-36">
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="flex justify-center items-center min-h-screen">
+          <p className="text-center text-2xl uppercase font-bold">One sec...</p>
+        </div>
+      )}
 
       {!loading && (
         <>
