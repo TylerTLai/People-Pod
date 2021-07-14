@@ -22,9 +22,9 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`max-h-full flex flex-col pt-6 bg-gray-800 text-white w-${
-        showSidebar ? "64" : "0.5"
-      }`}
+      className={`max-h-full flex flex-col pt-6 bg-gray-800 text-white ${
+        showSidebar ? "w-72" : "w-13"
+      }  overflow-y-auto`}
     >
       <IconButton
         className={`${
@@ -44,7 +44,7 @@ const Sidebar = () => {
         />
       </div>
       <NavItems showSidebar={showSidebar} />
-      <UserProfile showSidebar={showSidebar} />
+      
     </div>
   );
 };

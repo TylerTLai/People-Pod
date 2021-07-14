@@ -13,7 +13,7 @@ export const groupSlice = createSlice({
       state.groups = action.payload;
     },
     addOneGroup: (state, action) => {
-      state.group.push(action.payload);
+      state.groups.push(action.payload);
     },
     updateOneGroup: (state, action) => {
       const { groupId } = action.payload;

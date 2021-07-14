@@ -11,6 +11,7 @@ import Modal from "../../components/shared/Modal";
 import axiosInstance from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { setAllPeople } from "../../redux/slices/peopleSlice";
+import { setAllGroups } from "../../redux/slices/groupSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Dashboard = () => {
   const [session] = useSession();
 
   useEffect(() => {
-    const fetchData = async (userId, user) => {
+    const fetchPeople = async (userId, user) => {
       const res = await axiosInstance.get("people", {
         params: {
           userId,
@@ -28,7 +29,22 @@ const Dashboard = () => {
       dispatch(setAllPeople(res.data));
     };
 
-    session === null ? router.push("/") : fetchData(session?.userId, session?.user);
+    const fetchGroups = async (userId, user) => {
+      const res = await axiosInstance.get("groups", {
+        params: {
+          userId,
+          user,
+        },
+      });
+      dispatch(setAllGroups(res.data));
+    };
+
+    if (session === null) {
+      router.push("/");
+    } else {
+      fetchPeople(session?.userId, session?.user);
+      fetchGroups(session?.userId, session?.user);
+    }
   }, [session]);
 
   return (
