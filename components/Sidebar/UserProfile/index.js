@@ -1,18 +1,15 @@
-const UserProfile = ({ showSidebar }) => {
+const UserProfile = () => {
   return (
-    <div
-      className={`flex items-center w-full p-4 rounded-lg ${!showSidebar && "hidden"} hover:cursor-pointer`}
-    >
+    <div className={`flex items-center rounded-lg hover:cursor-pointer`}>
       <img
         src="https://dummyimage.com/302x302/F3F4F7/8693ac"
         alt="user name"
-        className={`object-cover w-10 h-10 ${showSidebar && "mr-4"} rounded-full`}
+        className={`object-cover w-10 h-10 rounded-full`}
       />
-      <div className={`${!showSidebar && "hidden"}`}>
-        <h2 className="text-sm font-medium tracking-widest text-white uppercase title-font">
-          John Doe
+      <div>
+        <h2 className="text-sm font-medium tracking-widest text-gray-800 uppercase title-font ml-5">
+          Rick Morty
         </h2>
-        <p className="text-white">Admin</p>
       </div>
     </div>
   );
