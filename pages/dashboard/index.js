@@ -12,6 +12,7 @@ import axiosInstance from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { setAllPeople } from "../../redux/slices/peopleSlice";
 import { setAllGroups } from "../../redux/slices/groupSlice";
+import axios from "axios";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ const Dashboard = () => {
   const [session] = useSession();
 
   useEffect(() => {
+    
+    const source = axios.CancelToken.source();
+
     const fetchPeople = async (userId, user) => {
       try {
         const res = await axiosInstance.get("people", {
@@ -26,10 +30,15 @@ const Dashboard = () => {
             userId,
             user,
           },
+          cancelToken: source.token,
         });
         dispatch(setAllPeople(res.data));
       } catch (error) {
-        console.error(error.message);
+        if (axios.isCancel(error)) {
+          console.log("axios request canceled");
+        } else {
+          console.error(error.message);
+        }
       }
     };
 
@@ -40,20 +49,27 @@ const Dashboard = () => {
             userId,
             user,
           },
+          cancelToken: source.token,
         });
         dispatch(setAllGroups(res.data));
       } catch (error) {
-        console.error(error.message);
+        if (axios.isCancel(error)) {
+          console.log("axios request canceled");
+        } else {
+          console.error(error.message);
+        }
       }
     };
 
+    if (session === null) {
+      router.push("/");
+    } else {
+      fetchPeople(session?.userId, session?.user);
+      fetchGroups(session?.userId, session?.user);
+    }
+
     return () => {
-      if (session === null) {
-        router.push("/");
-      } else {
-        fetchPeople(session?.userId, session?.user);
-        fetchGroups(session?.userId, session?.user);
-      }
+      source.cancel();
     };
   }, [session]);
 
