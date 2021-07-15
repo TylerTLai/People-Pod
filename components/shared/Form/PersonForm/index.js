@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/client";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/Ai";
 import { useDispatch, useSelector } from "react-redux";
+import AsyncCreatableSelect from "react-select/async-creatable";
 import { v4 as uuidv4 } from "uuid";
 import axiosInstance from "../../../../config/axios";
 import Button from "../../Button";
@@ -12,20 +13,40 @@ import {
   updateOnePerson,
 } from "../../../../redux/slices/peopleSlice";
 import { setFormType } from "../../../../redux/slices/modalSlice";
-import { setPersonDefaults } from "./helper";
+import { camelize, formatFormGroups, setPersonDefaults } from "./helper";
 
 const _ = require("lodash");
 
 const PersonForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
   const [session] = useSession();
+  const { user, userId } = session;
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
 
   const [favorite, setFavorite] = useState(formData.favorite);
+  const [formGroups, setFormGroups] = useState([]);
 
   const { register, handleSubmit, reset } = useForm();
+
+  const getGroupOptions = async () => {
+    const res = await axiosInstance.get("groups", {
+      params: {
+        userId,
+        user,
+      },
+    });
+
+    const groupNames = res.data;
+
+    const options = groupNames.map((option) => ({
+      label: option.groupName,
+      value: option.groupName,
+    }));
+
+    return options;
+  };
 
   useEffect(() => {
     setFavorite(formData.favorite);
@@ -42,6 +63,11 @@ const PersonForm = ({ handleModalClose }) => {
     // });
 
     // setFavorite(res.data.updatedPerson.favorite);
+  };
+
+  const handleGroupChange = (inputGroup) => {
+    inputGroup.forEach((group) => (group.value = camelize(group.value)));
+    setFormGroups(inputGroup && inputGroup);
   };
 
   const onSubmit = async (data, e) => {
@@ -67,21 +93,27 @@ const PersonForm = ({ handleModalClose }) => {
         handleModalClose();
       }
     } else {
+      const formatedGroups = formatFormGroups(formGroups, userId, user);
       try {
-        handleModalClose();
-        const { userId, user } = session;
-        const newPerson = {
-          ...data,
-          personId: uuidv4(),
-          groups: [],
-          favorite,
-          userId,
-          user,
-        };
-        dispatch(addOnePerson(newPerson));
-        await axiosInstance.post("people", newPerson);
-        reset();
-        dispatch(setFormType("addPerson"));
+        // loop through all of the groups and do this
+        //dispatch(addOneGroup)
+        //await axiosInstance.post("groups", inputGroup);
+        // OR
+        // figure out how to handle an array of groups in the API
+        // handleModalClose();
+        // const { userId, user } = session;
+        // const newPerson = {
+        //   ...data,
+        //   personId: uuidv4(),
+        //   groups: [],
+        //   favorite,
+        //   userId,
+        //   user,
+        // };
+        // dispatch(addOnePerson(newPerson));
+        // await axiosInstance.post("people", newPerson);
+        // reset();
+        // dispatch(setFormType("addPerson"));
       } catch (error) {
         console.error(error);
       }
@@ -117,6 +149,15 @@ const PersonForm = ({ handleModalClose }) => {
               : "Last name..."
           }
           {...register("lastName")}
+        />
+        <label htmlFor="group">Group</label>
+        <AsyncCreatableSelect
+          onChange={handleGroupChange}
+          isMulti
+          defaultOptions
+          placeholder={"Add person to a group..."}
+          loadOptions={getGroupOptions}
+          value={formGroups && formGroups}
         />
         <label htmlFor="quickNote">Quick Note</label>
         <textarea
