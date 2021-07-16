@@ -31,6 +31,8 @@ const PersonForm = ({ handleModalClose }) => {
   const { register, handleSubmit, reset } = useForm();
 
   const getGroupOptions = async () => {
+    // will need to include personId for pre-populating
+    // groups in editPerson form.
     const res = await axiosInstance.get("groups", {
       params: {
         userId,
@@ -94,9 +96,10 @@ const PersonForm = ({ handleModalClose }) => {
       }
     } else {
       const formatedGroups = formatFormGroups(formGroups, userId, user);
+      // need to include person id into formatedGroups
       try {
         // loop through all of the groups and do this
-        //dispatch(addOneGroup)
+        //dispatch(addGroup)
         //await axiosInstance.post("groups", inputGroup);
         // OR
         // figure out how to handle an array of groups in the API
