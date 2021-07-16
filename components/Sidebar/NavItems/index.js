@@ -34,7 +34,7 @@ const NavItems = ({ showSidebar }) => {
               href="#"
             >
               <FiUsers size={20} />
-              <p className="ml-4">{group.groupName}</p>
+              <p className="ml-4">{group.name}</p>
             </a>
           </li>
         ))}

@@ -49,15 +49,15 @@ const GroupForm = ({ handleModalClose }) => {
       <label htmlFor="groupName">Group Name</label>
       <input
         className="border border-gray-200 rounded pl-4 py-1"
-        id="groupName"
-        name="groupName"
+        id="name"
+        name="name"
         type="text"
         placeholder={
           formType === "editGroup" && formData?.groupName
             ? formData.groupName
             : "Group Name..."
         }
-        {...register("groupName")}
+        {...register("name")}
       />
 
       <div>
