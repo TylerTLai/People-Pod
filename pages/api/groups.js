@@ -29,29 +29,32 @@ export default async (req, res) => {
           res.status(500).end();
         }
       }
-
       break;
     case "POST":
-      try {
-        const { groupName, groupId, userId } = req.body;
+      const groupList = req.body;
 
-        const newGroup = await prisma.group.create({
-          data: { groupName, groupId, userId },
-        });
-        res.status(200).json(newGroup);
-      } catch (error) {
-        console.error(error);
-      }
+      groupList.forEach(async (group) => {
+        const { groupId, name, value, isNew, userId, personId } = group;
+        try {
+          const newGroup = await prisma.group.create({
+            data: { name, groupId, value, isNew, userId },
+          });
+          res.status(200).json(newGroup);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+
       break;
     case "PUT":
       try {
-        const { groupName, groupId } = req.body;
+        const { name, groupId } = req.body;
 
         const updatedGroup = await prisma.group.update({
           where: {
             groupId,
           },
-          data: { groupName, groupId },
+          data: { name, groupId },
         });
 
         const groups = await prisma.group.findMany();
