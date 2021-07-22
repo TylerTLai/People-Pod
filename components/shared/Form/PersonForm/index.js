@@ -103,6 +103,7 @@ const PersonForm = ({ handleModalClose }) => {
       // format group data to match group schema
       const personId = uuidv4();
       const formatedGroups = formatFormGroups(formGroups, userId);
+      const newGroups = formatedGroups.filter((group) => group.isNew);
 
       // create new person and add group data
       const newPerson = {
@@ -116,7 +117,7 @@ const PersonForm = ({ handleModalClose }) => {
       try {
         await axiosInstance.post("people", newPerson);
         dispatch(addOnePerson(newPerson));
-        dispatch(addGroup(formatedGroups));
+        dispatch(addGroup(newGroups));
       } catch (error) {
         console.error(error);
       }
