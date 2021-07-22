@@ -11,7 +11,7 @@ export const setPersonDefaults = (personData, formData) => {
 };
 
 // converts string to camelCase
-export const camelize = (str) => {
+export const convertToCamelize = (str) => {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
@@ -20,17 +20,15 @@ export const camelize = (str) => {
 };
 
 // formats groups added from form to match group schema.
-export const formatFormGroups = (formGroups, userId, user) => {
-  // returns an array of group objects
+export const formatFormGroups = (formGroups, userId) => {
 
   formGroups.forEach((group) => {
     group.name = group.label;
     delete group.label;
-    group.isNew = group.__isNew__;
+    group.isNew = group.__isNew__ ? group.__isNew__ : false;
     delete group.__isNew__;
-    group.groupId = uuidv4();
+    group.groupId = group.groupId ? group.groupId : uuidv4();
     group.userId = userId;
-    group.user = user;
   });
 
   return formGroups;
