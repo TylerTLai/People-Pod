@@ -13,14 +13,15 @@ import {
   updateOnePerson,
 } from "../../../../redux/slices/peopleSlice";
 import { setFormType } from "../../../../redux/slices/modalSlice";
-import { camelize, formatFormGroups, setPersonDefaults } from "./helper";
+import { convertToCamelize, formatFormGroups, setPersonDefaults } from "./helper";
+import { addGroup } from "../../../../redux/slices/groupSlice";
 
 const _ = require("lodash");
 
 const PersonForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
   const [session] = useSession();
-  const { user, userId } = session;
+  const { userId } = session;
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
@@ -36,18 +37,18 @@ const PersonForm = ({ handleModalClose }) => {
     const res = await axiosInstance.get("groups", {
       params: {
         userId,
-        user,
       },
     });
 
-    const groupNames = res.data;
+    const groupList = res.data;
 
-    const options = groupNames.map((option) => ({
-      label: option.groupName,
-      value: option.groupName,
+    const groupOptions = groupList.map((group) => ({
+      label: group.name,
+      value: group.value,
+      groupId: group.groupId,
     }));
 
-    return options;
+    return groupOptions;
   };
 
   useEffect(() => {
@@ -68,7 +69,9 @@ const PersonForm = ({ handleModalClose }) => {
   };
 
   const handleGroupChange = (inputGroup) => {
-    inputGroup.forEach((group) => (group.value = camelize(group.value)));
+    inputGroup.forEach((group) => {
+      group.value = convertToCamelize(group.value);
+    });
     setFormGroups(inputGroup && inputGroup);
   };
 
@@ -95,31 +98,31 @@ const PersonForm = ({ handleModalClose }) => {
         handleModalClose();
       }
     } else {
-      const formatedGroups = formatFormGroups(formGroups, userId, user);
-      // need to include person id into formatedGroups
+      handleModalClose();
+
+      // format group data to match group schema
+      const personId = uuidv4();
+      const formatedGroups = formatFormGroups(formGroups, userId);
+
+      // create new person and add group data
+      const newPerson = {
+        ...data,
+        personId,
+        groupList: formatedGroups,
+        favorite,
+        userId,
+      };
+
       try {
-        // loop through all of the groups and do this
-        //dispatch(addGroup)
-        //await axiosInstance.post("groups", inputGroup);
-        // OR
-        // figure out how to handle an array of groups in the API
-        // handleModalClose();
-        // const { userId, user } = session;
-        // const newPerson = {
-        //   ...data,
-        //   personId: uuidv4(),
-        //   groups: [],
-        //   favorite,
-        //   userId,
-        //   user,
-        // };
-        // dispatch(addOnePerson(newPerson));
-        // await axiosInstance.post("people", newPerson);
-        // reset();
-        // dispatch(setFormType("addPerson"));
+        await axiosInstance.post("people", newPerson);
+        dispatch(addOnePerson(newPerson));
+        dispatch(addGroup(formatedGroups));
       } catch (error) {
         console.error(error);
       }
+
+      reset();
+      dispatch(setFormType("addPerson"));
     }
   };
 
