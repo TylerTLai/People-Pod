@@ -6,7 +6,7 @@ import Button from "../../Button";
 import axiosInstance from "../../../../config/axios";
 import { addGroup } from "../../../../redux/slices/groupSlice";
 import { setFormType } from "../../../../redux/slices/modalSlice";
-import { camelize, formatFormGroups } from "../PersonForm/helper";
+import { convertToCamelize, formatFormGroups } from "../PersonForm/helper";
 
 const GroupForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
@@ -19,20 +19,21 @@ const GroupForm = ({ handleModalClose }) => {
   const addGroupButtonText = formGroups.length > 1 ? "Add Groups" : "Add Group";
 
   const handleGroupChange = (inputGroup) => {
-    inputGroup.forEach((group) => (group.value = camelize(group.value)));
+    inputGroup.forEach((group) => (group.value = convertToCamelize(group.value)));
     setFormGroups(inputGroup && inputGroup);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleModalClose();
-    const formatedGroups = formatFormGroups(formGroups, userId, user);
-    dispatch(addGroup(formatedGroups));
-    dispatch(setFormType("addGroup"));
+    const formatedGroups = formatFormGroups(formGroups, userId);
     try {
       await axiosInstance.post("groups", formatedGroups);
+      dispatch(addGroup(formatedGroups));
+      dispatch(setFormType("addGroup"));
     } catch (error) {
-      console.error("error message ", error.message);
+      alert("Duplicate Group! This group has already been created.");
+      console.error("Error message! ", error.message);
     }
   };
 
