@@ -19,12 +19,16 @@ const PersonDetails = () => {
 
   useEffect(() => {
     const getPerson = async () => {
-      const res = await axiosInstance.get("people", {
-        params: {
-          personId,
-        },
-      });
-      setPerson(res.data);
+      try {
+        const res = await axiosInstance.get("people", {
+          params: {
+            personId,
+          },
+        });
+        setPerson(res.data);
+      } catch (error) {
+        console.error("error message: ", error.message);
+      }
     };
 
     getPerson();

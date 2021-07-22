@@ -12,6 +12,7 @@ import axiosInstance from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { setAllPeople } from "../../redux/slices/peopleSlice";
 import { setAllGroups } from "../../redux/slices/groupSlice";
+import axios from "axios";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -19,24 +20,45 @@ const Dashboard = () => {
   const [session] = useSession();
 
   useEffect(() => {
+    
+    const source = axios.CancelToken.source();
+
     const fetchPeople = async (userId, user) => {
-      const res = await axiosInstance.get("people", {
-        params: {
-          userId,
-          user,
-        },
-      });
-      dispatch(setAllPeople(res.data));
+      try {
+        const res = await axiosInstance.get("people", {
+          params: {
+            userId,
+            user,
+          },
+          cancelToken: source.token,
+        });
+        dispatch(setAllPeople(res.data));
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("axios request canceled");
+        } else {
+          console.error(error.message);
+        }
+      }
     };
 
     const fetchGroups = async (userId, user) => {
-      const res = await axiosInstance.get("groups", {
-        params: {
-          userId,
-          user,
-        },
-      });
-      dispatch(setAllGroups(res.data));
+      try {
+        const res = await axiosInstance.get("groups", {
+          params: {
+            userId,
+            user,
+          },
+          cancelToken: source.token,
+        });
+        dispatch(setAllGroups(res.data));
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("axios request canceled");
+        } else {
+          console.error(error.message);
+        }
+      }
     };
 
     if (session === null) {
@@ -45,6 +67,10 @@ const Dashboard = () => {
       fetchPeople(session?.userId, session?.user);
       fetchGroups(session?.userId, session?.user);
     }
+
+    return () => {
+      source.cancel();
+    };
   }, [session]);
 
   return (

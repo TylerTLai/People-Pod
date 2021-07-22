@@ -1,68 +1,54 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/client";
-import { v4 as uuidv4 } from "uuid";
+import AsyncCreatableSelect from "react-select/async-creatable";
 import Button from "../../Button";
 import axiosInstance from "../../../../config/axios";
-import { addOneGroup, updateOneGroup } from "../../../../redux/slices/groupSlice";
+import { addGroup } from "../../../../redux/slices/groupSlice";
 import { setFormType } from "../../../../redux/slices/modalSlice";
+import { convertToCamelize, formatFormGroups } from "../PersonForm/helper";
 
 const GroupForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
   const [session] = useSession();
+  const { userId, user } = session;
 
   const formType = useSelector((state) => state.modalReducer.formType);
-  const formData = useSelector((state) => state.modalReducer.formData);
+  const [formGroups, setFormGroups] = useState([]);
 
-  const onSubmit = async (data, e) => {
-    if (formType === "editGroup") {
-      try {
-        handleModalClose();
-        const updatedGroup = { ...data, groupId: formData.groupId, favorite };
-        dispatch(updateOneGroup(updatedGroup));
-        await axiosInstance.put("groups", updatedGroup);
-        reset();
-        dispatch(setFormType("addGroup"));
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        handleModalClose();
-        const { userId, user } = session;
+  const addGroupButtonText = formGroups.length > 1 ? "Add Groups" : "Add Group";
 
-        const newGroup = { ...data, groupId: uuidv4(), userId, user };
-        dispatch(addOneGroup(newGroup));
-        await axiosInstance.post("groups", newGroup);
-        reset();
-        dispatch(setFormType("addGroup"));
-      } catch (error) {
-        console.error(error);
-      }
+  const handleGroupChange = (inputGroup) => {
+    inputGroup.forEach((group) => (group.value = convertToCamelize(group.value)));
+    setFormGroups(inputGroup && inputGroup);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    handleModalClose();
+    const formatedGroups = formatFormGroups(formGroups, userId);
+    try {
+      await axiosInstance.post("groups", formatedGroups);
+      dispatch(addGroup(formatedGroups));
+      dispatch(setFormType("addGroup"));
+    } catch (error) {
+      alert("Duplicate Group! This group has already been created.");
+      console.error("Error message! ", error.message);
     }
   };
 
-  const { register, handleSubmit, reset } = useForm();
-
   return (
-    <form className="flex flex-col space-y-3 mb-5" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col space-y-3 mb-5" onSubmit={handleSubmit}>
       <label htmlFor="groupName">Group Name</label>
-      <input
-        className="border border-gray-200 rounded pl-4 py-1"
-        id="groupName"
-        name="groupName"
-        type="text"
-        placeholder={
-          formType === "editGroup" && formData?.groupName
-            ? formData.groupName
-            : "Group Name..."
-        }
-        {...register("groupName")}
+      <AsyncCreatableSelect
+        onChange={handleGroupChange}
+        isMulti
+        placeholder={"E.g. Best Friends, Coworkers, etc."}
+        value={formGroups && formGroups}
       />
-
       <div>
         <Button primary type="submit">
-          {formType === "editGroup" ? "Save Changes" : "Add Group"}
+          {formType === "editGroup" ? "Save Changes" : addGroupButtonText}
         </Button>
       </div>
     </form>

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import NavItems from "./NavItems";
-import UserProfile from "./UserProfile";
 import IconButton from "../shared/IconButton";
 import { openModal, setFormType } from "../../redux/slices/modalSlice";
 

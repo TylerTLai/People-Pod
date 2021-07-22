@@ -22,7 +22,7 @@ export const generateModalLabels = (formType) => {
     case "addGroup":
       modalLabels.form = "group";
       modalLabels.title = "Add Group Form";
-      modalLabels.description = "Add a new group";
+      modalLabels.description = "Add one or more groups";
       modalLabels.buttonText = "Add Group";
       return modalLabels;
     case "editGroup":

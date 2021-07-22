@@ -13,8 +13,8 @@ export default async (req, res) => {
           });
           res.status(200).json(fetchedPerson);
         } catch (error) {
-          console.error(error);
-          res.status(500).end();
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
         }
       } else if (userId) {
         try {
@@ -25,23 +25,61 @@ export default async (req, res) => {
           });
           res.status(200).json(people);
         } catch (error) {
-          console.error(error);
-          res.status(500).end();
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
         }
       }
 
       break;
     case "POST":
       try {
-        const { firstName, lastName, quickNote, personId, favorite, userId } = req.body;
+        const { firstName, lastName, quickNote, personId, favorite, userId, groupList } =
+          req.body;
 
-        const newPerson = await prisma.person.create({
-          data: { personId, firstName, lastName, quickNote, favorite, userId },
+        const existingGroupIds = groupList
+          .filter((group) => !group.isNew)
+          .map((group) => {
+            return { groupId: group.groupId };
+          });
+
+        const newGroups = groupList.filter((group) => group.isNew);
+
+        // create a new person and connect them to existing groups
+        let newPerson = await prisma.person.create({
+          data: {
+            firstName,
+            lastName,
+            quickNote,
+            personId,
+            favorite,
+            user: {
+              connect: { id: userId },
+            },
+            groups: {
+              connect: existingGroupIds,
+            },
+          },
+        });
+
+        // update person to include new groups and create those new groups
+        newPerson = await prisma.person.update({
+          where: {
+            personId,
+          },
+          data: {
+            groups: {
+              create: newGroups,
+            },
+          },
+          include: {
+            groups: true,
+          },
         });
 
         res.status(200).json(newPerson);
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     case "PUT":
@@ -59,7 +97,8 @@ export default async (req, res) => {
 
         res.status(200).json({ updatedPerson, people });
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     case "DELETE":
@@ -76,7 +115,8 @@ export default async (req, res) => {
 
         res.status(200).json({ deletedPerson, people });
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     default:

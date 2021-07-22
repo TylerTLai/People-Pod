@@ -12,7 +12,7 @@ model Person {
   personId           String    @unique
   firstName          String
   lastName           String
-  groups             Group[]
+  groups             PeopleInGroups[]
   favorite           Boolean @default(false)
   quickNote          String?
   userId             String
@@ -25,10 +25,21 @@ model Group {
   name        String      @unique
   value       String      @unique
   isNew       Boolean
-  people      Person[]
+  people      PeopleInGroups[]
   userId      String
   user        User    @relation(fields: [userId], references: [id])
 }
+
+
+model PeopleInGroups {
+  id        Int?      @default(autoincrement())
+  person    Person @relation(fields: [personId], references: [id])
+  group     Group  @relation(fields: [groupId], references: [id])
+  personId  Int
+  groupId   Int
+  @@id([personId, groupId])
+}
+
 
 model Account {
   id                 String    @id @default(cuid())

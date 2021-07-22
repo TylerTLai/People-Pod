@@ -12,10 +12,10 @@ export const groupSlice = createSlice({
     setAllGroups: (state, action) => {
       state.groups = action.payload;
     },
-    addOneGroup: (state, action) => {
-      state.groups.push(action.payload);
+    addGroup: (state, action) => {
+      state.groups = [...state.groups, ...action.payload];
     },
-    updateOneGroup: (state, action) => {
+    updateGroup: (state, action) => {
       const { groupId } = action.payload;
       state.groups = state.groups.map((group) =>
         group.groupId === groupId ? (group = action.payload) : group
@@ -24,5 +24,5 @@ export const groupSlice = createSlice({
   },
 });
 
-export const { addOneGroup, setAllGroups, updateOneGroup } = groupSlice.actions;
+export const { addGroup, setAllGroups, updateGroup } = groupSlice.actions;
 export default groupSlice.reducer;

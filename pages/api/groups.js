@@ -13,8 +13,8 @@ export default async (req, res) => {
           });
           res.status(200).json(fetchedGroup);
         } catch (error) {
-          console.error(error);
-          res.status(500).end();
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
         }
       } else if (userId) {
         try {
@@ -25,40 +25,57 @@ export default async (req, res) => {
           });
           res.status(200).json(groups);
         } catch (error) {
-          console.error(error);
-          res.status(500).end();
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
         }
       }
-
       break;
     case "POST":
-      try {
-        const { groupName, groupId, userId } = req.body;
+      const groupList = req.body;
+      // refactor to use createMany() instead of looping
 
-        const newGroup = await prisma.group.create({
-          data: { groupName, groupId, userId },
-        });
-        res.status(200).json(newGroup);
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   const newGroups = await prisma.createMany({
+      //     data: groupList,
+      //     skipDuplicates: true,
+      //   });
+      //   res.status(200).json(newGroups);
+      // } catch (error) {
+      //   console.error("error message: ", error.message);
+      //   res.status(500).send("Server Error");
+      // }
+
+      groupList.forEach(async (group) => {
+        const { groupId, name, value, isNew, userId } = group;
+        try {
+          const newGroup = await prisma.group.create({
+            data: { name, groupId, value, isNew, userId },
+          });
+          res.status(200).json(newGroup);
+        } catch (error) {
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
+        }
+      });
+
       break;
     case "PUT":
       try {
-        const { groupName, groupId } = req.body;
+        const { name, groupId } = req.body;
 
         const updatedGroup = await prisma.group.update({
           where: {
             groupId,
           },
-          data: { groupName, groupId },
+          data: { name, groupId },
         });
 
         const groups = await prisma.group.findMany();
 
         res.status(200).json({ updatedGroup, groups });
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     case "DELETE":
@@ -75,7 +92,8 @@ export default async (req, res) => {
 
         res.status(200).json({ deletedGroup, groups });
       } catch (error) {
-        console.error(error);
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
       break;
     default:
