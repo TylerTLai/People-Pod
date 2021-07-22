@@ -33,10 +33,47 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        const { firstName, lastName, quickNote, personId, favorite, userId } = req.body;
+        const { firstName, lastName, quickNote, personId, favorite, userId, groupList } =
+          req.body;
 
-        const newPerson = await prisma.person.create({
-          data: { personId, firstName, lastName, quickNote, favorite, userId },
+        const existingGroupIds = groupList
+          .filter((group) => !group.isNew)
+          .map((group) => {
+            return { groupId: group.groupId };
+          });
+
+        const newGroups = groupList.filter((group) => group.isNew);
+
+        // create a new person and connect them to existing groups
+        let newPerson = await prisma.person.create({
+          data: {
+            firstName,
+            lastName,
+            quickNote,
+            personId,
+            favorite,
+            user: {
+              connect: { id: userId },
+            },
+            groups: {
+              connect: existingGroupIds,
+            },
+          },
+        });
+
+        // update person to include new groups and create those new groups
+        newPerson = await prisma.person.update({
+          where: {
+            personId,
+          },
+          data: {
+            groups: {
+              create: newGroups,
+            },
+          },
+          include: {
+            groups: true,
+          },
         });
 
         res.status(200).json(newPerson);
