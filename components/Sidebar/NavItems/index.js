@@ -65,7 +65,7 @@ const NavItems = ({ showSidebar }) => {
                       }}
                       onMouseLeave={() => setSelectedMoreVertical(null)}
                     >
-                      10
+                      {group.people?.length}
                     </p>
                   )}
                 </a>
