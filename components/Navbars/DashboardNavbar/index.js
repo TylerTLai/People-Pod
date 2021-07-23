@@ -1,12 +1,11 @@
 import Link from "next/Link";
 import { FiSearch } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 import UserProfile from "../../Sidebar/UserProfile";
 
 const DashboardNavbar = () => {
   const dispatch = useDispatch();
-  const people = useSelector((state) => state.peopleReducer.people);
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value.toLowerCase();

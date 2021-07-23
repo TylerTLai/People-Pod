@@ -4,6 +4,8 @@ export default async (req, res) => {
   switch (req.method) {
     case "GET":
       const { personId, userId } = req.query;
+
+      // respond with a specific person
       if (personId) {
         try {
           const fetchedPerson = await prisma.person.findUnique({
@@ -16,18 +18,19 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else if (userId) {
-        try {
-          const people = await prisma.person.findMany({
-            where: {
-              userId,
-            },
-          });
-          res.status(200).json(people);
-        } catch (error) {
-          console.error("error message: ", error.message);
-          res.status(500).send("Server Error");
-        }
+      }
+
+      // respond with all people for user
+      try {
+        const people = await prisma.person.findMany({
+          where: {
+            userId,
+          },
+        });
+        res.status(200).json(people);
+      } catch (error) {
+        console.error("error message: ", error.message);
+        res.status(500).send("Server Error");
       }
 
       break;
