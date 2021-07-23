@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { FiUsers, FiMoreVertical } from "react-icons/fi";
+import { FiUsers, FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/Ai";
 import { useSelector } from "react-redux";
+import DropdownMenu from "../../shared/DropdownMenu";
 
 const NavItems = ({ showSidebar }) => {
   const groups = useSelector((state) => state.groupsReducer.groups);
 
-  const [selectedMoreVertical, setSelectedMoreVertical] = useState(null);
-  const [selectedGroupNumber, setSelectedGroupNumber] = useState(null);
+  const [selectedGroupMenu, setSelectedGroupMenu] = useState(null);
+  const [selectedGroupAmount, setSelectedGroupAmount] = useState(null);
+
+  const menuItems = [
+    { text: "Edit Group", icon: FiEdit },
+    { text: "Delete Group", icon: FiTrash2 },
+  ];
+
+  const handleGroupMenuClick = (selectedGroupId) => {
+    console.log(selectedGroupId);
+  };
 
   return (
     <nav className={`${!showSidebar && "hidden"} h-full text-gray-300 mb-10`}>
@@ -42,28 +52,35 @@ const NavItems = ({ showSidebar }) => {
                   <FiUsers size={20} />
                   <p className="ml-4">{group.name}</p>
 
-                  {selectedMoreVertical === selectedNavItem && (
-                    <FiMoreVertical
-                      className={`ml-auto my-1`}
-                      size={20}
-                      onMouseEnter={() => {
-                        setSelectedMoreVertical(selectedNavItem);
-                      }}
-                      onMouseLeave={() => {
-                        setSelectedMoreVertical(null);
-                        setSelectedGroupNumber(null);
-                      }}
-                    />
+                  {selectedGroupMenu === selectedNavItem && (
+                    <div className={`ml-auto`}>
+                      <DropdownMenu
+                        menuItems={menuItems}
+                        onMouseEnter={() => {
+                          setSelectedGroupMenu(selectedNavItem);
+                        }}
+                        onMouseLeave={() => {
+                          setSelectedGroupMenu(null);
+                          setSelectedGroupAmount(null);
+                        }}
+                        menuBtn={
+                          <FiMoreVertical
+                            onClick={() => handleGroupMenuClick(selectedNavItem)}
+                            size={20}
+                          />
+                        }
+                      />
+                    </div>
                   )}
 
-                  {selectedGroupNumber !== selectedNavItem && (
+                  {selectedGroupAmount !== selectedNavItem && (
                     <p
                       className={`ml-auto bg-gray-600 px-2 py-0.5 rounded-md`}
                       onMouseEnter={() => {
-                        setSelectedMoreVertical(selectedNavItem);
-                        setSelectedGroupNumber(selectedNavItem);
+                        setSelectedGroupMenu(selectedNavItem);
+                        setSelectedGroupAmount(selectedNavItem);
                       }}
-                      onMouseLeave={() => setSelectedMoreVertical(null)}
+                      onMouseLeave={() => setSelectedGroupMenu(null)}
                     >
                       {group.people?.length}
                     </p>
