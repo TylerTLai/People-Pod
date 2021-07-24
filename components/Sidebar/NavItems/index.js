@@ -1,22 +1,63 @@
 import { useState } from "react";
 import { FiUsers, FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/Ai";
-import { useSelector } from "react-redux";
-import DropdownMenu from "../../shared/DropdownMenu";
+import { useDispatch, useSelector } from "react-redux";
+import Dropdown from "../../shared/Dropdown";
+import axiosInstance from "../../../config/axios";
+import { setAllGroups, setGroupId } from "../../../redux/slices/groupSlice";
 
 const NavItems = ({ showSidebar }) => {
+  const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupsReducer.groups);
 
   const [selectedGroupMenu, setSelectedGroupMenu] = useState(null);
   const [selectedGroupAmount, setSelectedGroupAmount] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const menuItems = [
-    { text: "Edit Group", icon: FiEdit },
-    { text: "Delete Group", icon: FiTrash2 },
+  const dropdownItems = [
+    { id: 1, text: "Edit Group", icon: FiEdit },
+    { id: 2, text: "Delete Group", icon: FiTrash2 },
   ];
 
-  const handleGroupMenuClick = (selectedGroupId) => {
-    console.log(selectedGroupId);
+  const handleGroupMenuClick = () => {
+    setShowDropdown((showDropdown) => !showDropdown);
+  };
+
+  const handleDropdownItemClick = (selectedGroupId, dropdownItemText) => {
+    if (dropdownItemText === "Edit Group") {
+      // editGroup(selectedGroupId)
+    } else if (dropdownItemText === "Delete Group") {
+      deleteGroup(selectedGroupId);
+      setShowDropdown(false);
+    }
+  };
+
+  const deleteGroup = async (groupId) => {
+    try {
+      const res = await axiosInstance.delete("groups", {
+        data: { groupId },
+      });
+
+      const { deletedGroup, groups } = res.data;
+      dispatch(setAllGroups(groups));
+      dispatch(setGroupId(null));
+    } catch (error) {
+      console.error("error message: ", error.message);
+    }
+  };
+
+  // const editGroup = () => {
+  //   dispatch(setFormType("editGroup"));
+  //   dispatch(setFormData(group));
+  //   dispatch(openModal());
+  // };
+
+  const handleMouseLeave = () => {
+    // If dropdown is open, disable onMouseLeave.
+    if (!showDropdown) {
+      setSelectedGroupMenu(null);
+      setSelectedGroupAmount(null);
+    }
   };
 
   return (
@@ -41,6 +82,7 @@ const NavItems = ({ showSidebar }) => {
           </a>
         </li>
         <hr className="my-3 border-gray-700" />
+
         {groups.map((group, selectedNavItem) => {
           return (
             <>
@@ -52,27 +94,27 @@ const NavItems = ({ showSidebar }) => {
                   <FiUsers size={20} />
                   <p className="ml-4">{group.name}</p>
 
+                  {/* The group more vertical menu */}
                   {selectedGroupMenu === selectedNavItem && (
-                    <div className={`ml-auto`}>
-                      <DropdownMenu
-                        menuItems={menuItems}
+                    <div className={`ml-auto py-1`}>
+                      <FiMoreVertical
+                        onClick={() => handleGroupMenuClick(selectedNavItem)}
                         onMouseEnter={() => {
                           setSelectedGroupMenu(selectedNavItem);
                         }}
-                        onMouseLeave={() => {
-                          setSelectedGroupMenu(null);
-                          setSelectedGroupAmount(null);
-                        }}
-                        menuBtn={
-                          <FiMoreVertical
-                            onClick={() => handleGroupMenuClick(selectedNavItem)}
-                            size={20}
-                          />
-                        }
+                        onMouseLeave={handleMouseLeave}
+                        size={20}
+                      />
+                      <Dropdown
+                        handleDropdownItemClick={handleDropdownItemClick}
+                        dropdownItems={dropdownItems}
+                        showDropdown={showDropdown}
+                        selectedGroupId={group.groupId}
                       />
                     </div>
                   )}
 
+                  {/* The number of people within a group */}
                   {selectedGroupAmount !== selectedNavItem && (
                     <p
                       className={`ml-auto bg-gray-600 px-2 py-0.5 rounded-md`}
