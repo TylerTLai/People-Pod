@@ -1,19 +1,51 @@
 import { Menu, Transition } from "@headlessui/react";
+import { useState } from "react";
 
-const DropdownMenu = ({ menuItems, menuBtn, onMouseEnter, onMouseLeave }) => {
-  const handleMenuClick = (event) => {
-    console.log("from menu");
-    onMouseLeave();
-  };
+const DropdownMenu = ({ menuItems, menuBtn, onMouseEnter, openMenu, onMouseLeave }) => {
+  const [disableMouseLeave, setDisableMouseLeave] = useState(false);
+
+  const handleMenuClick = () => {};
 
   return (
-    <Menu
-      as="div"
-      onMouseEnter={onMouseEnter}
-      // onMouseLeave={onMouseLeave}
-      className="relative inline-block text-left"
-    >
-      <Menu.Button className="py-0.5 focus:outline-none">{menuBtn}</Menu.Button>
+    <Menu as="div" className="ml-20">
+      <>
+        <button onClick={handleMenuClick}>{menuBtn}</button>
+        <Transition
+          show={openMenu}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          {openMenu && (
+            <div className="text-left relative">
+              <Menu.Items
+                onMouseLeave={onMouseLeave}
+                as="ul"
+                static
+                className="absolute right-0 w-40 mt-2 origin-top-right bg-white divide-y divide-gray-200 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <Menu.Item as="li" className="text-gray-600">
+                  Edit Group
+                </Menu.Item>
+                <Menu.Item as="li" className="text-gray-600">
+                  Delete Group
+                </Menu.Item>
+              </Menu.Items>
+            </div>
+          )}
+        </Transition>
+      </>
+    </Menu>
+  );
+};
+
+export default DropdownMenu;
+
+{
+  /* <Menu.Button className="py-0.5 focus:outline-none">{menuBtn}</Menu.Button>
 
       <Transition
         enter="transition ease-out duration-100"
@@ -49,9 +81,5 @@ const DropdownMenu = ({ menuItems, menuBtn, onMouseEnter, onMouseLeave }) => {
             );
           })}
         </Menu.Items>
-      </Transition>
-    </Menu>
-  );
-};
-
-export default DropdownMenu;
+      </Transition> */
+}
