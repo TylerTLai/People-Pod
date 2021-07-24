@@ -10,17 +10,23 @@ export default async (req, res) => {
             where: {
               groupId,
             },
+            include: {
+              people: true,
+            },
           });
           res.status(200).json(fetchedGroup);
         } catch (error) {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else if (userId) {
+      } else {
         try {
           const groups = await prisma.group.findMany({
             where: {
               userId,
+            },
+            include: {
+              people: true,
             },
           });
           res.status(200).json(groups);
@@ -61,13 +67,13 @@ export default async (req, res) => {
       break;
     case "PUT":
       try {
-        const { name, groupId } = req.body;
+        const { name, value, groupId } = req.body;
 
         const updatedGroup = await prisma.group.update({
           where: {
             groupId,
           },
-          data: { name, groupId },
+          data: { name, value, groupId },
         });
 
         const groups = await prisma.group.findMany();

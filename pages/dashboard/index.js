@@ -20,7 +20,6 @@ const Dashboard = () => {
   const [session] = useSession();
 
   useEffect(() => {
-    
     const source = axios.CancelToken.source();
 
     const fetchPeople = async (userId, user) => {
@@ -42,12 +41,11 @@ const Dashboard = () => {
       }
     };
 
-    const fetchGroups = async (userId, user) => {
+    const fetchGroups = async (userId) => {
       try {
         const res = await axiosInstance.get("groups", {
           params: {
             userId,
-            user,
           },
           cancelToken: source.token,
         });
@@ -65,7 +63,7 @@ const Dashboard = () => {
       router.push("/");
     } else {
       fetchPeople(session?.userId, session?.user);
-      fetchGroups(session?.userId, session?.user);
+      fetchGroups(session?.userId);
     }
 
     return () => {

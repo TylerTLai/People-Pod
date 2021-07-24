@@ -18,21 +18,20 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
+      } else {
+        // respond with all people for user
+        try {
+          const people = await prisma.person.findMany({
+            where: {
+              userId,
+            },
+          });
+          res.status(200).json(people);
+        } catch (error) {
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
+        }
       }
-
-      // respond with all people for user
-      try {
-        const people = await prisma.person.findMany({
-          where: {
-            userId,
-          },
-        });
-        res.status(200).json(people);
-      } catch (error) {
-        console.error("error message: ", error.message);
-        res.status(500).send("Server Error");
-      }
-
       break;
     case "POST":
       try {

@@ -75,7 +75,7 @@ const PersonForm = ({ handleModalClose }) => {
     setFormGroups(inputGroup && inputGroup);
   };
 
-  const onSubmit = async (data, e) => {
+  const onSubmit = async (data) => {
     if (formType === "editPerson") {
       const personDefaults = setPersonDefaults(data, formData);
 
@@ -100,15 +100,14 @@ const PersonForm = ({ handleModalClose }) => {
     } else {
       handleModalClose();
 
-      // format group data to match group schema
-      const personId = uuidv4();
+      // format group form data to match group schema
       const formatedGroups = formatFormGroups(formGroups, userId);
       const newGroups = formatedGroups.filter((group) => group.isNew);
 
       // create new person and add group data
       const newPerson = {
         ...data,
-        personId,
+        personId: uuidv4(),
         groupList: formatedGroups,
         favorite,
         userId,
