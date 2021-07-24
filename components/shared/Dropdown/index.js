@@ -3,7 +3,7 @@ const Dropdown = ({
   className,
   showDropdown,
   handleDropdownItemClick,
-  selectedGroupId,
+  selectedGroup,
 }) => {
   return (
     <div className="relative">
@@ -17,7 +17,7 @@ const Dropdown = ({
                 <li className="text-gray-700">
                   <button
                     onClick={() =>
-                      handleDropdownItemClick(selectedGroupId, dropdownItem.text)
+                      handleDropdownItemClick(selectedGroup, dropdownItem.text)
                     }
                     className="bg-white text-gray-700 hover:bg-blue-500 hover:text-white group flex rounded-md items-center w-full px-2 py-2 text-sm focus:outline-none"
                   >

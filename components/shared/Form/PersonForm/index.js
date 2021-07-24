@@ -75,7 +75,7 @@ const PersonForm = ({ handleModalClose }) => {
     setFormGroups(inputGroup && inputGroup);
   };
 
-  const onSubmit = async (data, e) => {
+  const onSubmit = async (data) => {
     if (formType === "editPerson") {
       const personDefaults = setPersonDefaults(data, formData);
 

@@ -67,13 +67,13 @@ export default async (req, res) => {
       break;
     case "PUT":
       try {
-        const { name, groupId } = req.body;
+        const { name, value, groupId } = req.body;
 
         const updatedGroup = await prisma.group.update({
           where: {
             groupId,
           },
-          data: { name, groupId },
+          data: { name, value, groupId },
         });
 
         const groups = await prisma.group.findMany();

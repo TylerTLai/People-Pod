@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "../../shared/Dropdown";
 import axiosInstance from "../../../config/axios";
 import { setAllGroups, setGroupId } from "../../../redux/slices/groupSlice";
+import { openModal, setFormData, setFormType } from "../../../redux/slices/modalSlice";
 
 const NavItems = ({ showSidebar }) => {
   const dispatch = useDispatch();
@@ -23,11 +24,12 @@ const NavItems = ({ showSidebar }) => {
     setShowDropdown((showDropdown) => !showDropdown);
   };
 
-  const handleDropdownItemClick = (selectedGroupId, dropdownItemText) => {
+  const handleDropdownItemClick = (selectedGroup, dropdownItemText) => {
     if (dropdownItemText === "Edit Group") {
-      // editGroup(selectedGroupId)
+      editGroup(selectedGroup);
+      setShowDropdown(false);
     } else if (dropdownItemText === "Delete Group") {
-      deleteGroup(selectedGroupId);
+      deleteGroup(selectedGroup.groupId);
       setShowDropdown(false);
     }
   };
@@ -46,11 +48,11 @@ const NavItems = ({ showSidebar }) => {
     }
   };
 
-  // const editGroup = () => {
-  //   dispatch(setFormType("editGroup"));
-  //   dispatch(setFormData(group));
-  //   dispatch(openModal());
-  // };
+  const editGroup = (selectedGroup) => {
+    dispatch(setFormType("editGroup"));
+    dispatch(setFormData(selectedGroup));
+    dispatch(openModal());
+  };
 
   const handleMouseLeave = () => {
     // If dropdown is open, disable onMouseLeave.
@@ -109,7 +111,7 @@ const NavItems = ({ showSidebar }) => {
                         handleDropdownItemClick={handleDropdownItemClick}
                         dropdownItems={dropdownItems}
                         showDropdown={showDropdown}
-                        selectedGroupId={group.groupId}
+                        selectedGroup={group}
                       />
                     </div>
                   )}
@@ -124,7 +126,7 @@ const NavItems = ({ showSidebar }) => {
                       }}
                       onMouseLeave={() => setSelectedGroupMenu(null)}
                     >
-                      {group.people?.length}
+                      {group.people ? group.people.length : 0}
                     </p>
                   )}
                 </a>
