@@ -13,7 +13,7 @@ import {
   updateOnePerson,
 } from "../../../../redux/slices/peopleSlice";
 import { setFormType } from "../../../../redux/slices/modalSlice";
-import { convertToCamelize, formatFormGroups, setPersonDefaults } from "./helper";
+import { convertToCamelize, formatFormGroups, setPersonPrefilledValues } from "./helper";
 import { addGroup } from "../../../../redux/slices/groupSlice";
 
 const _ = require("lodash");
@@ -28,12 +28,11 @@ const PersonForm = ({ handleModalClose }) => {
 
   const [favorite, setFavorite] = useState(formData.favorite);
   const [formGroups, setFormGroups] = useState([]);
+  const { personId } = formData;
 
   const { register, handleSubmit, reset } = useForm();
 
   const getGroupOptions = async () => {
-    // will need to include personId for pre-populating
-    // groups in editPerson form.
     const res = await axiosInstance.get("groups", {
       params: {
         userId,
@@ -58,7 +57,7 @@ const PersonForm = ({ handleModalClose }) => {
   const handleFavoritePerson = async () => {
     // update person.favorite directly to be the opposite of favorite.
     setFavorite((prevState) => !prevState);
-    dispatch(favoritePerson({ personId: formData.personId, favorite }));
+    dispatch(favoritePerson({ personId, favorite }));
 
     // const res = await axiosInstance.put("people", {
     //   ...formData,
@@ -77,20 +76,28 @@ const PersonForm = ({ handleModalClose }) => {
 
   const onSubmit = async (data) => {
     if (formType === "editPerson") {
-      const personDefaults = setPersonDefaults(data, formData);
+      // prefill the form with the previous values
+      const personPrefilledValues = setPersonPrefilledValues(data, formData);
 
+      // format group form data to match group schema
+      const formatedGroups = formatFormGroups(formGroups, userId);
+      const newGroups = formatedGroups.filter((group) => group.isNew);
+
+      // update the person with new values
       const updatedPerson = {
         ...formData,
-        ...personDefaults,
+        ...personPrefilledValues,
+        groupList: formatedGroups,
       };
 
       if (!_.isEqual(formData, updatedPerson)) {
         try {
           handleModalClose();
-          dispatch(updateOnePerson(updatedPerson));
           await axiosInstance.put("people", updatedPerson);
-          reset();
+          dispatch(updateOnePerson(updatedPerson));
+          dispatch(addGroup(newGroups));
           dispatch(setFormType("addPerson"));
+          reset();
         } catch (error) {
           console.error(error);
         }

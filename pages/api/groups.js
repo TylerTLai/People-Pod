@@ -4,7 +4,8 @@ export default async (req, res) => {
   switch (req.method) {
     case "GET":
       const { groupId, userId } = req.query;
-      if (groupId) {
+      // get one specific group
+      if (groupId && userId) {
         try {
           const fetchedGroup = await prisma.group.findUnique({
             where: {
@@ -19,7 +20,8 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else {
+      } else if (userId) {
+        // get all groups for a user
         try {
           const groups = await prisma.group.findMany({
             where: {
