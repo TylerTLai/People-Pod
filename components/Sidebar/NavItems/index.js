@@ -87,51 +87,49 @@ const NavItems = ({ showSidebar }) => {
 
         {groups.map((group, selectedNavItem) => {
           return (
-            <>
-              <li key={group.groupId}>
-                <a
-                  className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white"
-                  href="#"
-                >
-                  <FiUsers size={20} />
-                  <p className="ml-4">{group.name}</p>
+            <li key={group.groupId}>
+              <a
+                className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white"
+                href="#"
+              >
+                <FiUsers size={20} />
+                <p className="ml-4">{group.name}</p>
 
-                  {/* The group more vertical menu */}
-                  {selectedGroupMenu === selectedNavItem && (
-                    <div className={`ml-auto py-1`}>
-                      <FiMoreVertical
-                        onClick={() => handleGroupMenuClick(selectedNavItem)}
-                        onMouseEnter={() => {
-                          setSelectedGroupMenu(selectedNavItem);
-                        }}
-                        onMouseLeave={handleMouseLeave}
-                        size={20}
-                      />
-                      <Dropdown
-                        handleDropdownItemClick={handleDropdownItemClick}
-                        dropdownItems={dropdownItems}
-                        showDropdown={showDropdown}
-                        selectedGroup={group}
-                      />
-                    </div>
-                  )}
-
-                  {/* The number of people within a group */}
-                  {selectedGroupAmount !== selectedNavItem && (
-                    <p
-                      className={`ml-auto bg-gray-600 px-2 py-0.5 rounded-md`}
+                {/* The group more vertical menu */}
+                {selectedGroupMenu === selectedNavItem && (
+                  <div className={`ml-auto py-1`}>
+                    <FiMoreVertical
+                      onClick={() => handleGroupMenuClick(selectedNavItem)}
                       onMouseEnter={() => {
                         setSelectedGroupMenu(selectedNavItem);
-                        setSelectedGroupAmount(selectedNavItem);
                       }}
-                      onMouseLeave={() => setSelectedGroupMenu(null)}
-                    >
-                      {group.people ? group.people.length : 0}
-                    </p>
-                  )}
-                </a>
-              </li>
-            </>
+                      onMouseLeave={handleMouseLeave}
+                      size={20}
+                    />
+                    <Dropdown
+                      handleDropdownItemClick={handleDropdownItemClick}
+                      dropdownItems={dropdownItems}
+                      showDropdown={showDropdown}
+                      selectedGroup={group}
+                    />
+                  </div>
+                )}
+
+                {/* The number of people within a group */}
+                {selectedGroupAmount !== selectedNavItem && (
+                  <p
+                    className={`ml-auto bg-gray-600 px-2 py-0.5 rounded-md`}
+                    onMouseEnter={() => {
+                      setSelectedGroupMenu(selectedNavItem);
+                      setSelectedGroupAmount(selectedNavItem);
+                    }}
+                    onMouseLeave={() => setSelectedGroupMenu(null)}
+                  >
+                    {group.people ? group.people.length : 0}
+                  </p>
+                )}
+              </a>
+            </li>
           );
         })}
       </ul>

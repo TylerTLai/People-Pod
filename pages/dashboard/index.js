@@ -27,7 +27,6 @@ const Dashboard = () => {
         const res = await axiosInstance.get("people", {
           params: {
             userId,
-            user,
           },
           cancelToken: source.token,
         });
