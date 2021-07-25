@@ -54,7 +54,7 @@ export default async (req, res) => {
         const newGroups = groupList.filter((group) => group.isNew);
 
         // create a new person and connect them to old groups
-        let newPerson = await prisma.person.create({
+        const newPerson = await prisma.person.create({
           data: {
             firstName,
             lastName,
@@ -119,89 +119,70 @@ export default async (req, res) => {
         return { groupId: group.groupId };
       });
 
+      // 1. remove all current groups from person
+      const removeCurrentGroups = prisma.person.update({
+        where: {
+          personId,
+        },
+        data: {
+          groups: {
+            disconnect: currentGroupIds,
+          },
+        },
+        include: {
+          groups: true,
+        },
+      });
+
+      // 2. connect any old groups to person
+      const connectOldGroups = prisma.person.update({
+        where: {
+          personId,
+        },
+        data: {
+          user: {
+            connect: { id: userId },
+          },
+          groups: {
+            connect: oldGroupIds,
+          },
+        },
+      });
+
+      // 3. update person to with new data and new groups
+      const addDataAndNewGroups = prisma.person.update({
+        where: {
+          personId,
+        },
+        data: {
+          personId,
+          firstName,
+          lastName,
+          quickNote,
+          favorite,
+          groups: {
+            create: newGroups,
+          },
+        },
+        include: {
+          groups: true,
+        },
+      });
+
       try {
-        // remove all current groups from person
-        let updatedPerson = await prisma.person.update({
-          where: {
-            personId,
-          },
-          data: {
-            groups: {
-              disconnect: currentGroupIds,
-            },
-          },
-          include: {
-            groups: true,
-          },
-        });
+        const updatedPerson = await Promise.all([
+          removeCurrentGroups,
+          connectOldGroups,
+          addDataAndNewGroups,
+        ]);
 
-        // connect any old groups to person
-        updatedPerson = await prisma.person.update({
-          where: {
-            personId,
-          },
-          data: {
-            user: {
-              connect: { id: userId },
-            },
-            groups: {
-              connect: oldGroupIds,
-            },
-          },
-        });
-
-        // update person to with new data and new groups
-        updatedPerson = await prisma.person.update({
-          where: {
-            personId,
-          },
-          data: {
-            personId,
-            firstName,
-            lastName,
-            quickNote,
-            favorite,
-            groups: {
-              create: newGroups,
-            },
-          },
-          include: {
-            groups: true,
-          },
-        });
-
+        const people = await prisma.person.findMany();
+        res.status(200).json({ updatedPerson, people });
+        console.log("people ", people);
         console.log("updated person ", updatedPerson);
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");
-      }
-
-      try {
-        // updatedPerson = await prisma.person.update({
-        //   where: {
-        //     personId,
-        //   },
-        //   data: {
-        //     personId,
-        //     firstName,
-        //     lastName,
-        //     quickNote,
-        //     favorite,
-        //     groups: {
-        //       create: newGroups,
-        //     },
-        //   },
-        //   include: {
-        //     groups: true,
-        //   },
-        // });
-        // const people = await prisma.person.findMany();
-        // console.log("updated person ", updatedPerson);
-        // console.log("people ", people);
-        // res.status(200).json({ updatedPerson, people });
-      } catch (error) {
-        // console.error("error message: ", error.message);
-        // res.status(500).send("Server Error");
       }
       break;
     }
@@ -209,7 +190,7 @@ export default async (req, res) => {
       try {
         const { personId } = req.body;
 
-        const deletedPerson = await prisma.person.delete({
+        const deconstedPerson = await prisma.person.deconste({
           where: {
             personId,
           },
@@ -217,7 +198,7 @@ export default async (req, res) => {
 
         const people = await prisma.person.findMany();
 
-        res.status(200).json({ deletedPerson, people });
+        res.status(200).json({ deconstedPerson, people });
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");
