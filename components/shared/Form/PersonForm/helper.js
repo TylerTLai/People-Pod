@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const setPersonDefaults = (personData, formData) => {
+
+// sets the prefilled values for Edit Person form
+export const setPersonPrefilledValues = (personData, formData) => {
   if (personData.firstName === "") personData.firstName = formData.firstName;
   if (personData.lastName === "") personData.lastName = formData.lastName;
   if (personData.quickNote === "") personData.quickNote = formData.quickNote;
