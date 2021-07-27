@@ -1,6 +1,6 @@
 const Summary = ({ person }) => {
   return (
-    <section className="flex flex-col items-center justify-center border-b border-gray-200 pb-6">
+    <section className="flex flex-col items-center justify-center border-b border-gray-200 pb-6 mt-8">
       <img
         src="https://dummyimage.com/200x200/F3F4F7/8693ac"
         alt="placeholder"
