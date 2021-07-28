@@ -8,8 +8,6 @@ import {
   FiClipboard,
   FiMail,
   FiSmartphone,
-  FiTrash2,
-  FiEdit,
 } from "react-icons/fi";
 import { HiOutlineCake } from "react-icons/hi";
 import IconButton from "../shared/IconButton";
@@ -17,7 +15,6 @@ import { setExpandView } from "../../redux/slices/viewSlice";
 import axiosInstance from "../../config/axios";
 import Summary from "./Summary";
 import Section from "./Section";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/Ai";
 import { createSectionData } from "./helper";
 
 const PersonDetails = () => {
@@ -92,22 +89,7 @@ const PersonDetails = () => {
                 icon={expandView ? <FiMinimize2 size={20} /> : <FiMaximize2 size={20} />}
               />
             </div>
-            <div className="ml-auto space-x-5">
-              <IconButton
-                onClick={handlePersonDetailsExpand}
-                icon={
-                  expandView ? <AiOutlineHeart size={20} /> : <AiFillHeart size={20} />
-                }
-              />
-              <IconButton
-                onClick={handlePersonDetailsExpand}
-                icon={<FiEdit size={20} />}
-              />
-              <IconButton
-                onClick={handlePersonDetailsExpand}
-                icon={<FiTrash2 size={20} />}
-              />
-            </div>
+            
           </div>
           <Summary person={person} />
           <Section sectionData={sectionData} />
