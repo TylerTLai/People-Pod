@@ -1,5 +1,6 @@
 import { FiXCircle } from "react-icons/fi";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "../Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import { closeModal } from "../../../redux/slices/modalSlice";
 import { generateModalLabels } from "./helper";
 import PersonForm from "../Form/PersonForm";
 import GroupForm from "../Form/GroupForm";
+import { modalVariants } from "./animation";
 
 const Modal = () => {
   const dispatch = useDispatch();
@@ -33,7 +35,12 @@ const Modal = () => {
         <div className="flex items-center justify-center min-h-screen">
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
 
-          <div className="bg-white rounded-lg w-3/4 sm:w-1/3 mx-auto z-20 p-6">
+          <motion.div
+            variants={modalVariants}
+            initial="hide"
+            animate={isOpen ? "show" : "hide"}
+            className="bg-white rounded-lg w-3/4 sm:w-1/3 mx-auto z-20 p-6"
+          >
             <Dialog.Title>
               <div className="flex justify-between">
                 <p className="text-2xl text-gray-800 font-semibold">
@@ -63,7 +70,7 @@ const Modal = () => {
             <Button secondary onClick={handleModalClose}>
               Cancel
             </Button>
-          </div>
+          </motion.div>
         </div>
       </Dialog>
     </Transition>
