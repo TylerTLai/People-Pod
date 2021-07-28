@@ -152,7 +152,7 @@ const PersonForm = ({ handleModalClose }) => {
 
         <label htmlFor="lastName">Last Name</label>
         <input
-          className="border border-gray-200 rounded pl-4 py-1"
+          className="border border-gray-200 rounded px-4 py-1"
           id="lastName"
           name="lastName"
           type="text"

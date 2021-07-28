@@ -12,6 +12,9 @@ export default async (req, res) => {
             where: {
               personId,
             },
+            include: {
+              groups: true,
+            },
           });
           res.status(200).json(fetchedPerson);
         } catch (error) {
@@ -177,9 +180,9 @@ export default async (req, res) => {
         ]);
 
         const people = await prisma.person.findMany();
-        res.status(200).json({ updatedPerson, people });
         console.log("people ", people);
         console.log("updated person ", updatedPerson);
+        res.status(200).json({ updatedPerson, people });
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");
@@ -190,7 +193,7 @@ export default async (req, res) => {
       try {
         const { personId } = req.body;
 
-        const deconstedPerson = await prisma.person.deconste({
+        const deletedPerson = await prisma.person.delete({
           where: {
             personId,
           },
@@ -198,7 +201,7 @@ export default async (req, res) => {
 
         const people = await prisma.person.findMany();
 
-        res.status(200).json({ deconstedPerson, people });
+        res.status(200).json({ deletedPerson, people });
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");
