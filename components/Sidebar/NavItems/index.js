@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { FiUsers, FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/Ai";
+import { useSession } from "next-auth/client";
 import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "../../shared/Dropdown";
 import axiosInstance from "../../../config/axios";
 import { setAllGroups, setGroupId } from "../../../redux/slices/groupSlice";
 import { openModal, setFormData, setFormType } from "../../../redux/slices/modalSlice";
+import { setAllPeople } from "../../../redux/slices/peopleSlice";
 
 const NavItems = ({ showSidebar }) => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupsReducer.groups);
+  const [session] = useSession();
+  const { userId } = session;
 
   const [selectedGroupMenu, setSelectedGroupMenu] = useState(null);
   const [selectedGroupAmount, setSelectedGroupAmount] = useState(null);
@@ -31,6 +35,24 @@ const NavItems = ({ showSidebar }) => {
     } else if (dropdownItemText === "Delete Group") {
       deleteGroup(selectedGroup.groupId);
       setShowDropdown(false);
+    }
+  };
+
+  const handleNavItemClick = async (groupId) => {
+    try {
+      const res = await axiosInstance.get("groups", { params: { groupId, userId } });
+      dispatch(setAllPeople(res.data.people));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEveryoneClick = async () => {
+    try {
+      const res = await axiosInstance.get("people", { params: { userId } });
+      dispatch(setAllPeople(res.data));
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -65,70 +87,62 @@ const NavItems = ({ showSidebar }) => {
   return (
     <nav className={`${!showSidebar && "hidden"} h-full text-gray-300 mb-10`}>
       <ul>
-        <li>
-          <a
-            className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white"
-            href="#"
-          >
-            <FiUsers size={20} />
-            <p className="ml-4">Everyone</p>
-          </a>
+        <li
+          onClick={handleEveryoneClick}
+          className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
+        >
+          <FiUsers size={20} />
+          <p className="ml-4">Everyone</p>
         </li>
-        <li>
-          <a
-            className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white"
-            href="#"
-          >
-            <AiOutlineHeart size="18" />
-            <p className="ml-4">Favorites</p>
-          </a>
+        <li className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer">
+          <AiOutlineHeart size="18" />
+          <p className="ml-4">Favorites</p>
         </li>
         <hr className="my-3 border-gray-700" />
 
         {groups.map((group, selectedNavItem) => {
           return (
-            <li key={group.groupId}>
-              <a
-                className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white"
-                href="#"
-              >
-                <FiUsers size={20} />
-                <p className="ml-4">{group.name}</p>
+            <li
+              onClick={() => handleNavItemClick(group.groupId)}
+              key={group.groupId}
+              className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
+            >
+              <FiUsers size={20} />
+              <p className="ml-4">{group.name}</p>
 
-                {/* The group more vertical menu */}
-                {selectedGroupMenu === selectedNavItem && (
-                  <div className={`ml-auto py-1`}>
-                    <FiMoreVertical
-                      onClick={() => handleGroupMenuClick(selectedNavItem)}
-                      onMouseEnter={() => {
-                        setSelectedGroupMenu(selectedNavItem);
-                      }}
-                      onMouseLeave={handleMouseLeave}
-                      size={20}
-                    />
-                    <Dropdown
-                      handleDropdownItemClick={handleDropdownItemClick}
-                      dropdownItems={dropdownItems}
-                      showDropdown={showDropdown}
-                      selectedGroup={group}
-                    />
-                  </div>
-                )}
-
-                {/* The number of people within a group */}
-                {selectedGroupAmount !== selectedNavItem && (
-                  <p
-                    className={`ml-auto bg-gray-600 px-2 py-0.5 rounded-md`}
+              {/* The group more vertical menu */}
+              {selectedGroupMenu === selectedNavItem && (
+                <div className={`ml-auto py-1`}>
+                  <FiMoreVertical
+                    onClick={() => handleGroupMenuClick(selectedNavItem)}
                     onMouseEnter={() => {
                       setSelectedGroupMenu(selectedNavItem);
-                      setSelectedGroupAmount(selectedNavItem);
                     }}
-                    onMouseLeave={() => setSelectedGroupMenu(null)}
-                  >
-                    {group.people ? group.people.length : 0}
-                  </p>
-                )}
-              </a>
+                    onMouseLeave={handleMouseLeave}
+                    size={20}
+                  />
+                  <Dropdown
+                    handleDropdownItemClick={handleDropdownItemClick}
+                    dropdownItems={dropdownItems}
+                    showDropdown={showDropdown}
+                    selectedGroup={group}
+                  />
+                </div>
+              )}
+
+              {/* The number of people within a group */}
+              {selectedGroupAmount !== selectedNavItem && (
+                <p
+                  className={`ml-auto bg-gray-600 px-2 py-0.5 rounded-md`}
+                  onMouseEnter={() => {
+                    setSelectedGroupMenu(selectedNavItem);
+                    setSelectedGroupAmount(selectedNavItem);
+                  }}
+                  onMouseLeave={() => setSelectedGroupMenu(null)}
+                >
+                  {group.people ? group.people.length : 0}
+                </p>
+              )}
             </li>
           );
         })}
