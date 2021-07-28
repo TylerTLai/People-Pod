@@ -12,6 +12,9 @@ export default async (req, res) => {
             where: {
               personId,
             },
+            include: {
+              groups: true,
+            },
           });
           res.status(200).json(fetchedPerson);
         } catch (error) {

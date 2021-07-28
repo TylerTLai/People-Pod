@@ -1,6 +1,6 @@
 const Section = ({ sectionData }) => {
   return (
-    <div className="bg-gray-100 rounded-md my-5 w-full p-5">
+    <div className="border border-gray-300 rounded-xl my-5 w-full p-5">
       <h3 className="text-2xl mb-3">{sectionData.title}</h3>
       <ul className="flex flex-col space-y-4">
         {sectionData.details.map((detail) => {
@@ -8,7 +8,7 @@ const Section = ({ sectionData }) => {
           return (
             <>
               <li className="flex">
-                <SectionIcon className="mt-2" />
+                <SectionIcon className="mt-3" />
                 <div className="flex space-x-5 flex-1">
                   <div className="text-gray-500 ml-5 flex-1 flex">
                     <div className="relative w-full flex item-center mr-2">
