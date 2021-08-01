@@ -96,93 +96,23 @@ export default async (req, res) => {
       break;
     }
     case "PUT": {
-      const {
-        firstName,
-        lastName,
-        quickNote,
-        groupList,
-        groups,
-        personId,
-        favorite,
-        userId,
-      } = req.body;
-
-      // old groups - groups that were previously created.
-      const oldGroupIds = groupList
-        .filter((group) => !group.isNew)
-        .map((group) => {
-          return { groupId: group.groupId };
-        });
-
-      // new groups - groups that are newly created.
-      const newGroups = groupList.filter((group) => group.isNew);
-
-      // current groups - groups that a person currently belongs to.
-      const currentGroupIds = groups.map((group) => {
-        return { groupId: group.groupId };
-      });
-
-      // 1. remove all current groups from person
-      const removeCurrentGroups = prisma.person.update({
-        where: {
-          personId,
-        },
-        data: {
-          groups: {
-            disconnect: currentGroupIds,
-          },
-        },
-        include: {
-          groups: true,
-        },
-      });
-
-      // 2. connect any old groups to person
-      const connectOldGroups = prisma.person.update({
-        where: {
-          personId,
-        },
-        data: {
-          user: {
-            connect: { id: userId },
-          },
-          groups: {
-            connect: oldGroupIds,
-          },
-        },
-      });
-
-      // 3. update person to with new data and new groups
-      const addDataAndNewGroups = prisma.person.update({
-        where: {
-          personId,
-        },
-        data: {
-          personId,
-          firstName,
-          lastName,
-          quickNote,
-          favorite,
-          groups: {
-            create: newGroups,
-          },
-        },
-        include: {
-          groups: true,
-        },
-      });
+      const { firstName, lastName, quickNote, personId, favorite, userId } = req.body;
 
       try {
-        const updatedPerson = await Promise.all([
-          removeCurrentGroups,
-          connectOldGroups,
-          addDataAndNewGroups,
-        ]);
+        const updatedPerson = await prisma.person.update({
+          where: {
+            personId,
+          },
+          data: {
+            personId,
+            firstName,
+            lastName,
+            quickNote,
+            favorite,
+          },
+        });
 
-        const people = await prisma.person.findMany();
-        console.log("people ", people);
-        console.log("updated person ", updatedPerson);
-        res.status(200).json({ updatedPerson, people });
+        res.status(200).json({ updatedPerson });
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");

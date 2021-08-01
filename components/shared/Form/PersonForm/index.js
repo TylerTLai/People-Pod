@@ -93,8 +93,8 @@ const PersonForm = ({ handleModalClose }) => {
       if (!_.isEqual(formData, updatedPerson)) {
         try {
           handleModalClose();
-          await axiosInstance.put("people", updatedPerson);
           dispatch(updateOnePerson(updatedPerson));
+          await axiosInstance.put("people", updatedPerson);
           dispatch(addGroup(newGroups));
           dispatch(setFormType("addPerson"));
           reset();
