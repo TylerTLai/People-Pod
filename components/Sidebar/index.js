@@ -1,17 +1,18 @@
 import { FiPlusCircle, FiSidebar } from "react-icons/fi";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
+import { motion } from "framer-motion";
 import NavItems from "./NavItems";
 import IconButton from "../shared/IconButton";
 import { openModal, setFormType } from "../../redux/slices/modalSlice";
+import { containerVariants } from "./animation";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [showSidebar, setShowSidebar] = useState(true);
 
   const handleSidebarToggle = () => {
-    setShowSidebar((prev) => !prev);
+    setShowSidebar((showSidebar) => !showSidebar);
   };
 
   const handleAddGroup = () => {
@@ -20,10 +21,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div
-      className={`max-h-full flex flex-col pt-6 bg-gray-800 text-white ${
-        showSidebar ? "w-72" : "w-13"
-      }  overflow-y-auto`}
+    <motion.div
+      variants={containerVariants}
+      initial="initial"
+      animate={!showSidebar ? "shrink" : "show"}
+      className={`max-h-full flex flex-col pt-6 bg-gray-800 text-white w-72 overflow-y-auto`}
     >
       <IconButton
         className={`${
@@ -43,8 +45,7 @@ const Sidebar = () => {
         />
       </div>
       <NavItems showSidebar={showSidebar} />
-      
-    </div>
+    </motion.div>
   );
 };
 

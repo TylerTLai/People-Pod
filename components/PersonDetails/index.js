@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import {
   FiMinimize2,
   FiMaximize2,
@@ -16,6 +17,7 @@ import axiosInstance from "../../config/axios";
 import Summary from "./Summary";
 import Section from "./Section";
 import { createSectionData } from "./helper";
+import { personDetailsVariants } from "./animation";
 
 const PersonDetails = () => {
   const dispatch = useDispatch();
@@ -81,7 +83,12 @@ const PersonDetails = () => {
   return (
     <>
       {personId ? (
-        <div className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto">
+        <motion.div
+          variants={personDetailsVariants}
+          initial="initial"
+          animate="show"
+          className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto"
+        >
           <div className="flex mt-1 mb-5">
             <div>
               <IconButton
@@ -89,11 +96,10 @@ const PersonDetails = () => {
                 icon={expandView ? <FiMinimize2 size={20} /> : <FiMaximize2 size={20} />}
               />
             </div>
-            
           </div>
           <Summary person={person} />
           <Section sectionData={sectionData} />
-        </div>
+        </motion.div>
       ) : (
         <div className="flex items-center justify-center value-xl uppercase font-bold ">
           People Pod
