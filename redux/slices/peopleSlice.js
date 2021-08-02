@@ -34,9 +34,24 @@ export const peopleSlice = createSlice({
 
     updateOnePerson: (state, action) => {
       const { personId } = action.payload;
+
       state.people = state.people.map((person) =>
         person.personId === personId ? { ...person, ...action.payload } : person
       );
+    },
+
+    removeOnePerson: (state, action) => {
+      const personId = action.payload;
+      const existingPerson = state.people.find((person) => person.personId === personId);
+
+      if (existingPerson) {
+        const filteredPeople = state.people.filter(
+          (person) => person.personId !== personId
+        );
+        state.people = filteredPeople;
+      } else {
+        state.people;
+      }
     },
 
     setPersonId: (state, action) => {
@@ -76,6 +91,7 @@ export const {
   setPersonId,
   addOnePerson,
   favoritePerson,
+  removeOnePerson,
   updateOnePerson,
 } = peopleSlice.actions;
 export default peopleSlice.reducer;

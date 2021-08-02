@@ -1,5 +1,6 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/Ai";
+import { useSession } from "next-auth/client";
 import Button from "../../../shared/Button";
 import axiosInstance from "../../../../config/axios";
 import { useDispatch } from "react-redux";
@@ -8,12 +9,14 @@ import {
   favoritePerson,
   setPersonId,
   setAllPeople,
+  removeOnePerson,
 } from "../../../../redux/slices/peopleSlice";
 import { openModal, setFormData, setFormType } from "../../../../redux/slices/modalSlice";
 
 const CardControls = ({ person }) => {
   const dispatch = useDispatch();
-
+  const [session] = useSession();
+  const { userId } = session;
   const { personId } = person;
 
   const [localStatePerson, setLocalStatePerson] = useState(person);
@@ -41,14 +44,12 @@ const CardControls = ({ person }) => {
   };
 
   const handleDeletePerson = async () => {
+    dispatch(removeOnePerson(personId));
+    dispatch(setPersonId(null));
     try {
-      const res = await axiosInstance.delete("people", {
-        data: { personId },
+      await axiosInstance.delete("people", {
+        data: { personId, userId },
       });
-
-      const { deletedPerson, people } = res.data;
-      dispatch(setAllPeople(people));
-      dispatch(setPersonId(null));
     } catch (error) {
       console.error("error message: ", error.message);
     }
