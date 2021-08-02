@@ -6,7 +6,7 @@ const Section = ({ sectionData }) => {
         {sectionData.details.map((detail) => {
           const SectionIcon = detail.icon;
           return (
-            <>
+            <div key={detail.id}>
               <li className="flex">
                 <SectionIcon className="mt-3" />
                 <div className="flex space-x-5 flex-1">
@@ -19,7 +19,7 @@ const Section = ({ sectionData }) => {
                   </div>
                 </div>
               </li>
-            </>
+            </div>
           );
         })}
       </ul>
