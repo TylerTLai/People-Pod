@@ -2,27 +2,18 @@ import prisma from "../../config/prisma";
 
 export default async (req, res) => {
   switch (req.method) {
-    case "GET":
+    case "GET": {
       const { personId, userId } = req.query;
 
-      // respond with a specific person
-      if (personId) {
-        try {
-          const fetchedPerson = await prisma.person.findUnique({
-            where: {
-              personId,
-            },
-            include: {
-              groups: true,
-            },
-          });
-          res.status(200).json(fetchedPerson);
-        } catch (error) {
-          console.error("error message: ", error.message);
-          res.status(500).send("Server Error");
-        }
-      } else if (userId) {
-        // respond with all people for user
+      if (!userId) {
+        // User is not logged in
+        return res.status(400).send({
+          message: "Not logged in.",
+        });
+      }
+
+      if (userId) {
+        // User is logged in, fetch all people
         try {
           const people = await prisma.person.findMany({
             where: {
@@ -37,12 +28,37 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
+      } else if (personId && userId) {
+        // User is logged in, fetch a specific person
+        try {
+          const fetchedPerson = await prisma.person.findUnique({
+            where: {
+              personId,
+            },
+            include: {
+              groups: true,
+            },
+          });
+          res.status(200).json(fetchedPerson);
+        } catch (error) {
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
+        }
       }
       break;
+    }
     case "POST": {
       const { firstName, lastName, quickNote, personId, favorite, userId, groupList } =
         req.body;
 
+      if (!userId) {
+        // User is not logged in
+        return res.status(400).send({
+          message: "Not logged in.",
+        });
+      }
+
+      // todo - refactor to use createOrConnect 
       // old groups - groups that were previously created.
       // new groups - groups that are newly created.
       // current groups - groups that a person currently belongs to.
@@ -57,7 +73,7 @@ export default async (req, res) => {
         const newGroups = groupList.filter((group) => group.isNew);
 
         // create a new person and connect them to old groups
-        const newPerson = await prisma.person.create({
+        let newPerson = await prisma.person.create({
           data: {
             firstName,
             lastName,
@@ -98,6 +114,15 @@ export default async (req, res) => {
     case "PUT": {
       const { firstName, lastName, quickNote, personId, favorite, userId } = req.body;
 
+      if (!userId) {
+        // User is not logged in
+        return res.status(400).send({
+          message: "Not logged in.",
+        });
+      }
+
+      //todo - add groups
+
       try {
         const updatedPerson = await prisma.person.update({
           where: {
@@ -119,26 +144,32 @@ export default async (req, res) => {
       }
       break;
     }
-    case "DELETE":
+    case "DELETE": {
       try {
-        const { personId } = req.body;
-
+        const { personId, userId } = req.body;
+        
+        if (!userId) {
+          // User is not logged in
+          return res.status(400).send({
+            message: "Not logged in.",
+          });
+        }
         const deletedPerson = await prisma.person.delete({
           where: {
             personId,
           },
         });
 
-        const people = await prisma.person.findMany();
-
-        res.status(200).json({ deletedPerson, people });
+        res.status(200).json(deletedPerson);
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");
       }
       break;
-    default:
-      res.status(405).json({ message: "Method not allowed." }).end(); //Method not allowed
+    }
+    default: {
+      res.status(405).json({ message: "Method not allowed." }); //Method not allowed
       break;
+    }
   }
 };
