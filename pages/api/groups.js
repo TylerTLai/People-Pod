@@ -2,26 +2,18 @@ import prisma from "../../config/prisma";
 
 export default async (req, res) => {
   switch (req.method) {
-    case "GET":
+    case "GET": {
       const { groupId, userId } = req.query;
-      // get one specific group
-      if (groupId && userId) {
-        try {
-          const fetchedGroup = await prisma.group.findUnique({
-            where: {
-              groupId,
-            },
-            include: {
-              people: true,
-            },
-          });
-          res.status(200).json(fetchedGroup);
-        } catch (error) {
-          console.error("error message: ", error.message);
-          res.status(500).send("Server Error");
-        }
-      } else if (userId) {
-        // get all groups for a user
+
+      if (!userId) {
+        // User is not logged in
+        return res.status(400).send({
+          message: "Not logged in.",
+        });
+      }
+
+      if (userId) {
+        // User is logged in, fetch all groups
         try {
           const groups = await prisma.group.findMany({
             where: {
@@ -36,12 +28,29 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
+      } else if (groupId && userId) {
+        // User is logged in, fetch a specific group
+        try {
+          const fetchedGroup = await prisma.group.findUnique({
+            where: {
+              groupId,
+            },
+            include: {
+              people: true,
+            },
+          });
+          res.status(200).json(fetchedGroup);
+        } catch (error) {
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
+        }
       }
       break;
+    }
     case "POST":
       const groupList = req.body;
-      // refactor to use createMany() instead of looping
-
+      
+      // todo - refactor to use createMany() instead of looping
       // try {
       //   const newGroups = await prisma.createMany({
       //     data: groupList,

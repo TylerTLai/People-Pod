@@ -53,27 +53,33 @@ const PersonDetails = () => {
     title: "About",
     details: [
       {
+        id: 1,
         value:
           "Lorem, ipsum dolor sit amet consectetur adipisicing, iure voluptate perferendis tempora!",
         icon: FiClipboard,
       },
       {
+        id: 2,
         value: "Birthday",
         icon: HiOutlineCake,
       },
       {
+        id: 3,
         value: "Location",
         icon: FiMapPin,
       },
       {
+        id: 4,
         value: "Address",
         icon: FiHome,
       },
       {
+        id: 5,
         value: "Phone Number",
         icon: FiSmartphone,
       },
       {
+        id: 6,
         value: "Email",
         icon: FiMail,
       },

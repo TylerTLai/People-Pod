@@ -93,11 +93,11 @@ const PersonForm = ({ handleModalClose }) => {
       if (!_.isEqual(formData, updatedPerson)) {
         try {
           handleModalClose();
-          await axiosInstance.put("people", updatedPerson);
           dispatch(updateOnePerson(updatedPerson));
           dispatch(addGroup(newGroups));
           dispatch(setFormType("addPerson"));
           reset();
+          await axiosInstance.put("people", updatedPerson);
         } catch (error) {
           console.error(error);
         }
@@ -120,16 +120,15 @@ const PersonForm = ({ handleModalClose }) => {
         userId,
       };
 
+      dispatch(addOnePerson(newPerson));
+      dispatch(addGroup(newGroups));
+      reset();
+      dispatch(setFormType("addPerson"));
       try {
         await axiosInstance.post("people", newPerson);
-        dispatch(addOnePerson(newPerson));
-        dispatch(addGroup(newGroups));
       } catch (error) {
         console.error(error);
       }
-
-      reset();
-      dispatch(setFormType("addPerson"));
     }
   };
 
