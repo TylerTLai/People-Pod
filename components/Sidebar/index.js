@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
 
   return (
-    <motion.div
+    <motion.aside
       variants={containerVariants}
       initial="initial"
       animate={!showSidebar ? "shrink" : "show"}
@@ -45,7 +45,7 @@ const Sidebar = () => {
         />
       </div>
       <NavItems showSidebar={showSidebar} />
-    </motion.div>
+    </motion.aside>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FiUsers, FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
-import { AiOutlineHeart } from "react-icons/Ai";
+// import { AiOutlineHeart } from "react-icons/Ai";
 import { useSession } from "next-auth/client";
 import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "../../shared/Dropdown";
@@ -95,7 +95,7 @@ const NavItems = ({ showSidebar }) => {
           <p className="ml-4">Everyone</p>
         </li>
         <li className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer">
-          <AiOutlineHeart size="18" />
+          {/* <AiOutlineHeart size="18" /> */}
           <p className="ml-4">Favorites</p>
         </li>
         <hr className="my-3 border-gray-700" />
