@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "svg": "svgr -d components/shared/Icons components/shared/Icons/svgs --icon"
   },
   "dependencies": {
     "@headlessui/react": "^1.2.0",
@@ -27,6 +28,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@svgr/cli": "^5.5.0",
     "autoprefixer": "^10.0.4",
     "postcss": "^8.1.10",
     "prisma": "^2.25.0",

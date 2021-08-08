@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
+import SvgSearch from '../../shared/Icons/Search';
 import { useDispatch } from "react-redux";
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 import UserProfile from "../../Sidebar/UserProfile";
