@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { FiUsers, FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
-import { AiOutlineHeart } from "react-icons/Ai";
 import { useSession } from "next-auth/client";
 import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "../../shared/Dropdown";
@@ -8,6 +6,11 @@ import axiosInstance from "../../../config/axios";
 import { setAllGroups, setGroupId } from "../../../redux/slices/groupSlice";
 import { openModal, setFormData, setFormType } from "../../../redux/slices/modalSlice";
 import { setAllPeople } from "../../../redux/slices/peopleSlice";
+import SvgHeart from "../../shared/Icons/Heart";
+import SvgUsers from "../../shared/Icons/Users";
+import SvgEdit from "../../shared/Icons/Edit";
+import SvgTrash2 from "../../shared/Icons/Trash2";
+import SvgMoreVertical from "../../shared/Icons/MoreVertical";
 
 const NavItems = ({ showSidebar }) => {
   const dispatch = useDispatch();
@@ -20,8 +23,8 @@ const NavItems = ({ showSidebar }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const dropdownItems = [
-    { id: 1, text: "Edit Group", icon: FiEdit },
-    { id: 2, text: "Delete Group", icon: FiTrash2 },
+    { id: 1, text: "Edit Group", icon: SvgEdit },
+    { id: 2, text: "Delete Group", icon: SvgTrash2 },
   ];
 
   const handleGroupMenuClick = () => {
@@ -91,11 +94,11 @@ const NavItems = ({ showSidebar }) => {
           onClick={handleEveryoneClick}
           className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
         >
-          <FiUsers size={20} />
+          <SvgUsers width={20} height={20} />
           <p className="ml-4">Everyone</p>
         </li>
         <li className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer">
-          <AiOutlineHeart size="18" />
+          <SvgHeart width={20} height={20} />
           <p className="ml-4">Favorites</p>
         </li>
         <hr className="my-3 border-gray-700" />
@@ -107,19 +110,20 @@ const NavItems = ({ showSidebar }) => {
               key={group.groupId}
               className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
             >
-              <FiUsers size={20} />
+              <SvgUsers width={20} height={20} />
               <p className="ml-4">{group.name}</p>
 
               {/* The group more vertical menu */}
               {selectedGroupMenu === selectedNavItem && (
                 <div className={`ml-auto py-1`}>
-                  <FiMoreVertical
+                  <SvgMoreVertical
                     onClick={() => handleGroupMenuClick(selectedNavItem)}
                     onMouseEnter={() => {
                       setSelectedGroupMenu(selectedNavItem);
                     }}
                     onMouseLeave={handleMouseLeave}
-                    size={20}
+                    width={20}
+                    height={20}
                   />
                   <Dropdown
                     handleDropdownItemClick={handleDropdownItemClick}
