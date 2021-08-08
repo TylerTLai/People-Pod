@@ -1,4 +1,4 @@
-import { FiXCircle } from "react-icons/fi";
+import SvgXCircle from "../Icons/XCircle";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Dialog, Transition } from "@headlessui/react";
@@ -53,7 +53,7 @@ const Modal = () => {
                   aria-hidden="true"
                   onClick={handleModalClose}
                 >
-                  <FiXCircle size={24} color="#1F2937" />
+                  <SvgXCircle className="text-gray-400" width={24} height={24} />
                 </button>
               </div>
             </Dialog.Title>

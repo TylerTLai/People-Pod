@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/client";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/Ai";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import { v4 as uuidv4 } from "uuid";
 import axiosInstance from "../../../../config/axios";
 import Button from "../../Button";
+import SvgHeart from "../../Icons/Heart";
 import {
   addOnePerson,
   favoritePerson,
@@ -185,9 +185,12 @@ const PersonForm = ({ handleModalClose }) => {
           {...register("quickNote")}
         />
         {favorite ? (
-          <AiFillHeart color="red" size="18" onClick={handleFavoritePerson} />
+          <SvgHeart
+            className="text-red-500 fill-current"
+            onClick={handleFavoritePerson}
+          />
         ) : (
-          <AiOutlineHeart size="18" onClick={handleFavoritePerson} />
+          <SvgHeart className="text-gray-500" onClick={handleFavoritePerson} />
         )}
         <div>
           <Button primary type="submit">

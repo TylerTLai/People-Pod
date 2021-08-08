@@ -1,9 +1,10 @@
-import { FiPlusCircle, FiSidebar } from "react-icons/fi";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
-import NavItems from "./NavItems";
 import IconButton from "../shared/IconButton";
+import NavItems from "./NavItems";
+import SvgPlusCircle from "../shared/Icons/PlusCircle";
+import SvgSidebar from "../shared/Icons/Sidebar";
 import { openModal, setFormType } from "../../redux/slices/modalSlice";
 import { containerVariants } from "./animation";
 
@@ -33,7 +34,7 @@ const Sidebar = () => {
         } ml-5 mb-9 mt-3 hover:text-white text-gray-300`}
         dark
         onClick={handleSidebarToggle}
-        icon={<FiSidebar size={27} />}
+        icon={<SvgSidebar width={27} height={27} />}
       />
       <div className={`max-h-full flex items-center ${!showSidebar && "hidden"}`}>
         <p className="font-bold uppercase tracking-wide ml-5">Groups</p>
@@ -41,7 +42,7 @@ const Sidebar = () => {
           className={`p-1 m-2 ml-auto focus:outline-none hover:text-white text-gray-300`}
           dark
           onClick={handleAddGroup}
-          icon={<FiPlusCircle size={27} />}
+          icon={<SvgPlusCircle width={27} height={27} />}
         />
       </div>
       <NavItems showSidebar={showSidebar} />

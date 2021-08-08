@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
-import { FiTrash2, FiEdit } from "react-icons/fi";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/Ai";
+import SvgHeart from "../../shared/icons/Heart";
+import SvgTrash2 from "../../shared/icons/Trash2";
+import SvgEdit from "../../shared/icons/Edit";
 import {
   favoritePerson,
   setAllPeople,
@@ -59,12 +60,9 @@ const Summary = ({ person }) => {
           {person.firstName} {person.lastName}
         </h2>
         <div className="mt-8 space-x-5">
-          <IconButton
-            onClick={handleFavoritePerson}
-            icon={<AiOutlineHeart size={20} />}
-          />
-          <IconButton onClick={handleEditPerson} icon={<FiEdit size={20} />} />
-          <IconButton onClick={handleDeletePerson} icon={<FiTrash2 size={20} />} />
+          <IconButton onClick={handleFavoritePerson} icon={<SvgHeart />} />
+          <IconButton onClick={handleEditPerson} icon={<SvgEdit />} />
+          <IconButton onClick={handleDeletePerson} icon={<SvgTrash2 />} />
         </div>
       </div>
     </section>

@@ -1,10 +1,11 @@
-import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/Ai";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/client";
+import SvgEdit from "../../../shared/icons/Edit";
+import SvgHeart from "../../../shared/icons/Heart";
+import SvgTrash2 from "../../../shared/icons/Trash2";
 import Button from "../../../shared/Button";
 import axiosInstance from "../../../../config/axios";
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
 import {
   favoritePerson,
   setPersonId,
@@ -62,9 +63,9 @@ const CardControls = ({ person }) => {
           onClick={handleFavoritePerson}
           icon={
             localStatePerson.favorite ? (
-              <AiFillHeart color="red" size="18" />
+              <SvgHeart className="text-red-500 fill-current" />
             ) : (
-              <AiOutlineHeart size="18" />
+              <SvgHeart />
             )
           }
         >
@@ -72,12 +73,12 @@ const CardControls = ({ person }) => {
         </Button>
       </div>
       <div className="mx-4">
-        <Button onClick={handleEditPerson} icon={<FiEdit />}>
+        <Button onClick={handleEditPerson} icon={<SvgEdit />}>
           Edit
         </Button>
       </div>
       <div className="ml-auto">
-        <Button onClick={handleDeletePerson} icon={<FiTrash2 />}>
+        <Button onClick={handleDeletePerson} icon={<SvgTrash2 />}>
           Delete
         </Button>
       </div>

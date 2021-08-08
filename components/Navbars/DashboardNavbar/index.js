@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { FiSearch } from "react-icons/fi";
-import SvgSearch from '../../shared/Icons/Search';
+import SvgSearch from "../../shared/Icons/Search";
 import { useDispatch } from "react-redux";
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 import UserProfile from "../../Sidebar/UserProfile";
@@ -21,7 +20,7 @@ const DashboardNavbar = () => {
         </a>
       </Link>
       <div className="relative w-full">
-        <FiSearch className="absolute top-3.5 left-4" />
+        <SvgSearch className="absolute top-3.5 left-4 text-gray-400" />
         <input
           className="px-10 py-2 rounded w-full placeholder-gray-500 border-2 border-gray-200 hover:border-gray-400 transition duration-300 ease-in-out focus:outline-none"
           type="text"

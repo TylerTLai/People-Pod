@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import {
-  FiMinimize2,
-  FiMaximize2,
-  FiMapPin,
-  FiHome,
-  FiClipboard,
-  FiMail,
-  FiSmartphone,
-} from "react-icons/fi";
-import { HiOutlineCake } from "react-icons/hi";
+import SvgCake from "../shared/icons/Cake";
+import SvgClipboard from "../shared/icons/Clipboard";
+import SvgHome from "../shared/icons/Home";
+import SvgMail from "../shared/icons/Mail";
+import SvgMapPin from "../shared/icons/MapPin";
+import SvgMaximize2 from "../shared/icons/Maximize2";
+import SvgMinimize2 from "../shared/icons/Minimize2";
+import SvgSmartphone from "../shared/icons/Smartphone";
 import IconButton from "../shared/IconButton";
 import { setExpandView } from "../../redux/slices/viewSlice";
 import axiosInstance from "../../config/axios";
@@ -56,32 +54,32 @@ const PersonDetails = () => {
         id: 1,
         value:
           "Lorem, ipsum dolor sit amet consectetur adipisicing, iure voluptate perferendis tempora!",
-        icon: FiClipboard,
+        icon: SvgClipboard,
       },
       {
         id: 2,
         value: "Birthday",
-        icon: HiOutlineCake,
+        icon: SvgCake,
       },
       {
         id: 3,
         value: "Location",
-        icon: FiMapPin,
+        icon: SvgMapPin,
       },
       {
         id: 4,
         value: "Address",
-        icon: FiHome,
+        icon: SvgHome,
       },
       {
         id: 5,
         value: "Phone Number",
-        icon: FiSmartphone,
+        icon: SvgSmartphone,
       },
       {
         id: 6,
         value: "Email",
-        icon: FiMail,
+        icon: SvgMail,
       },
     ],
   };
@@ -99,7 +97,7 @@ const PersonDetails = () => {
             <div>
               <IconButton
                 onClick={handlePersonDetailsExpand}
-                icon={expandView ? <FiMinimize2 size={20} /> : <FiMaximize2 size={20} />}
+                icon={expandView ? <SvgMinimize2 /> : <SvgMaximize2 />}
               />
             </div>
           </div>
