@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/client";
-import SvgEdit from "../../../shared/icons/Edit";
-import SvgHeart from "../../../shared/icons/Heart";
-import SvgTrash2 from "../../../shared/icons/Trash2";
+import SvgEdit from "../../../shared/Icons/Edit";
+import SvgHeart from "../../../shared/Icons/Heart";
+import SvgTrash2 from "../../../shared/Icons/Trash2";
 import Button from "../../../shared/Button";
 import axiosInstance from "../../../../config/axios";
 import {

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import SvgHeart from "../../shared/icons/Heart";
-import SvgTrash2 from "../../shared/icons/Trash2";
-import SvgEdit from "../../shared/icons/Edit";
+import SvgHeart from "../../shared/Icons/Heart";
+import SvgTrash2 from "../../shared/Icons/Trash2";
+import SvgEdit from "../../shared/Icons/Edit";
 import {
   favoritePerson,
   setAllPeople,
