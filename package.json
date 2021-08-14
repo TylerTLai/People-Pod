@@ -9,6 +9,7 @@
     "svg": "svgr -d components/shared/Icons components/shared/Icons/svgs --icon"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.5.0",
     "@headlessui/react": "^1.2.0",
     "@next-auth/prisma-adapter": "^0.5.3",
     "@prisma/client": "^2.27.0",
@@ -18,7 +19,6 @@
     "framer-motion": "^4.1.17",
     "lodash": "^4.17.21",
     "next": "latest",
-    "next-auth": "^3.27.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.8.4",

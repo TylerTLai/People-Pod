@@ -1,9 +1,13 @@
+import { useUser } from "@auth0/nextjs-auth0";
+
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/client";
 import Button from "../../../components/shared/Button";
 
 const SiteNavbar = () => {
-  const [session] = useSession();
+  const { user, error, isLoading } = useUser();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <nav className="py-5 flex items-center">
@@ -16,7 +20,7 @@ const SiteNavbar = () => {
       </div>
       <div className="ml-auto">
         <ul className="flex items-center space-x-4">
-          {session && (
+          {user && (
             <Link href="/dashboard">
               <a>
                 <li>
@@ -28,15 +32,12 @@ const SiteNavbar = () => {
 
           <a>
             <li>
-              <Button
-                primary
-                onClick={() =>
-                  session
-                    ? signOut()
-                    : signIn("auth0", { callbackUrl: "http://localhost:3000/dashboard" })
-                }
-              >
-                {session ? "Sign Out" : "Sign In"}
+              <Button primary>
+                {user ? (
+                  <a href="/api/auth/logout">Log out</a>
+                ) : (
+                  <a href="/api/auth/login">Log in</a>
+                )}
               </Button>
             </li>
           </a>
