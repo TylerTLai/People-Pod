@@ -1,20 +1,22 @@
 import SiteNavbar from "../components/Navbars/SiteNavbar";
-import { useSession } from "next-auth/client";
+import { useUser } from "@auth0/nextjs-auth0";
 import Content from "../components/shared/Content/Content";
 import Footer from "../components/shared/Footer/Footer";
 
 const Home = () => {
-  const [session, loading] = useSession();
+  const { error, isLoading } = useUser();
+
+  if (error) return <div>{error.message}</div>;
 
   return (
     <div className="px-36">
-      {loading && (
+      {isLoading && (
         <div className="flex justify-center items-center min-h-screen">
           <p className="text-center text-2xl uppercase font-bold">One sec...</p>
         </div>
       )}
 
-      {!loading && (
+      {!isLoading && (
         <>
           <SiteNavbar />
           <section className="text-center text-2xl text-gray-500 leading-normal py-24">

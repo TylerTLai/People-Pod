@@ -21,26 +21,28 @@ const SiteNavbar = () => {
       <div className="ml-auto">
         <ul className="flex items-center space-x-4">
           {user && (
-            <Link href="/dashboard">
-              <a>
-                <li>
+            <li>
+              <Link href="/dashboard">
+                <a>
                   <Button secondary>Dashboard</Button>
-                </li>
-              </a>
-            </Link>
+                </a>
+              </Link>
+            </li>
           )}
 
-          <a>
-            <li>
-              <Button primary>
-                {user ? (
-                  <a href="/api/auth/logout">Log out</a>
-                ) : (
-                  <a href="/api/auth/login">Log in</a>
-                )}
-              </Button>
-            </li>
-          </a>
+          <li>
+            <Button primary>
+              {user ? (
+                <Link href="/api/auth/logout">
+                  <a>Log out</a>
+                </Link>
+              ) : (
+                <Link href="/api/auth/login">
+                  <a>Log in</a>
+                </Link>
+              )}
+            </Button>
+          </li>
         </ul>
       </div>
     </nav>
