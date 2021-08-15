@@ -1,11 +1,14 @@
 {
-  "name": "with-tailwindcss",
-  "version": "0.1.0",
+  "name": "people-pod",
+  "version": "1.0.0",
+  "description": "PeoplePod - Personal CRM",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "push:dev": "dotenv -e .env.development -- npx prisma db push",
+    "migrate:prod": "dotenv -e .env.production -- npx prisma migrate dev --name postgres-init",
     "svg": "svgr -d components/shared/Icons components/shared/Icons/svgs --icon"
   },
   "dependencies": {
@@ -16,6 +19,7 @@
     "@reduxjs/toolkit": "^1.6.0",
     "@tailwindcss/line-clamp": "^0.2.1",
     "axios": "^0.21.1",
+    "dotenv-cli": "^4.0.0",
     "framer-motion": "^4.1.17",
     "lodash": "^4.17.21",
     "next": "latest",
