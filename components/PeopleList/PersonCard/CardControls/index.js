@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSession } from "next-auth/client";
+import { useUser } from "@auth0/nextjs-auth0";
+import axiosInstance from "../../../../config/axios";
+import { openModal, setFormData, setFormType } from "../../../../redux/slices/modalSlice";
+import {
+  favoritePerson,
+  removeOnePerson,
+  setAllPeople,
+  setPersonId,
+} from "../../../../redux/slices/peopleSlice";
 import SvgEdit from "../../../shared/Icons/Edit";
 import SvgHeart from "../../../shared/Icons/Heart";
 import SvgTrash2 from "../../../shared/Icons/Trash2";
 import Button from "../../../shared/Button";
-import axiosInstance from "../../../../config/axios";
-import {
-  favoritePerson,
-  setPersonId,
-  setAllPeople,
-  removeOnePerson,
-} from "../../../../redux/slices/peopleSlice";
-import { openModal, setFormData, setFormType } from "../../../../redux/slices/modalSlice";
 
 const CardControls = ({ person }) => {
   const dispatch = useDispatch();
-  const [session] = useSession();
-  const { userId } = session;
+  const { user } = useUser();
+  const userEmail = user.email;
   const { personId } = person;
 
   const [localStatePerson, setLocalStatePerson] = useState(person);
@@ -49,7 +49,7 @@ const CardControls = ({ person }) => {
     dispatch(setPersonId(null));
     try {
       await axiosInstance.delete("people", {
-        data: { personId, userId },
+        data: { personId, userEmail },
       });
     } catch (error) {
       console.error("error message: ", error.message);

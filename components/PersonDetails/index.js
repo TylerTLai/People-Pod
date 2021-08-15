@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import axiosInstance from "../../config/axios";
+import { createSectionData } from "./helper";
+import { setExpandView } from "../../redux/slices/viewSlice";
+import { personDetailsVariants } from "./animation";
+import IconButton from "../shared/IconButton";
 import SvgCake from "../shared/Icons/Cake";
 import SvgClipboard from "../shared/Icons/Clipboard";
 import SvgHome from "../shared/Icons/Home";
@@ -9,13 +14,8 @@ import SvgMapPin from "../shared/Icons/MapPin";
 import SvgMaximize2 from "../shared/Icons/Maximize2";
 import SvgMinimize2 from "../shared/Icons/Minimize2";
 import SvgSmartphone from "../shared/Icons/Smartphone";
-import IconButton from "../shared/IconButton";
-import { setExpandView } from "../../redux/slices/viewSlice";
-import axiosInstance from "../../config/axios";
-import Summary from "./Summary";
 import Section from "./Section";
-import { createSectionData } from "./helper";
-import { personDetailsVariants } from "./animation";
+import Summary from "./Summary";
 
 const PersonDetails = () => {
   const dispatch = useDispatch();
