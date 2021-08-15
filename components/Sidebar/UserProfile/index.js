@@ -1,4 +1,7 @@
+import { useUser } from "@auth0/nextjs-auth0";
+
 const UserProfile = () => {
+  const { user } = useUser();
   return (
     <div className={`flex items-center rounded-lg hover:cursor-pointer`}>
       <img
@@ -8,7 +11,7 @@ const UserProfile = () => {
       />
       <div>
         <h2 className="text-sm font-medium tracking-widest text-gray-800 uppercase title-font ml-5">
-          Rick Morty
+          {user.nickname}
         </h2>
       </div>
     </div>

@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { useSession } from "next-auth/client";
 import { useDispatch, useSelector } from "react-redux";
-import Dropdown from "../../shared/Dropdown";
+import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../../config/axios";
 import { setAllGroups, setGroupId } from "../../../redux/slices/groupSlice";
 import { openModal, setFormData, setFormType } from "../../../redux/slices/modalSlice";
 import { setAllPeople } from "../../../redux/slices/peopleSlice";
-import SvgHeart from "../../shared/Icons/Heart";
-import SvgUsers from "../../shared/Icons/Users";
+import Dropdown from "../../shared/Dropdown";
 import SvgEdit from "../../shared/Icons/Edit";
-import SvgTrash2 from "../../shared/Icons/Trash2";
+import SvgHeart from "../../shared/Icons/Heart";
 import SvgMoreVertical from "../../shared/Icons/MoreVertical";
+import SvgTrash2 from "../../shared/Icons/Trash2";
+import SvgUsers from "../../shared/Icons/Users";
 
 const NavItems = ({ showSidebar }) => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupsReducer.groups);
-  const [session] = useSession();
-  const { userId } = session;
+  const { user } = useUser();
+  const userEmail = user.email;
 
   const [selectedGroupMenu, setSelectedGroupMenu] = useState(null);
   const [selectedGroupAmount, setSelectedGroupAmount] = useState(null);
@@ -43,7 +43,7 @@ const NavItems = ({ showSidebar }) => {
 
   const handleNavItemClick = async (groupId) => {
     try {
-      const res = await axiosInstance.get("groups", { params: { groupId, userId } });
+      const res = await axiosInstance.get("groups", { params: { groupId, userEmail } });
       dispatch(setAllPeople(res.data.people));
     } catch (error) {
       console.log(error);
@@ -52,7 +52,7 @@ const NavItems = ({ showSidebar }) => {
 
   const handleEveryoneClick = async () => {
     try {
-      const res = await axiosInstance.get("people", { params: { userId } });
+      const res = await axiosInstance.get("people", { params: { userEmail } });
       dispatch(setAllPeople(res.data));
     } catch (error) {
       console.log(error);

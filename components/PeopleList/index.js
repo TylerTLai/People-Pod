@@ -1,6 +1,6 @@
+import { useSelector } from "react-redux";
 import ListControls from "./ListControls";
 import PersonCard from "./PersonCard";
-import { useSelector } from "react-redux";
 
 const PeopleList = () => {
   const people = useSelector((state) => state.peopleReducer.people);

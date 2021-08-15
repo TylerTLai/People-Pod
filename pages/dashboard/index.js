@@ -1,32 +1,30 @@
 import { useEffect } from "react";
-import Head from "next/head";
-import { useSession } from "next-auth/client";
+import { useDispatch } from "react-redux";
+import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
+import axiosInstance from "../../config/axios";
+import { setAllGroups } from "../../redux/slices/groupSlice";
+import { setAllPeople } from "../../redux/slices/peopleSlice";
 import Layout from "../../components/Layout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Sidebar from "../../components/Sidebar";
 import PeopleList from "../../components/PeopleList";
 import PersonDetails from "../../components/PersonDetails";
 import Modal from "../../components/shared/Modal";
-import axiosInstance from "../../config/axios";
-import { useDispatch } from "react-redux";
-import { setAllPeople } from "../../redux/slices/peopleSlice";
-import { setAllGroups } from "../../redux/slices/groupSlice";
 import axios from "axios";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [session] = useSession();
+  const { user, error, isLoading } = useUser();
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-
-    const fetchPeople = async (userId, user) => {
+    const fetchPeople = async (userEmail) => {
       try {
         const res = await axiosInstance.get("people", {
           params: {
-            userId,
+            userEmail,
           },
           cancelToken: source.token,
         });
@@ -40,11 +38,11 @@ const Dashboard = () => {
       }
     };
 
-    const fetchGroups = async (userId) => {
+    const fetchGroups = async (userEmail) => {
       try {
         const res = await axiosInstance.get("groups", {
           params: {
-            userId,
+            userEmail,
           },
           cancelToken: source.token,
         });
@@ -58,21 +56,24 @@ const Dashboard = () => {
       }
     };
 
-    if (session === null) {
+    if (user === null) {
       router.push("/");
     } else {
-      fetchPeople(session?.userId, session?.user);
-      fetchGroups(session?.userId);
+      fetchPeople(user?.email);
+      fetchGroups(user?.email);
     }
 
     return () => {
       source.cancel();
     };
-  }, [session]);
+  }, [user]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <>
-      {session && (
+      {user && (
         <>
           <Modal />
           <DashboardNavbar />
