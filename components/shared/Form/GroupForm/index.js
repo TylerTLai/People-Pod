@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/client";
+import { useUser } from "@auth0/nextjs-auth0";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Button from "../../Button";
 import axiosInstance from "../../../../config/axios";
@@ -14,8 +14,8 @@ const _ = require("lodash");
 
 const GroupForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
-  const [session] = useSession();
-  const { userId } = session;
+  const { user } = useUser();
+  const userEmail = user?.email;
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
@@ -57,7 +57,7 @@ const GroupForm = ({ handleModalClose }) => {
       }
     } else {
       handleModalClose();
-      const formatedGroups = formatFormGroups(formGroups, userId);
+      const formatedGroups = formatFormGroups(formGroups, userEmail);
 
       try {
         await axiosInstance.post("groups", formatedGroups);
