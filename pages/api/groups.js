@@ -5,15 +5,15 @@ export default async (req, res) => {
     case "GET": {
       const { groupId, userEmail } = req.query;
 
+      // User is not logged in
       if (!userEmail) {
-        // User is not logged in
         return res.status(400).send({
           message: "Not logged in.",
         });
       }
 
+      // User is logged in, fetch all groups
       if (userEmail) {
-        // User is logged in, fetch all groups
         try {
           const groups = await prisma.group.findMany({
             where: {

@@ -115,7 +115,7 @@ const PersonForm = ({ handleModalClose }) => {
       const newPerson = {
         ...data,
         personId: uuidv4(),
-        // groupList: formatedGroups,
+        groupList: formatedGroups,
         favorite,
         userEmail,
       };
