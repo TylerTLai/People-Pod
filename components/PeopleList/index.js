@@ -8,10 +8,14 @@ const PeopleList = () => {
   const listView = useSelector((state) => state.viewReducer.listView);
 
   return (
-    <div className={`min-h-full px-4 pb-10 overflow-y-auto bg-gray-100 ${expandView && "hidden"}`}>
+    <div
+      className={`min-h-full px-4 pb-10 overflow-y-auto bg-gray-100 ${
+        expandView && "hidden"
+      }`}
+    >
       <ListControls />
       <div className={`${!listView && "grid grid-cols-3 gap-4"}`}>
-        {people.map((person) => {
+        {people?.map((person) => {
           return <PersonCard key={person.personId} person={person} listView={listView} />;
         })}
       </div>

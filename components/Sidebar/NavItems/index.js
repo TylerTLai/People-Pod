@@ -16,7 +16,7 @@ const NavItems = ({ showSidebar }) => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupsReducer.groups);
   const { user } = useUser();
-  const userEmail = user.email;
+  const userEmail = user?.email;
 
   const [selectedGroupMenu, setSelectedGroupMenu] = useState(null);
   const [selectedGroupAmount, setSelectedGroupAmount] = useState(null);
@@ -27,10 +27,6 @@ const NavItems = ({ showSidebar }) => {
     { id: 2, text: "Delete Group", icon: SvgTrash2 },
   ];
 
-  const handleGroupMenuClick = () => {
-    setShowDropdown((showDropdown) => !showDropdown);
-  };
-
   const handleDropdownItemClick = (selectedGroup, dropdownItemText) => {
     if (dropdownItemText === "Edit Group") {
       editGroup(selectedGroup);
@@ -39,6 +35,10 @@ const NavItems = ({ showSidebar }) => {
       deleteGroup(selectedGroup.groupId);
       setShowDropdown(false);
     }
+  };
+
+  const handleGroupMenuClick = () => {
+    setShowDropdown((showDropdown) => !showDropdown);
   };
 
   const handleNavItemClick = async (groupId) => {

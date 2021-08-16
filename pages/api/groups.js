@@ -4,7 +4,6 @@ export default async (req, res) => {
   switch (req.method) {
     case "GET": {
       const { groupId, userEmail } = req.query;
-
       // User is not logged in
       if (!userEmail) {
         return res.status(400).send({
@@ -12,8 +11,26 @@ export default async (req, res) => {
         });
       }
 
-      // User is logged in, fetch all groups
-      if (userEmail) {
+      // User is logged in, fetch a specific group
+      if (groupId && userEmail) {
+        try {
+          const fetchedGroup = await prisma.group.findUnique({
+            where: {
+              groupId,
+            },
+            include: {
+              people: true,
+            },
+          });
+
+          res.status(200).json(fetchedGroup);
+        } catch (error) {
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
+        }
+      } else {
+        // User is logged in, fetch all groups
+
         try {
           const groups = await prisma.group.findMany({
             where: {
@@ -28,23 +45,8 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else if (groupId && userEmail) {
-        // User is logged in, fetch a specific group
-        try {
-          const fetchedGroup = await prisma.group.findUnique({
-            where: {
-              groupId,
-            },
-            include: {
-              people: true,
-            },
-          });
-          res.status(200).json(fetchedGroup);
-        } catch (error) {
-          console.error("error message: ", error.message);
-          res.status(500).send("Server Error");
-        }
       }
+
       break;
     }
     case "POST":
