@@ -3,21 +3,21 @@ import prisma from "../../config/prisma";
 export default async (req, res) => {
   switch (req.method) {
     case "GET": {
-      const { groupId, userId } = req.query;
+      const { groupId, userEmail } = req.query;
 
-      if (!userId) {
-        // User is not logged in
+      // User is not logged in
+      if (!userEmail) {
         return res.status(400).send({
           message: "Not logged in.",
         });
       }
 
-      if (userId) {
-        // User is logged in, fetch all groups
+      // User is logged in, fetch all groups
+      if (userEmail) {
         try {
           const groups = await prisma.group.findMany({
             where: {
-              userId,
+              userEmail,
             },
             include: {
               people: true,
@@ -28,7 +28,7 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else if (groupId && userId) {
+      } else if (groupId && userEmail) {
         // User is logged in, fetch a specific group
         try {
           const fetchedGroup = await prisma.group.findUnique({
@@ -49,7 +49,7 @@ export default async (req, res) => {
     }
     case "POST":
       const groupList = req.body;
-      
+
       // todo - refactor to use createMany() instead of looping
       // try {
       //   const newGroups = await prisma.createMany({
@@ -63,10 +63,10 @@ export default async (req, res) => {
       // }
 
       groupList.forEach(async (group) => {
-        const { groupId, name, value, isNew, userId } = group;
+        const { groupId, name, value, isNew, userEmail } = group;
         try {
           const newGroup = await prisma.group.create({
-            data: { name, groupId, value, isNew, userId },
+            data: { name, groupId, value, isNew, userEmail },
           });
           res.status(200).json(newGroup);
         } catch (error) {

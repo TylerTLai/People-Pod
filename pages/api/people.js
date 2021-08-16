@@ -3,21 +3,21 @@ import prisma from "../../config/prisma";
 export default async (req, res) => {
   switch (req.method) {
     case "GET": {
-      const { personId, userId } = req.query;
+      const { personId, userEmail } = req.query;
 
-      if (!userId) {
-        // User is not logged in
+      // User is not logged in
+      if (!userEmail) {
         return res.status(400).send({
           message: "Not logged in.",
         });
       }
 
-      if (userId) {
-        // User is logged in, fetch all people
+      // User is logged in, fetch all people
+      if (userEmail) {
         try {
           const people = await prisma.person.findMany({
             where: {
-              userId,
+              userEmail,
             },
             include: {
               groups: true,
@@ -28,7 +28,7 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else if (personId && userId) {
+      } else if (personId && userEmail) {
         // User is logged in, fetch a specific person
         try {
           const fetchedPerson = await prisma.person.findUnique({
@@ -48,17 +48,17 @@ export default async (req, res) => {
       break;
     }
     case "POST": {
-      const { firstName, lastName, quickNote, personId, favorite, userId, groupList } =
+      const { personId, firstName, lastName, quickNote, favorite, userEmail, groupList } =
         req.body;
 
-      if (!userId) {
-        // User is not logged in
+      // User is not logged in
+      if (!userEmail) {
         return res.status(400).send({
           message: "Not logged in.",
         });
       }
-
-      // todo - refactor to use createOrConnect 
+  
+      // todo - refactor to use createOrConnect
       // old groups - groups that were previously created.
       // new groups - groups that are newly created.
       // current groups - groups that a person currently belongs to.
@@ -81,7 +81,7 @@ export default async (req, res) => {
             personId,
             favorite,
             user: {
-              connect: { id: userId },
+              connect: { email: userEmail },
             },
             groups: {
               connect: oldGroupIds,
@@ -112,9 +112,9 @@ export default async (req, res) => {
       break;
     }
     case "PUT": {
-      const { firstName, lastName, quickNote, personId, favorite, userId } = req.body;
+      const { firstName, lastName, quickNote, personId, favorite, userEmail } = req.body;
 
-      if (!userId) {
+      if (!userEmail) {
         // User is not logged in
         return res.status(400).send({
           message: "Not logged in.",
@@ -146,9 +146,9 @@ export default async (req, res) => {
     }
     case "DELETE": {
       try {
-        const { personId, userId } = req.body;
-        
-        if (!userId) {
+        const { personId, userEmail } = req.body;
+
+        if (!userEmail) {
           // User is not logged in
           return res.status(400).send({
             message: "Not logged in.",

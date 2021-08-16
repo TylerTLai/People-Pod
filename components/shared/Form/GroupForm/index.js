@@ -40,7 +40,6 @@ const GroupForm = ({ handleModalClose }) => {
         ...formData,
         ...groupDefaults,
       };
-      console.log("what is updatedGroup ", updatedGroup);
 
       if (!_.isEqual(formData, updatedGroup)) {
         try {
