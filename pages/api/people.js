@@ -3,21 +3,21 @@ import prisma from "../../config/prisma";
 export default async (req, res) => {
   switch (req.method) {
     case "GET": {
-      const { personId, userId } = req.query;
+      const { personId, userEmail } = req.query;
 
-      if (!userId) {
-        // User is not logged in
+      // User is not logged in
+      if (!userEmail) {
         return res.status(400).send({
           message: "Not logged in.",
         });
       }
 
-      if (userId) {
-        // User is logged in, fetch all people
+      // User is logged in, fetch all people
+      if (userEmail) {
         try {
           const people = await prisma.person.findMany({
             where: {
-              userId,
+              userEmail,
             },
             include: {
               groups: true,
@@ -28,7 +28,7 @@ export default async (req, res) => {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
         }
-      } else if (personId && userId) {
+      } else if (personId && userEmail) {
         // User is logged in, fetch a specific person
         try {
           const fetchedPerson = await prisma.person.findUnique({
@@ -48,73 +48,94 @@ export default async (req, res) => {
       break;
     }
     case "POST": {
-      const { firstName, lastName, quickNote, personId, favorite, userId, groupList } =
-        req.body;
+      const { personId, firstName, lastName, quickNote, favorite, userEmail } = req.body;
 
-      if (!userId) {
-        // User is not logged in
+      // User is not logged in
+      if (!userEmail) {
         return res.status(400).send({
           message: "Not logged in.",
         });
       }
 
-      // todo - refactor to use createOrConnect 
-      // old groups - groups that were previously created.
-      // new groups - groups that are newly created.
-      // current groups - groups that a person currently belongs to.
-
       try {
-        const oldGroupIds = groupList
-          .filter((group) => !group.isNew)
-          .map((group) => {
-            return { groupId: group.groupId };
-          });
-
-        const newGroups = groupList.filter((group) => group.isNew);
-
-        // create a new person and connect them to old groups
-        let newPerson = await prisma.person.create({
+        const newPerson = await prisma.person.create({
           data: {
+            personId,
             firstName,
             lastName,
             quickNote,
-            personId,
             favorite,
             user: {
-              connect: { id: userId },
-            },
-            groups: {
-              connect: oldGroupIds,
+              connect: { email: userEmail },
             },
           },
         });
 
-        // update person to include new groups and create those new groups
-        newPerson = await prisma.person.update({
-          where: {
-            personId,
-          },
-          data: {
-            groups: {
-              create: newGroups,
-            },
-          },
-          include: {
-            groups: true,
-          },
-        });
+        console.log("newPerson ", newPerson);
 
         res.status(200).json(newPerson);
       } catch (error) {
         console.error("error message: ", error.message);
         res.status(500).send("Server Error");
       }
+
+      // todo - refactor to use createOrConnect
+      // old groups - groups that were previously created.
+      // new groups - groups that are newly created.
+      // current groups - groups that a person currently belongs to.
+
+      // try {
+      // const oldGroupIds = groupList
+      //   .filter((group) => !group.isNew)
+      //   .map((group) => {
+      //     return { groupId: group.groupId };
+      //   });
+
+      // const newGroups = groupList.filter((group) => group.isNew);
+
+      // create a new person and connect them to old groups
+      // let newPerson = await prisma.person.create({
+      //   data: {
+      //     firstName,
+      //     lastName,
+      //     quickNote,
+      //     personId,
+      //     favorite,
+      // user: {
+      //   connect: { email: userEmail },
+      // },
+      // groups: {
+      //   connect: oldGroupIds,
+      // },
+      // },
+      // });
+
+      // update person to include new groups and create those new groups
+      // newPerson = await prisma.person.update({
+      //   where: {
+      //     personId,
+      //   },
+      //   data: {
+      //     groups: {
+      //       create: newGroups,
+      //     },
+      //   },
+      //   include: {
+      //     groups: true,
+      //   },
+      // });
+
+      // res.status(200).json(newPerson);
+      // } catch (error) {
+      //   console.error("error message: ", error.message);
+      //   res.status(500).send("Server Error");
+      // }
       break;
     }
     case "PUT": {
-      const { firstName, lastName, quickNote, personId, favorite, userId } = req.body;
+      const { firstName, lastName, quickNote, personId, favorite, userEmail } = req.body;
 
-      if (!userId) {
+      if (!userEmail) {
         // User is not logged in
         return res.status(400).send({
           message: "Not logged in.",
@@ -146,9 +167,9 @@ export default async (req, res) => {
     }
     case "DELETE": {
       try {
-        const { personId, userId } = req.body;
-        
-        if (!userId) {
+        const { personId, userEmail } = req.body;
+
+        if (!userEmail) {
           // User is not logged in
           return res.status(400).send({
             message: "Not logged in.",

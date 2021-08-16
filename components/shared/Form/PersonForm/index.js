@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/client";
+import { useUser } from "@auth0/nextjs-auth0";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import { v4 as uuidv4 } from "uuid";
@@ -20,8 +20,8 @@ const _ = require("lodash");
 
 const PersonForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
-  const [session] = useSession();
-  const { userId } = session;
+  const { user } = useUser();
+  const userEmail = user.email;
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
@@ -35,7 +35,7 @@ const PersonForm = ({ handleModalClose }) => {
   const getGroupOptions = async () => {
     const res = await axiosInstance.get("groups", {
       params: {
-        userId,
+        userEmail,
       },
     });
 
@@ -80,7 +80,7 @@ const PersonForm = ({ handleModalClose }) => {
       const personPrefilledValues = setPersonPrefilledValues(data, formData);
 
       // format group form data to match group schema
-      const formatedGroups = formatFormGroups(formGroups, userId);
+      const formatedGroups = formatFormGroups(formGroups, userEmail);
       const newGroups = formatedGroups.filter((group) => group.isNew);
 
       // update the person with new values
@@ -108,16 +108,16 @@ const PersonForm = ({ handleModalClose }) => {
       handleModalClose();
 
       // format group form data to match group schema
-      const formatedGroups = formatFormGroups(formGroups, userId);
+      const formatedGroups = formatFormGroups(formGroups, userEmail);
       const newGroups = formatedGroups.filter((group) => group.isNew);
 
       // create new person and add group data
       const newPerson = {
         ...data,
         personId: uuidv4(),
-        groupList: formatedGroups,
+        // groupList: formatedGroups,
         favorite,
-        userId,
+        userEmail,
       };
 
       dispatch(addOnePerson(newPerson));

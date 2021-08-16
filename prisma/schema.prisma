@@ -8,15 +8,15 @@ generator client {
 }
 
 model Person {
-  id                 Int       @id @default(autoincrement())
-  personId           String    @unique
+  id                 Int         @id @default(autoincrement())
+  personId           String      @unique
   firstName          String
   lastName           String
-  groups             Group[]
-  favorite           Boolean @default(false)
   quickNote          String?
-  userId             String
-  user               User    @relation(fields: [userId], references: [id])
+  favorite           Boolean     @default(false)
+  groups             Group[]
+  userEmail          String
+  user               User        @relation(fields: [userEmail], references: [email])
 }
 
 model Group {
@@ -26,58 +26,19 @@ model Group {
   value       String      @unique
   isNew       Boolean
   people      Person[]
-  userId      String
-  user        User    @relation(fields: [userId], references: [id])
-}
-
-model Account {
-  id                 String    @id @default(cuid())
-  userId             String
-  providerType       String
-  providerId         String
-  providerAccountId  String
-  refreshToken       String?
-  accessToken        String?
-  accessTokenExpires DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  user               User      @relation(fields: [userId], references: [id])
-
-  @@unique([providerId, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  userId       String
-  expires      DateTime
-  sessionToken String   @unique
-  accessToken  String   @unique
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  user         User     @relation(fields: [userId], references: [id])
+  userEmail   String
+  user        User        @relation(fields: [userEmail], references: [email])
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @default(cuid())
   name          String?
-  email         String?   @unique
-  emailVerified DateTime?
+  email         String       @unique
+  emailVerified Boolean?
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   people        Person[]
   groups        Group[]
 }
 
-model VerificationRequest {
-  id         String   @id @default(cuid())
-  identifier String
-  token      String   @unique
-  expires    DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@unique([identifier, token])
-}

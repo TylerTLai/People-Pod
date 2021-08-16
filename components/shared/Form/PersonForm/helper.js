@@ -22,7 +22,7 @@ export const convertToCamelize = (str) => {
 };
 
 // formats groups added from form to match group schema.
-export const formatFormGroups = (formGroups, userId) => {
+export const formatFormGroups = (formGroups, userEmail) => {
 
   formGroups.forEach((group) => {
     group.name = group.label;
@@ -30,7 +30,7 @@ export const formatFormGroups = (formGroups, userId) => {
     group.isNew = group.__isNew__ ? group.__isNew__ : false;
     delete group.__isNew__;
     group.groupId = group.groupId ? group.groupId : uuidv4();
-    group.userId = userId;
+    group.userEmail = userEmail;
   });
 
   return formGroups;
