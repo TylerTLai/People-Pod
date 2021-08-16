@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { useUser } from "@auth0/nextjs-auth0";
 
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 import SvgSearch from "../../shared/Icons/Search";
@@ -8,7 +7,6 @@ import UserProfile from "../../Sidebar/UserProfile";
 
 const DashboardNavbar = () => {
   const dispatch = useDispatch();
-  const { user, error, isLoading } = useUser();
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value.toLowerCase();
