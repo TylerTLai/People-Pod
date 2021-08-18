@@ -1,17 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../config/axios";
 
-export const filterPeople = createAsyncThunk(
-  "people/filterPeople",
-  async (searchTerm) => {
-    try {
-      const res = await axiosInstance.get("people");
-      return { people: res.data, searchTerm };
-    } catch (error) {
-      console.log(error);
-    }
+export const filterPeople = createAsyncThunk("people/filterPeople", async (queryData) => {
+  try {
+    const res = await axiosInstance.get("people", {
+      params: {
+        userEmail: queryData.userEmail,
+      },
+    });
+    return { people: res.data, searchTerm: queryData.searchTerm };
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 export const peopleSlice = createSlice({
   name: "people",

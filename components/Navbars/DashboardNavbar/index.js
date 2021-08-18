@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { useDispatch } from "react-redux";
+import { useUser } from "@auth0/nextjs-auth0";
+
+import Link from "next/link";
 
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 import SvgSearch from "../../shared/Icons/Search";
@@ -7,10 +9,12 @@ import UserProfile from "../../Sidebar/UserProfile";
 
 const DashboardNavbar = () => {
   const dispatch = useDispatch();
+  const { user } = useUser();
+  const userEmail = user?.email;
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value.toLowerCase();
-    dispatch(filterPeople(searchTerm));
+    dispatch(filterPeople({ searchTerm, userEmail }));
   };
 
   return (
@@ -23,7 +27,7 @@ const DashboardNavbar = () => {
       <div className="relative w-full">
         <SvgSearch className="absolute top-3.5 left-4 text-gray-400" />
         <input
-          className="px-10 py-2 rounded w-full placeholder-gray-500 border-2 border-gray-200 hover:border-gray-400 transition duration-300 ease-in-out focus:outline-none"
+          className="px-10 py-2 rounded-full w-full placeholder-gray-500 border-2 border-gray-200 hover:border-gray-400 transition duration-300 ease-in-out focus:outline-none"
           type="text"
           placeholder="Find a person..."
           onChange={handleInputChange}

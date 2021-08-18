@@ -17,7 +17,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { user, error, isLoading } = useUser();
-  const email = user?.email;
+  const userEmail = user?.email;
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -60,8 +60,8 @@ const Dashboard = () => {
     if (user === null) {
       router.push("/");
     } else {
-      fetchPeople(email);
-      fetchGroups(email);
+      fetchPeople(userEmail);
+      fetchGroups(userEmail);
     }
 
     return () => {
