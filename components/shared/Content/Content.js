@@ -55,7 +55,7 @@ const Content = () => {
               </h2>
               <p className="text-base font-medium leading-relaxed text-gray-700">
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam odit
-                rem tempora accusamus deserunt debitis magnam placeat ut amet dolorem.
+                rem tempora accusamus deserunt debitis magnam placeat ut amet doloorem.
               </p>
             </div>
           </div>
