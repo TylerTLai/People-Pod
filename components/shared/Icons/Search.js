@@ -9,9 +9,6 @@ function SvgSearch(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className="search_svg__feather search_svg__feather-search"
       {...props}
     >

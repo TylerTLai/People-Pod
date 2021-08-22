@@ -9,9 +9,6 @@ function SvgAlignJustify(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className="align-justify_svg__feather align-justify_svg__feather-align-justify"
       {...props}
     >

@@ -9,9 +9,6 @@ function SvgMail(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className="mail_svg__feather mail_svg__feather-mail"
       {...props}
     >

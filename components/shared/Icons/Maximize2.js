@@ -9,9 +9,6 @@ function SvgMaximize2(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className="maximize-2_svg__feather maximize-2_svg__feather-maximize-2"
       {...props}
     >
