@@ -9,9 +9,6 @@ function SvgHome(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className="home_svg__feather home_svg__feather-home"
       {...props}
     >

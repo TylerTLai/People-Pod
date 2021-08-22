@@ -9,9 +9,6 @@ function SvgTrash2(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
       className="trash-2_svg__feather trash-2_svg__feather-trash-2"
       {...props}
     >
