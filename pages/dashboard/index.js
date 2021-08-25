@@ -69,7 +69,12 @@ const Dashboard = () => {
     };
   }, [user]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-center text-2xl uppercase font-bold">Loading...</p>
+      </div>
+    );
   if (error) return <div>{error.message}</div>;
 
   return (
