@@ -1,7 +1,7 @@
-import SiteNavbar from "../components/Navbars/SiteNavbar";
 import { useUser } from "@auth0/nextjs-auth0";
 import Content from "../components/shared/Content/Content";
 import Footer from "../components/shared/Footer/Footer";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   const { error, isLoading } = useUser();
@@ -9,7 +9,7 @@ const Home = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <div className="px-36">
+    <div className="px-5  md:px-10lg:px-36">
       {isLoading && (
         <div className="flex justify-center items-center min-h-screen">
           <p className="text-center text-2xl uppercase font-bold">One sec...</p>
@@ -18,7 +18,7 @@ const Home = () => {
 
       {!isLoading && (
         <>
-          <SiteNavbar />
+          <Navbar />
           <section className="text-center text-2xl text-gray-500 leading-normal py-24">
             <p className="text-center font-bold uppercase text-xl mb-4 text-blue-500 tracking-widest">
               A modern personal CRM
