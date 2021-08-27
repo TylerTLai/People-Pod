@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="text-gray-400 py-10">
+    <footer className="text-gray-400 py-10 px-5 border-2 border-red-500">
       <div>
         <nav className="flex justify-center text-base space-x-8 text-gray-600 py-2">
           <a href="#" className="hover:text-gray-900 transition duration-200 ease-in-out">
@@ -75,8 +75,10 @@ const Footer = () => {
         </span>
       </div>
 
-      <div className="flex justify-center pt-5">
-        <p className="text-sm text-gray-400 ">© 2021</p>
+      <div className="flex justify-center pt-5 pb-7">
+        <p className="text-xs tracking-widest text-gray-400 uppercase">
+          © PeoplePod 2021
+        </p>
       </div>
     </footer>
   );
