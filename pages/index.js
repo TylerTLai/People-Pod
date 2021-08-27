@@ -21,8 +21,10 @@ const Home = () => {
       {!isLoading && (
         <>
           <Navbar />
-          <Hero />
-          <Content />
+          <div className="pt-0 pb-20 sm:pb-36 lg:pb-52 2xl:pb-60">
+            <Hero />
+            <Content />
+          </div>
           <Footer />
         </>
       )}
