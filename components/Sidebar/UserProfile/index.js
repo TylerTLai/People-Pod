@@ -26,6 +26,7 @@ const UserProfile = () => {
         onClick={handleClick}
       >
         <Dropdown
+          reverseIcons
           showDropdown={showDropdown}
           handleDropdownItemClick={handleDropdownItemClick}
           dropdownItems={dropdownItems}

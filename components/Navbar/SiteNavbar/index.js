@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 
-import Link from "next/link";
-import Button from "../../../components/shared/Button";
+import Button from "../../shared/Button";
 
 const SiteNavbar = () => {
   const { user, error, isLoading } = useUser();
@@ -10,16 +10,14 @@ const SiteNavbar = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <nav className="py-5 flex items-center">
-      <div className="">
+    <nav className="py-5 flex items-center justify-content border-b-2 border-gray-100 px-5 sm:px-10 md:px-20 lg:px-36 2xl:px-80">
+      <div>
         <Link href="/">
-          <a className="sm:inline text-xl uppercase font-bold cursor-pointer w-64">
-            People Pod
-          </a>
+          <a className="text-xl uppercase font-bold cursor-pointer w-64">People Pod</a>
         </Link>
       </div>
       <div className="ml-auto">
-        <ul className="flex items-center space-x-4">
+        <ul className="flex items-center justify-center space-x-4">
           {user && (
             <li>
               <Link href="/dashboard">

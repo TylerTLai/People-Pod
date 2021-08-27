@@ -6,7 +6,7 @@ import axiosInstance from "../../config/axios";
 import { setAllGroups } from "../../redux/slices/groupSlice";
 import { setAllPeople } from "../../redux/slices/peopleSlice";
 import Layout from "../../components/Layout";
-import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
+import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import PeopleList from "../../components/PeopleList";
 import PersonDetails from "../../components/PersonDetails";
@@ -82,7 +82,8 @@ const Dashboard = () => {
       {user && (
         <>
           <Modal />
-          <DashboardNavbar />
+          {/* <DashboardNavbar /> */}
+          <Navbar />
           <Layout>
             <Sidebar />
             <PeopleList />
