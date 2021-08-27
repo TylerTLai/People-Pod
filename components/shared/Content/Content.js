@@ -6,7 +6,7 @@ const Content = () => {
   return (
     <section className="text-gray-700 px-5 sm:px-10 md:px-20 lg:px-36 2xl:px-80">
       <div className="flex-col items-center my-5 sm:flex sm:flex-row">
-        <div className="flex justify-center pt-5 sm:p-5 sm:rounded-full sm:bg-gray-100 sm:mr-5 md:p-6 md:mr-10">
+        <div className="flex justify-center pt-5 sm:p-5 sm:rounded-full sm:bg-gray-100 sm:mr-5 md:mr-10">
           <SvgUser width={50} height={50} />
         </div>
         <div className="text-center py-5 mt-0 sm:text-left ">
@@ -18,7 +18,7 @@ const Content = () => {
         </div>
       </div>
       <div className="flex-col items-center my-5 sm:flex sm:flex-row">
-        <div className="flex justify-center pt-5 sm:p-5 sm:rounded-full sm:bg-gray-100 sm:mr-5 md:p-6 md:mr-10">
+        <div className="flex justify-center pt-5 sm:p-5 sm:rounded-full sm:bg-gray-100 sm:mr-5 md:mr-10">
           <SvgClipboard width={50} height={50} />
         </div>
         <div className="text-center py-5 mt-0 sm:text-left ">
@@ -30,7 +30,7 @@ const Content = () => {
         </div>
       </div>
       <div className="flex-col items-center my-5 sm:flex sm:flex-row">
-        <div className="flex justify-center pt-5 sm:p-5 sm:rounded-full sm:bg-gray-100 sm:mr-5 md:p-6 md:mr-10">
+        <div className="flex justify-center pt-5 sm:p-5 sm:rounded-full sm:bg-gray-100 sm:mr-5 md:mr-10">
           <SvgUsers width={50} height={50} />
         </div>
         <div className="text-center py-5 mt-0 sm:text-left ">
