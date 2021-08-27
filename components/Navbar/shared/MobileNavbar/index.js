@@ -1,13 +1,13 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
 
 import Dropdown from "../../../shared/Dropdown";
-import SvgMenu from "../../../shared/Icons/Menu";
-import SvgLogOut from "../../../shared/Icons/LogOut";
-import SvgLogIn from "../../../shared/Icons/LogIn";
 import SvgLayout from "../../../shared/Icons/Layout";
+import SvgLogIn from "../../../shared/Icons/LogIn";
+import SvgLogOut from "../../../shared/Icons/LogOut";
+import SvgMenu from "../../../shared/Icons/Menu";
 
 const MobileNavbar = () => {
   const { user } = useUser();
@@ -46,7 +46,7 @@ const MobileNavbar = () => {
 
   return (
     <>
-      <div className={`flex px-5 py-5 transition-all text-gray-700 text-lg`}>
+      <div className={`flex px-7 py-5 border-b-2 border-gray-100`}>
         <div>
           <div>
             <Link href="/">
@@ -61,12 +61,14 @@ const MobileNavbar = () => {
         </div>
       </div>
       {showDropdown && (
-        <Dropdown
-          reverseIcons
-          dropdownItems={generateDropdownItems()}
-          showDropdown={showDropdown}
-          handleDropdownItemClick={handleDropdownItemClick}
-        />
+        <div className="mr-7">
+          <Dropdown
+            reverseIcons
+            dropdownItems={generateDropdownItems()}
+            showDropdown={showDropdown}
+            handleDropdownItemClick={handleDropdownItemClick}
+          />
+        </div>
       )}
     </>
   );

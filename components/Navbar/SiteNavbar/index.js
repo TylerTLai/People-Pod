@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 
-import Link from "next/link";
 import Button from "../../shared/Button";
 
 const SiteNavbar = () => {
@@ -10,7 +10,7 @@ const SiteNavbar = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <nav className="py-5 flex items-center justify-content px-7">
+    <nav className="py-5 flex items-center justify-content border-b-2 border-gray-100 px-5 sm:px-10 md:px-20 lg:px-36 2xl:px-80">
       <div>
         <Link href="/">
           <a className="text-xl uppercase font-bold cursor-pointer w-64">People Pod</a>

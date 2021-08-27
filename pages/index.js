@@ -14,14 +14,14 @@ const Home = () => {
     <>
       {isLoading && (
         <div className="flex justify-center items-center min-h-screen">
-          <p className="text-center text-2xl uppercase font-bold">One sec...</p>
+          <p className="text-center text-2xl uppercase font-bold">Loading...</p>
         </div>
       )}
 
       {!isLoading && (
         <>
           <Navbar />
-          <div className="pt-0 pb-20 sm:pb-36 lg:pb-52 2xl:pb-60">
+          <div className="pt-5 pb-20 sm:pb-36 lg:pb-52 2xl:pb-60">
             <Hero />
             <Content />
           </div>
