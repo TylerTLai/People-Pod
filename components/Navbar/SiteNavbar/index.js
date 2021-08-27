@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import Button from "../../shared/Button";
+import SvgPeoplePodLogo from "../../shared/Icons/PeoplePodLogo";
 
 const SiteNavbar = () => {
   const { user, error, isLoading } = useUser();
@@ -11,7 +12,8 @@ const SiteNavbar = () => {
 
   return (
     <nav className="py-5 flex items-center justify-content border-b-2 border-gray-100 px-5 sm:px-10 md:px-20 lg:px-36 2xl:px-80">
-      <div>
+      <div className="flex items-center space-x-3">
+        <SvgPeoplePodLogo width={36} height={36} />
         <Link href="/">
           <a className="text-xl uppercase font-bold cursor-pointer w-64">People Pod</a>
         </Link>

@@ -8,6 +8,7 @@ import SvgLayout from "../../../shared/Icons/Layout";
 import SvgLogIn from "../../../shared/Icons/LogIn";
 import SvgLogOut from "../../../shared/Icons/LogOut";
 import SvgMenu from "../../../shared/Icons/Menu";
+import SvgPeoplePodLogo from "../../../shared/Icons/PeoplePodLogo";
 
 const MobileNavbar = () => {
   const { user } = useUser();
@@ -51,7 +52,7 @@ const MobileNavbar = () => {
           <div>
             <Link href="/">
               <a className="text-xl uppercase font-bold cursor-pointer w-64">
-                People Pod
+                <SvgPeoplePodLogo width={36} height={36} />
               </a>
             </Link>
           </div>

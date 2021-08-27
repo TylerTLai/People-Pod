@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 import SvgSearch from "../../shared/Icons/Search";
+import SvgPeoplePodLogo from "../../shared/Icons/PeoplePodLogo";
 import UserProfile from "../../Sidebar/UserProfile";
 
 const DashboardNavbar = () => {
@@ -21,7 +22,7 @@ const DashboardNavbar = () => {
     <nav className="grid sm:grid-cols-layout border-b py-3 px-6 justify-center items-center">
       <Link href="/">
         <a className="hidden sm:inline text-xl uppercase font-bold cursor-pointer w-64 mr-1">
-          People Pod
+          <SvgPeoplePodLogo width={36} height={36} />
         </a>
       </Link>
       <div className="relative w-full">
