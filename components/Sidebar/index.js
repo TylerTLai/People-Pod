@@ -26,7 +26,7 @@ const Sidebar = () => {
       variants={containerVariants}
       initial="initial"
       animate={!showSidebar ? "shrink" : "show"}
-      className={`max-h-full flex flex-col pt-6 bg-gray-800 text-white w-72 overflow-y-auto`}
+      className={`h-full flex flex-col pt-6 bg-gray-800 text-white w-72 overflow-y-auto z-50`}
     >
       <IconButton
         className={`${

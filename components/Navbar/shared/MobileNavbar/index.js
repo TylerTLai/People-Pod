@@ -46,9 +46,9 @@ const MobileNavbar = () => {
   };
 
   return (
-    <>
-      <div className={`flex px-7 py-5 border-b-2 border-gray-100`}>
-        <div>
+    <div className="pb-12">
+      <nav className="fixed left-0 right-0 z-50 border-b-2 bg-white border-gray-100">
+        <div className="flex items-center px-6 py-4">
           <div>
             <Link href="/">
               <a className="text-xl uppercase font-bold cursor-pointer w-64">
@@ -56,22 +56,25 @@ const MobileNavbar = () => {
               </a>
             </Link>
           </div>
+          <div
+            className="ml-auto hover:cursor-pointer"
+            onClick={handleHamburgerMenuClick}
+          >
+            <SvgMenu width={25} height={25} />
+          </div>
         </div>
-        <div className="ml-auto hover:cursor-pointer" onClick={handleHamburgerMenuClick}>
-          <SvgMenu width={25} height={25} />
-        </div>
-      </div>
-      {showDropdown && (
-        <div className="mr-7">
-          <Dropdown
-            reverseIcons
-            dropdownItems={generateDropdownItems()}
-            showDropdown={showDropdown}
-            handleDropdownItemClick={handleDropdownItemClick}
-          />
-        </div>
-      )}
-    </>
+        {showDropdown && (
+          <div className="mr-7">
+            <Dropdown
+              reverseIcons
+              dropdownItems={generateDropdownItems()}
+              showDropdown={showDropdown}
+              handleDropdownItemClick={handleDropdownItemClick}
+            />
+          </div>
+        )}
+      </nav>
+    </div>
   );
 };
 

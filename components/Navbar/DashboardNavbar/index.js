@@ -19,12 +19,13 @@ const DashboardNavbar = () => {
   };
 
   return (
-    <nav className="grid sm:grid-cols-layout border-b py-3 px-6 justify-center items-center">
-      <Link href="/">
-        <a className="hidden sm:inline text-xl uppercase font-bold cursor-pointer w-64 mr-1">
-          <SvgPeoplePodLogo width={36} height={36} />
-        </a>
-      </Link>
+    <nav className="grid bg-white sm:grid-cols-layout border-b-2 py-3 px-6 justify-center items-center z-50">
+      <div className="flex items-center space-x-3">
+        <SvgPeoplePodLogo width={36} height={36} />
+        <Link href="/">
+          <a className="text-xl uppercase font-bold cursor-pointer w-64">People Pod</a>
+        </Link>
+      </div>
       <div className="relative w-full">
         <SvgSearch className="absolute top-3.5 left-4 text-gray-400" />
         <input

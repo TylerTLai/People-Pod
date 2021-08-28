@@ -9,7 +9,7 @@ const PeopleList = () => {
 
   return (
     <div
-      className={`min-h-full px-4 pb-10 overflow-y-auto bg-gray-100 ${
+      className={`min-h-full px-4 pb-10 overflow-y-auto bg-gray-100 border-2 ${
         expandView && "hidden"
       }`}
     >
