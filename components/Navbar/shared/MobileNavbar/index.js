@@ -1,18 +1,22 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useDispatch } from "react-redux";
 
+import { toggleSidebar } from "../../../../redux/slices/sidebarSlice";
 import Dropdown from "../../../shared/Dropdown";
 import SvgLayout from "../../../shared/Icons/Layout";
 import SvgLogIn from "../../../shared/Icons/LogIn";
 import SvgLogOut from "../../../shared/Icons/LogOut";
 import SvgMenu from "../../../shared/Icons/Menu";
 import SvgPeoplePodLogo from "../../../shared/Icons/PeoplePodLogo";
+import SvgSidebar from "../../../shared/Icons/Sidebar";
 
 const MobileNavbar = () => {
   const { user } = useUser();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const generateDropdownItems = () => {
     if (user && router.route === "/") {
@@ -29,6 +33,10 @@ const MobileNavbar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSidebarToggle = () => {
+    dispatch(toggleSidebar());
+  };
 
   const handleHamburgerMenuClick = () => {
     setIsOpen(!isOpen);
@@ -49,7 +57,15 @@ const MobileNavbar = () => {
     <div className="pb-12">
       <nav className="fixed left-0 right-0 z-50 border-b-2 bg-white border-gray-100">
         <div className="flex items-center px-6 py-4">
-          <div>
+          <div className="flex items-center space-x-3">
+            {router.route === "/dashboard" && (
+              <SvgSidebar
+                className="hover:cursor-pointer"
+                width={37}
+                height={37}
+                onClick={handleSidebarToggle}
+              />
+            )}
             <Link href="/">
               <a className="text-xl uppercase font-bold cursor-pointer w-64">
                 <SvgPeoplePodLogo width={36} height={36} />

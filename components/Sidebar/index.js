@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import IconButton from "../shared/IconButton";
 import NavItems from "./NavItems";
@@ -7,13 +7,14 @@ import SvgPlusCircle from "../shared/Icons/PlusCircle";
 import SvgSidebar from "../shared/Icons/Sidebar";
 import { openModal, setFormType } from "../../redux/slices/modalSlice";
 import { containerVariants } from "./animation";
+import { toggleSidebar } from "../../redux/slices/sidebarSlice";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const [showSidebar, setShowSidebar] = useState(true);
+  const showSidebar = useSelector((state) => state.sidebarReducer.showSidebar);
 
   const handleSidebarToggle = () => {
-    setShowSidebar((showSidebar) => !showSidebar);
+    dispatch(toggleSidebar());
   };
 
   const handleAddGroup = () => {
