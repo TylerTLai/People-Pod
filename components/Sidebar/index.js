@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "framer-motion";
-import IconButton from "../shared/IconButton";
+
 import NavItems from "./NavItems";
+import IconButton from "../shared/IconButton";
 import SvgPlusCircle from "../shared/Icons/PlusCircle";
 import SvgSidebar from "../shared/Icons/Sidebar";
 import { openModal, setFormType } from "../../redux/slices/modalSlice";
-import { containerVariants } from "./animation";
 import { toggleSidebar } from "../../redux/slices/sidebarSlice";
 
 const Sidebar = () => {
@@ -22,32 +20,43 @@ const Sidebar = () => {
     dispatch(openModal());
   };
 
+  const sidebarDesktopWidth = showSidebar ? "sm:w-72" : "sm:w-18";
+  const sidebarMobileWidth = showSidebar && "w-full";
+
   return (
-    <motion.aside
-      variants={containerVariants}
-      initial="initial"
-      animate={!showSidebar ? "shrink" : "show"}
-      className={`h-full flex flex-col pt-6 bg-gray-800 text-white w-72 overflow-y-auto z-50`}
-    >
-      <IconButton
-        className={`${
-          !showSidebar && "mr-5"
-        } ml-5 mb-9 mt-3 hover:text-white text-gray-300`}
-        dark
-        onClick={handleSidebarToggle}
-        icon={<SvgSidebar width={27} height={27} />}
-      />
-      <div className={`max-h-full flex items-center ${!showSidebar && "hidden"}`}>
-        <p className="font-bold uppercase tracking-wide ml-5">Groups</p>
+    <>
+      <aside
+        className={`absolute top-5 sm:top-0 inset-y-0 min-h-full flex flex-col pt-6 bg-gray-800 text-white overflow-x-hidden overflow-y-auto z-10
+        ${sidebarDesktopWidth}
+        ${sidebarMobileWidth}
+         transform
+        ${showSidebar ? "translate-x-0" : "-translate-x-full sm:-translate-x-0"}
+        transition duration-200 ease-in-out`}
+      >
         <IconButton
-          className={`p-1 m-2 ml-auto focus:outline-none hover:text-white text-gray-300`}
+          className={`${
+            !showSidebar && "mr-5"
+          } ml-5 mb-9 mt-3 hover:text-white text-gray-300 hidden sm:inline-flex`}
           dark
-          onClick={handleAddGroup}
-          icon={<SvgPlusCircle width={27} height={27} />}
+          onClick={handleSidebarToggle}
+          icon={<SvgSidebar width={27} height={27} />}
         />
-      </div>
-      <NavItems showSidebar={showSidebar} />
-    </motion.aside>
+        <div
+          className={`items-center flex ${
+            showSidebar ? "sm:flex" : "sm:hidden"
+          } min-w-full`}
+        >
+          <p className="font-bold uppercase tracking-wide ml-5">Groups</p>
+          <IconButton
+            className={`p-1 m-2 ml-auto focus:outline-none hover:text-white text-gray-300`}
+            dark
+            onClick={handleAddGroup}
+            icon={<SvgPlusCircle width={27} height={27} />}
+          />
+        </div>
+        <NavItems showSidebar={showSidebar} />
+      </aside>
+    </>
   );
 };
 
