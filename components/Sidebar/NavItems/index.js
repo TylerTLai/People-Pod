@@ -88,27 +88,27 @@ const NavItems = ({ showSidebar }) => {
   };
 
   return (
-    <nav className={`${!showSidebar && "hidden"} h-full text-gray-300 mb-10`}>
-      <ul>
+    <nav className={`flex ${showSidebar ? "sm:flex" : "sm:hidden"} h-full text-gray-300 mb-10`}>
+      <ul className="min-w-full">
         <li
           onClick={handleEveryoneClick}
-          className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
+          className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out min-w-full border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
         >
           <SvgUsers width={20} height={20} />
           <p className="ml-4">Everyone</p>
         </li>
-        <li className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer">
+        <li className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out min-w-full border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer">
           <SvgHeart width={20} height={20} />
           <p className="ml-4">Favorites</p>
         </li>
-        <hr className="my-3 border-gray-700" />
+        <hr className="my-3 border-gray-700 min-w-full" />
 
         {groups.map((group, selectedNavItem) => {
           return (
             <li
               onClick={() => handleNavItemClick(group.groupId)}
               key={group.groupId}
-              className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
+              className="flex items-center px-4 py-2 mt-2 transition duration-300 ease-in-out min-w-full border-l-4 border-transparent hover:border-white focus:outline-none hover:text-white hover:cursor-pointer"
             >
               <SvgUsers width={20} height={20} />
               <p className="ml-4">{group.name}</p>
