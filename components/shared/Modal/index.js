@@ -30,16 +30,16 @@ const Modal = () => {
       <Dialog
         open={isOpen}
         onClose={handleModalClose}
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed inset-0 overflow-y-auto"
       >
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="relative flex items-center justify-center min-h-screen z-30">
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
 
           <motion.div
             variants={modalVariants}
             initial="hide"
             animate={isOpen ? "show" : "hide"}
-            className="bg-white rounded-lg w-3/4 sm:w-1/3 mx-auto z-20 p-6"
+            className="bg-white absolute top-24 rounded-lg w-11/12 sm:w-1/3 mx-auto z-40 p-6"
           >
             <Dialog.Title>
               <div className="flex justify-between">

@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+
 import axiosInstance from "../../config/axios";
 import { createSectionData } from "./helper";
 import { setExpandView } from "../../redux/slices/viewSlice";
 import { personDetailsVariants } from "./animation";
+
+import Section from "./Section";
+import Summary from "./Summary";
 import IconButton from "../shared/IconButton";
+
 import SvgCake from "../shared/Icons/Cake";
 import SvgClipboard from "../shared/Icons/Clipboard";
 import SvgHome from "../shared/Icons/Home";
@@ -14,8 +19,6 @@ import SvgMapPin from "../shared/Icons/MapPin";
 import SvgMaximize2 from "../shared/Icons/Maximize2";
 import SvgMinimize2 from "../shared/Icons/Minimize2";
 import SvgSmartphone from "../shared/Icons/Smartphone";
-import Section from "./Section";
-import Summary from "./Summary";
 
 const PersonDetails = () => {
   const dispatch = useDispatch();
@@ -85,13 +88,13 @@ const PersonDetails = () => {
   };
 
   return (
-    <>
+    <div className={`flex-1`}>
       {personId ? (
         <motion.div
           variants={personDetailsVariants}
           initial="initial"
           animate="show"
-          className="max-h-full border-l border-gray-200 py-7 px-5 overflow-y-auto"
+          className="max-h-full px-5 overflow-y-auto border-l border-gray-200 py-7"
         >
           <div className="flex mt-1 mb-5">
             <div>
@@ -105,11 +108,11 @@ const PersonDetails = () => {
           <Section sectionData={sectionData} />
         </motion.div>
       ) : (
-        <div className="flex items-center justify-center value-xl uppercase font-bold ">
+        <div className="flex items-center justify-center min-h-screen text-xl font-bold uppercase">
           People Pod
         </div>
       )}
-    </>
+    </div>
   );
 };
 

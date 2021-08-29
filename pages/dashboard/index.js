@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
+
 import axiosInstance from "../../config/axios";
 import { setAllGroups } from "../../redux/slices/groupSlice";
 import { setAllPeople } from "../../redux/slices/peopleSlice";
+
 import Layout from "../../components/Layout";
+import Modal from "../../components/shared/Modal";
 import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/Sidebar";
 import PeopleList from "../../components/PeopleList";
 import PersonDetails from "../../components/PersonDetails";
-import Modal from "../../components/shared/Modal";
-import axios from "axios";
+import Sidebar from "../../components/Sidebar";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -71,8 +73,8 @@ const Dashboard = () => {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-center text-2xl uppercase font-bold">Loading...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-2xl font-bold text-center uppercase">Loading...</p>
       </div>
     );
   if (error) return <div>{error.message}</div>;

@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+
 import ListControls from "./ListControls";
 import PersonCard from "./PersonCard";
 
@@ -9,7 +10,7 @@ const PeopleList = () => {
 
   return (
     <div
-      className={`min-h-full px-4 pb-10 overflow-y-auto bg-gray-100 border-2 ${
+      className={`flex-1 max-h-full sm:min-h-full px-4 pb-20 overflow-y-auto bg-gray-100 ${
         expandView && "hidden"
       }`}
     >

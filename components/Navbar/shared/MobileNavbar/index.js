@@ -5,7 +5,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { toggleSidebar } from "../../../../redux/slices/sidebarSlice";
+
 import Dropdown from "../../../shared/Dropdown";
+import UserProfile from "../../../Sidebar/UserProfile";
+
 import SvgLayout from "../../../shared/Icons/Layout";
 import SvgLogIn from "../../../shared/Icons/LogIn";
 import SvgLogOut from "../../../shared/Icons/LogOut";
@@ -55,7 +58,7 @@ const MobileNavbar = () => {
 
   return (
     <div className="pb-12">
-      <nav className="fixed left-0 right-0 z-50 border-b-2 bg-white border-gray-100">
+      <nav className="fixed left-0 right-0 z-50 bg-white border-b-2 border-gray-100">
         <div className="flex items-center px-6 py-4">
           <div className="flex items-center space-x-3">
             {router.route === "/dashboard" && (
@@ -67,17 +70,24 @@ const MobileNavbar = () => {
               />
             )}
             <Link href="/">
-              <a className="text-xl uppercase font-bold cursor-pointer w-64">
+              <a className="cursor-pointer">
                 <SvgPeoplePodLogo width={36} height={36} />
               </a>
             </Link>
           </div>
-          <div
-            className="ml-auto hover:cursor-pointer"
-            onClick={handleHamburgerMenuClick}
-          >
-            <SvgMenu width={25} height={25} />
-          </div>
+
+          {router.route === "/dashboard" ? (
+            <div className="ml-auto">
+              <UserProfile />
+            </div>
+          ) : (
+            <div
+              className="ml-auto hover:cursor-pointer"
+              onClick={handleHamburgerMenuClick}
+            >
+              <SvgMenu width={25} height={25} />
+            </div>
+          )}
         </div>
         {showDropdown && (
           <div className="mr-7">
