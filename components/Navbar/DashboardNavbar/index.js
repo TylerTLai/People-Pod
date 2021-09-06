@@ -7,7 +7,6 @@ import { filterPeople } from "../../../redux/slices/peopleSlice";
 import UserProfile from "../../Sidebar/UserProfile";
 import SearchInput from "./SearchInput/SearchInput";
 
-import SvgSearch from "../../shared/Icons/Search";
 import SvgPeoplePodLogo from "../../shared/Icons/PeoplePodLogo";
 
 const DashboardNavbar = () => {

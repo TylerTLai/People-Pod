@@ -28,6 +28,7 @@ const Modal = () => {
   return (
     <Transition show={isOpen}>
       <Dialog
+        data-testid="modal"
         open={isOpen}
         onClose={handleModalClose}
         className="fixed inset-0 overflow-y-auto"

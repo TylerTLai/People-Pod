@@ -19,7 +19,7 @@ const PersonCard = ({ person }) => {
   return (
     <>
       {listView ? (
-        <motion.div
+        <motion.li
           variants={personCardVariants}
           initial="initial"
           animate="show"
@@ -31,9 +31,9 @@ const PersonCard = ({ person }) => {
             <PersonBio person={person} />
           </div>
           <CardControls person={person} />
-        </motion.div>
+        </motion.li>
       ) : (
-        <motion.div
+        <motion.li
           variants={personCardVariants}
           initial="initial"
           animate="show"
@@ -46,7 +46,7 @@ const PersonCard = ({ person }) => {
               {person.firstName} {person.lastName}
             </p>
           </div>
-        </motion.div>
+        </motion.li>
       )}
     </>
   );

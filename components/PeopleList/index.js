@@ -15,11 +15,11 @@ const PeopleList = () => {
       }`}
     >
       <ListControls />
-      <div className={`${!listView && "grid grid-cols-3 gap-4"}`}>
+      <ul className={`${!listView && "grid grid-cols-3 gap-4"}`}>
         {people?.map((person) => {
           return <PersonCard key={person.personId} person={person} listView={listView} />;
         })}
-      </div>
+      </ul>
     </div>
   );
 };

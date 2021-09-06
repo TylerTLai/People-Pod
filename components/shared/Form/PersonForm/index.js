@@ -133,72 +133,67 @@ const PersonForm = ({ handleModalClose }) => {
   };
 
   return (
-    <>
-      <form className="flex flex-col space-y-3 mb-5" onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="firstName">First Name</label>
-        <input
-          className="border border-gray-200 rounded pl-4 py-1"
-          id="firstName"
-          name="firstName"
-          type="text"
-          placeholder={
-            formType === "editPerson" && formData?.firstName
-              ? formData.firstName
-              : "First name..."
-          }
-          {...register("firstName")}
-        />
+    <form className="flex flex-col space-y-3 mb-5" onSubmit={handleSubmit(onSubmit)}>
+      <label htmlFor="firstName">First Name</label>
+      <input
+        className="border border-gray-200 rounded pl-4 py-1"
+        id="firstName"
+        name="firstName"
+        type="text"
+        placeholder={
+          formType === "editPerson" && formData?.firstName
+            ? formData.firstName
+            : "First name..."
+        }
+        {...register("firstName")}
+      />
 
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          className="border border-gray-200 rounded px-4 py-1"
-          id="lastName"
-          name="lastName"
-          type="text"
-          placeholder={
-            formType === "editPerson" && formData?.lastName
-              ? formData.lastName
-              : "Last name..."
-          }
-          {...register("lastName")}
-        />
-        <label htmlFor="group">Group</label>
-        <AsyncCreatableSelect
-          onChange={handleGroupChange}
-          isMulti
-          defaultOptions
-          placeholder={"Add person to a group..."}
-          loadOptions={getGroupOptions}
-          value={formGroups && formGroups}
-        />
-        <label htmlFor="quickNote">Quick Note</label>
-        <textarea
-          className="border border-gray-200 rounded pl-4 py-1"
-          id="quickNote"
-          name="quickNote"
-          type="text"
-          placeholder={
-            formType === "editPerson" && formData?.quickNote
-              ? formData.quickNote
-              : "Quick note..."
-          }
-          {...register("quickNote")}
-        />
-        {favorite ? (
-          <SvgHeart
-            className="text-red-500 fill-current"
-            onClick={handleFavoritePerson}
-          />
-        ) : (
-          <SvgHeart className="text-gray-500" onClick={handleFavoritePerson} />
-        )}
-        <div>
-          <Button primary type="submit">
-            {formType === "editPerson" ? "Save Changes" : "Add Person"}
-          </Button>
-        </div>
-      </form>
-    </>
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        className="border border-gray-200 rounded px-4 py-1"
+        id="lastName"
+        name="lastName"
+        type="text"
+        placeholder={
+          formType === "editPerson" && formData?.lastName
+            ? formData.lastName
+            : "Last name..."
+        }
+        {...register("lastName")}
+      />
+      <label htmlFor="group">Group</label>
+      <AsyncCreatableSelect
+        onChange={handleGroupChange}
+        isMulti
+        defaultOptions
+        placeholder={"Add person to a group..."}
+        loadOptions={getGroupOptions}
+        value={formGroups && formGroups}
+      />
+      <label htmlFor="quickNote">Quick Note</label>
+      <textarea
+        className="border border-gray-200 rounded pl-4 py-1"
+        id="quickNote"
+        name="quickNote"
+        type="text"
+        placeholder={
+          formType === "editPerson" && formData?.quickNote
+            ? formData.quickNote
+            : "Quick note..."
+        }
+        {...register("quickNote")}
+      />
+      {favorite ? (
+        <SvgHeart className="text-red-500 fill-current" onClick={handleFavoritePerson} />
+      ) : (
+        <SvgHeart className="text-gray-500" onClick={handleFavoritePerson} />
+      )}
+      <div>
+        <Button primary type="submit">
+          {formType === "editPerson" ? "Save Changes" : "Add Person"}
+        </Button>
+      </div>
+    </form>
   );
 };
 
