@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
 
 import axiosInstance from "../../config/axios";
 import { createSectionData } from "./helper";
@@ -22,11 +23,12 @@ import SvgSmartphone from "../shared/Icons/Smartphone";
 
 const PersonDetails = () => {
   const dispatch = useDispatch();
+  const { user } = useUser();
+  const userEmail = user?.email;
   const expandView = useSelector((state) => state.viewReducer.expandView);
   const personId = useSelector((state) => state.peopleReducer.personId);
   const people = useSelector((state) => state.peopleReducer.people);
   const [person, setPerson] = useState({});
-  // const [sectionData, setSectionDatat] = useState({});
 
   useEffect(() => {
     const getPerson = async () => {
@@ -34,6 +36,7 @@ const PersonDetails = () => {
         const res = await axiosInstance.get("people", {
           params: {
             personId,
+            userEmail,
           },
         });
         setPerson(res.data);
@@ -55,33 +58,32 @@ const PersonDetails = () => {
     details: [
       {
         id: 1,
-        value:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing, iure voluptate perferendis tempora!",
+        value: person.quickNote ? person.quickNote : "No notes provided.",
         icon: SvgClipboard,
       },
       {
         id: 2,
-        value: "Birthday",
+        value: person.birthday ? person.birthday : "No birthday provided.",
         icon: SvgCake,
       },
       {
         id: 3,
-        value: "Location",
+        value: person.location ? person.location : "No location provided",
         icon: SvgMapPin,
       },
       {
         id: 4,
-        value: "Address",
+        value: person.address ? person.address : "No address provided",
         icon: SvgHome,
       },
       {
         id: 5,
-        value: "Phone Number",
+        value: person.phoneNumber ? person.phoneNumber : "No phone number provided",
         icon: SvgSmartphone,
       },
       {
         id: 6,
-        value: "Email",
+        value: person.email ? person.email : "No email provided",
         icon: SvgMail,
       },
     ],

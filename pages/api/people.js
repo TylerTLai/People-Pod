@@ -12,24 +12,8 @@ export default async (req, res) => {
         });
       }
 
-      // User is logged in, fetch all people
-      if (userEmail) {
-        try {
-          const people = await prisma.person.findMany({
-            where: {
-              userEmail,
-            },
-            include: {
-              groups: true,
-            },
-          });
-          res.status(200).json(people);
-        } catch (error) {
-          console.error("error message: ", error.message);
-          res.status(500).send("Server Error");
-        }
-      } else if (personId && userEmail) {
-        // User is logged in, fetch a specific person
+      // User is logged in, fetch a specific person
+      if (personId && userEmail) {
         try {
           const fetchedPerson = await prisma.person.findUnique({
             where: {
@@ -40,6 +24,22 @@ export default async (req, res) => {
             },
           });
           res.status(200).json(fetchedPerson);
+        } catch (error) {
+          console.error("error message: ", error.message);
+          res.status(500).send("Server Error");
+        }
+      } else if (userEmail) {
+        // User is logged in, fetch all people
+        try {
+          const people = await prisma.person.findMany({
+            where: {
+              userEmail,
+            },
+            include: {
+              groups: true,
+            },
+          });
+          res.status(200).json(people);
         } catch (error) {
           console.error("error message: ", error.message);
           res.status(500).send("Server Error");
@@ -57,7 +57,7 @@ export default async (req, res) => {
           message: "Not logged in.",
         });
       }
-  
+
       // todo - refactor to use createOrConnect
       // old groups - groups that were previously created.
       // new groups - groups that are newly created.
