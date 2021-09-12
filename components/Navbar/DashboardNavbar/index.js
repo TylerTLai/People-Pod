@@ -5,8 +5,8 @@ import Link from "next/link";
 import { filterPeople } from "../../../redux/slices/peopleSlice";
 
 import UserProfile from "../../Sidebar/UserProfile";
+import SearchInput from "./SearchInput/SearchInput";
 
-import SvgSearch from "../../shared/Icons/Search";
 import SvgPeoplePodLogo from "../../shared/Icons/PeoplePodLogo";
 
 const DashboardNavbar = () => {
@@ -29,16 +29,8 @@ const DashboardNavbar = () => {
         </Link>
       </div>
 
-      {/* search bar */}
-      <div className="relative w-5/12">
-        <SvgSearch className="absolute top-3.5 left-4 text-gray-400" />
-        <input
-          className="min-w-full px-10 py-2 placeholder-gray-500 transition duration-300 ease-in-out border-2 border-gray-200 rounded-full hover:border-gray-400 focus:outline-none"
-          type="text"
-          placeholder="Find a person..."
-          onChange={handleInputChange}
-        />
-      </div>
+      {/* search input */}
+      <SearchInput handleInputChange={handleInputChange} />
 
       {/* user profile */}
       <div className="flex justify-end flex-1">

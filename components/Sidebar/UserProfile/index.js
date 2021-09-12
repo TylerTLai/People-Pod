@@ -21,27 +21,25 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
-      <div
-        className={`flex items-center rounded-lg hover:cursor-pointer`}
-        onClick={handleClick}
-      >
-        <Dropdown
-          reverseIcons
-          showDropdown={showDropdown}
-          handleDropdownItemClick={handleDropdownItemClick}
-          dropdownItems={dropdownItems}
-        />
-        <img
-          src="https://dummyimage.com/302x302/F3F4F7/8693ac"
-          alt="user name"
-          className={`object-cover w-10 h-10 rounded-full border border-gray-500`}
-        />
-        <div className="hidden sm:inline-block">
-          <h2 className="ml-5 text-sm font-medium tracking-widest text-gray-800 uppercase title-font">
-            {user.nickname}
-          </h2>
-        </div>
+    <div
+      className={`flex items-center rounded-lg hover:cursor-pointer`}
+      onClick={handleClick}
+    >
+      <Dropdown
+        reverseIcons
+        showDropdown={showDropdown}
+        handleDropdownItemClick={handleDropdownItemClick}
+        dropdownItems={dropdownItems}
+      />
+      <img
+        src="https://dummyimage.com/302x302/F3F4F7/8693ac"
+        alt="user name"
+        className={`object-cover w-10 h-10 rounded-full border border-gray-500`}
+      />
+      <div className="hidden sm:inline-block">
+        <h2 className="ml-5 text-sm font-medium tracking-widest text-gray-800 uppercase title-font">
+          {user.nickname}
+        </h2>
       </div>
     </div>
   );
