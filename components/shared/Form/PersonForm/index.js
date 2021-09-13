@@ -143,9 +143,9 @@ const PersonForm = ({ handleModalClose }) => {
         <label htmlFor="firstName" class="text-base leading-7 text-blueGray-500">
           First Name
         </label>
-        {errors.firstName?.type === "required" && (
-          <span className="text-red-500 text-xs tracking-widest mt-0 pt-0">
-            *First name is required
+        {errors.firstName && (
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.firstName?.message}
           </span>
         )}
         <input
@@ -156,12 +156,20 @@ const PersonForm = ({ handleModalClose }) => {
           placeholder={
             formType === "editPerson" && formData?.firstName ? formData.firstName : "John"
           }
-          {...register("firstName", { required: true, min: 3 })}
+          {...register("firstName", {
+            required: { value: true, message: "First name is required." },
+            pattern: { value: /^[A-Za-z]+$/i, message: "Invalid first name." },
+          })}
         />
 
         <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500">
           Last Name
         </label>
+        {errors.lastName && (
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.lastName?.message}
+          </span>
+        )}
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
           id="lastName"
@@ -170,7 +178,9 @@ const PersonForm = ({ handleModalClose }) => {
           placeholder={
             formType === "editPerson" && formData?.lastName ? formData.lastName : "Smith"
           }
-          {...register("lastName", { required: true, min: 3 })}
+          {...register("lastName", {
+            pattern: { value: /^[A-Za-z]+$/i, message: "Invalid last name." },
+          })}
         />
         <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500">
           Birthday
@@ -190,6 +200,11 @@ const PersonForm = ({ handleModalClose }) => {
         <label htmlFor="email" class="text-base leading-7 text-blueGray-500">
           Email
         </label>
+        {errors.email && (
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.email?.message}
+          </span>
+        )}
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
           id="email"
@@ -200,7 +215,12 @@ const PersonForm = ({ handleModalClose }) => {
               ? formData.email
               : "john@smith.com"
           }
-          {...register("email")}
+          {...register("email", {
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address.",
+            },
+          })}
         />
         <label htmlFor="location" class="text-base leading-7 text-blueGray-500">
           Location
