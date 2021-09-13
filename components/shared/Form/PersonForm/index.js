@@ -29,7 +29,12 @@ const PersonForm = ({ handleModalClose }) => {
   const [formGroups, setFormGroups] = useState([]);
   const { personId } = formData;
 
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
   const getGroupOptions = async () => {
     const res = await axiosInstance.get("groups", {
@@ -138,6 +143,11 @@ const PersonForm = ({ handleModalClose }) => {
         <label htmlFor="firstName" class="text-base leading-7 text-blueGray-500">
           First Name
         </label>
+        {errors.firstName?.type === "required" && (
+          <span className="text-red-500 text-xs tracking-widest mt-0 pt-0">
+            *First name is required
+          </span>
+        )}
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
           id="firstName"
@@ -146,8 +156,9 @@ const PersonForm = ({ handleModalClose }) => {
           placeholder={
             formType === "editPerson" && formData?.firstName ? formData.firstName : "John"
           }
-          {...register("firstName")}
+          {...register("firstName", { required: true, min: 3 })}
         />
+
         <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500">
           Last Name
         </label>
@@ -159,7 +170,7 @@ const PersonForm = ({ handleModalClose }) => {
           placeholder={
             formType === "editPerson" && formData?.lastName ? formData.lastName : "Smith"
           }
-          {...register("lastName")}
+          {...register("lastName", { required: true, min: 3 })}
         />
         <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500">
           Birthday

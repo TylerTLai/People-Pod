@@ -48,8 +48,25 @@ export default async (req, res) => {
       break;
     }
     case "POST": {
-      const { personId, firstName, lastName, quickNote, favorite, userEmail, groupList } =
-        req.body;
+      const {
+        personId,
+        firstName,
+        lastName,
+        birthday,
+        email,
+        location,
+        address,
+        phoneNumber,
+        quickNote,
+        favorite,
+        userEmail,
+        groupList,
+        facebookId,
+        twitterId,
+        instagramId,
+        linkedinId,
+        website,
+      } = req.body;
 
       // User is not logged in
       if (!userEmail) {
@@ -80,6 +97,16 @@ export default async (req, res) => {
             quickNote,
             personId,
             favorite,
+            birthday,
+            email,
+            location,
+            address,
+            phoneNumber,
+            facebookId,
+            twitterId,
+            instagramId,
+            linkedinId,
+            website,
             user: {
               connect: { email: userEmail },
             },
@@ -112,7 +139,25 @@ export default async (req, res) => {
       break;
     }
     case "PUT": {
-      const { firstName, lastName, quickNote, personId, favorite, userEmail } = req.body;
+      const {
+        personId,
+        firstName,
+        lastName,
+        birthday,
+        email,
+        location,
+        address,
+        phoneNumber,
+        quickNote,
+        favorite,
+        userEmail,
+        groupList,
+        facebookId,
+        twitterId,
+        instagramId,
+        linkedinId,
+        website,
+      } = req.body;
 
       if (!userEmail) {
         // User is not logged in
@@ -129,11 +174,21 @@ export default async (req, res) => {
             personId,
           },
           data: {
-            personId,
             firstName,
             lastName,
             quickNote,
+            personId,
             favorite,
+            birthday,
+            email,
+            location,
+            address,
+            phoneNumber,
+            facebookId,
+            twitterId,
+            instagramId,
+            linkedinId,
+            website,
           },
         });
 
