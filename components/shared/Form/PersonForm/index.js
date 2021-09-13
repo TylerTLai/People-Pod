@@ -13,7 +13,6 @@ import {
   updateOnePerson,
 } from "../../../../redux/slices/peopleSlice";
 import Button from "../../Button";
-import SvgHeart from "../../Icons/Heart";
 import { convertToCamelize, formatFormGroups, setPersonPrefilledValues } from "./helper";
 
 const _ = require("lodash");
@@ -136,9 +135,11 @@ const PersonForm = ({ handleModalClose }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="flex flex-col space-y-3 mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">About</legend>
-        <label htmlFor="firstName">First Name</label>
+        <label htmlFor="firstName" class="text-base leading-7 text-blueGray-500">
+          First Name
+        </label>
         <input
-          className="border border-gray-200 rounded pl-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="firstName"
           name="firstName"
           type="text"
@@ -147,9 +148,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("firstName")}
         />
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500">
+          Last Name
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="lastName"
           name="lastName"
           type="text"
@@ -158,9 +161,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("lastName")}
         />
-        <label htmlFor="birthday">Birthday</label>
+        <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500">
+          Birthday
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="birthday"
           name="birthday"
           type="text"
@@ -171,35 +176,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("birthday")}
         />
-        <label htmlFor="location">Location</label>
+        <label htmlFor="email" class="text-base leading-7 text-blueGray-500">
+          Email
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
-          id="location"
-          name="location"
-          type="text"
-          placeholder={
-            formType === "editPerson" && formData?.location
-              ? formData.location
-              : "San Francisco, California"
-          }
-          {...register("location")}
-        />
-        <label htmlFor="address">Address</label>
-        <input
-          className="border border-gray-200 rounded px-4 py-1"
-          id="address"
-          name="address"
-          type="text"
-          placeholder={
-            formType === "editPerson" && formData?.address
-              ? formData.address
-              : "1111 John Street, San Francisco, CA, 94143"
-          }
-          {...register("address")}
-        />
-        <label htmlFor="email">Email</label>
-        <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="email"
           name="email"
           type="text"
@@ -210,9 +191,41 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("email")}
         />
-        <label htmlFor="phoneNumber">Phone Number</label>
+        <label htmlFor="location" class="text-base leading-7 text-blueGray-500">
+          Location
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="location"
+          name="location"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.location
+              ? formData.location
+              : "San Francisco, California"
+          }
+          {...register("location")}
+        />
+        <label htmlFor="address" class="text-base leading-7 text-blueGray-500">
+          Address
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="address"
+          name="address"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.address
+              ? formData.address
+              : "1111 John Street, San Francisco, CA, 94143"
+          }
+          {...register("address")}
+        />
+        <label htmlFor="phoneNumber" class="text-base leading-7 text-blueGray-500">
+          Phone Number
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2 "
           id="phoneNumber"
           name="phoneNumber"
           type="tel"
@@ -223,7 +236,9 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("phoneNumber")}
         />
-        <label htmlFor="group">Group</label>
+        <label htmlFor="group" class="text-base leading-7 text-blueGray-500">
+          Group
+        </label>
         <AsyncCreatableSelect
           onChange={handleGroupChange}
           isMulti
@@ -232,20 +247,23 @@ const PersonForm = ({ handleModalClose }) => {
           loadOptions={getGroupOptions}
           value={formGroups && formGroups}
         />
-        <label htmlFor="quickNote">Quick Note</label>
+        <label htmlFor="quickNote" class="text-base leading-7 text-blueGray-500">
+          Quick Note
+        </label>
         <textarea
-          className="border border-gray-200 rounded pl-4 py-1"
+          class="w-full h-32 px-4 py-2 mt-2 text-base rounded border text-blueGray-500 autoexpand"
           id="quickNote"
-          name="quickNote"
           type="text"
+          name="quickNote"
           placeholder={
             formType === "editPerson" && formData?.quickNote
               ? formData.quickNote
               : "Likes to party like it's 1999."
           }
           {...register("quickNote")}
-        />
-        {favorite ? (
+        ></textarea>
+
+        {/* {favorite ? (
           <div>
             <Button
               secondary
@@ -265,13 +283,27 @@ const PersonForm = ({ handleModalClose }) => {
               <p>Favorite</p>
             </Button>
           </div>
-        )}
+        )} */}
+
+        <div class="flex">
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              class="form-checkbox"
+              placeholder="Favorite this person"
+              {...register("favorite")}
+            />
+            <span class="ml-2 text-blueGray-500">Favorite this person</span>
+          </label>
+        </div>
       </fieldset>
       <fieldset className="flex flex-col space-y-3 mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">Social</legend>
-        <label htmlFor="facebook">Facebook</label>
+        <label htmlFor="facebook" class="text-base leading-7 text-blueGray-500">
+          Facebook
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="facebook"
           name="facebook"
           type="text"
@@ -282,9 +314,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("facebook")}
         />
-        <label htmlFor="twitter">Twitter</label>
+        <label htmlFor="twitter" class="text-base leading-7 text-blueGray-500">
+          Twitter
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="twitter"
           name="twitter"
           type="text"
@@ -295,9 +329,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("twitter")}
         />
-        <label htmlFor="instagram">Instagram</label>
+        <label htmlFor="instagram" class="text-base leading-7 text-blueGray-500">
+          Instagram
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="instagram"
           name="instagram"
           type="text"
@@ -308,9 +344,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("instagram")}
         />
-        <label htmlFor="linkedin">LinkedIn</label>
+        <label htmlFor="linkedin" class="text-base leading-7 text-blueGray-500">
+          LinkedIn
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="linkedin"
           name="linkedin"
           type="text"
@@ -321,9 +359,11 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("linkedin")}
         />
-        <label htmlFor="website">Website</label>
+        <label htmlFor="website" class="text-base leading-7 text-blueGray-500">
+          Website
+        </label>
         <input
-          className="border border-gray-200 rounded px-4 py-1"
+          className="bg-blueGray-100 rounded px-4 py-2"
           id="website"
           name="website"
           type="text"
@@ -337,8 +377,10 @@ const PersonForm = ({ handleModalClose }) => {
       </fieldset>
 
       <div>
-        <Button primary type="submit">
-          {formType === "editPerson" ? "Save Changes" : "Add Person"}
+        <Button primary type="submit" className="w-full">
+          <p className="text-center w-full text-lg">
+            {formType === "editPerson" ? "Save Changes" : "Add Person"}
+          </p>
         </Button>
       </div>
     </form>

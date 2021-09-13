@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../redux/slices/modalSlice";
-import Button from "../Button";
 import GroupForm from "../Form/GroupForm";
 import PersonForm from "../Form/PersonForm";
 import SvgXCircle from "../Icons/XCircle";
@@ -68,9 +67,12 @@ const Modal = () => {
                 <GroupForm handleModalClose={handleModalClose} />
               )}
             </div>
-            <Button secondary onClick={handleModalClose} className="w-28 mb-4">
-              <p className="text-center w-full">Cancel</p>
-            </Button>
+            <p
+              className="text-center py-1 text-gray-500 border-2 text-lg rounded-md mt-3 mb-5 hover:cursor-pointer"
+              onClick={handleModalClose}
+            >
+              Cancel
+            </p>
           </motion.div>
         </div>
       </Dialog>
