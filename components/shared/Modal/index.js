@@ -1,14 +1,14 @@
-import SvgXCircle from "../Icons/XCircle";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "../Button";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../redux/slices/modalSlice";
-import { generateModalLabels } from "./helper";
-import PersonForm from "../Form/PersonForm";
+import Button from "../Button";
 import GroupForm from "../Form/GroupForm";
+import PersonForm from "../Form/PersonForm";
+import SvgXCircle from "../Icons/XCircle";
 import { modalVariants } from "./animation";
+import { generateModalLabels } from "./helper";
 
 const Modal = () => {
   const dispatch = useDispatch();
@@ -31,16 +31,16 @@ const Modal = () => {
         data-testid="modal"
         open={isOpen}
         onClose={handleModalClose}
-        className="fixed inset-0 overflow-y-auto"
+        className="fixed inset-0"
       >
-        <div className="relative flex items-center justify-center min-h-screen z-30">
+        <div className="relative flex items-center justify-center min-h-screen z-50">
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
 
           <motion.div
             variants={modalVariants}
             initial="hide"
             animate={isOpen ? "show" : "hide"}
-            className="bg-white absolute top-24 rounded-lg w-11/12 sm:w-1/3 mx-auto z-40 p-6"
+            className="bg-white absolute top-24 rounded-lg w-11/12 sm:w-1/3 mx-auto z-40 p-6 overflow-y-auto h-3/4"
           >
             <Dialog.Title>
               <div className="flex justify-between">
@@ -68,8 +68,8 @@ const Modal = () => {
                 <GroupForm handleModalClose={handleModalClose} />
               )}
             </div>
-            <Button secondary onClick={handleModalClose}>
-              Cancel
+            <Button secondary onClick={handleModalClose} className="w-28 mb-4">
+              <p className="text-center w-full">Cancel</p>
             </Button>
           </motion.div>
         </div>

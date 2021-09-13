@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useUser } from "@auth0/nextjs-auth0";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import { v4 as uuidv4 } from "uuid";
-
 import axiosInstance from "../../../../config/axios";
-import Button from "../../Button";
-import SvgHeart from "../../Icons/Heart";
+import { addGroup } from "../../../../redux/slices/groupSlice";
+import { setFormType } from "../../../../redux/slices/modalSlice";
 import {
   addOnePerson,
   favoritePerson,
   updateOnePerson,
 } from "../../../../redux/slices/peopleSlice";
-import { setFormType } from "../../../../redux/slices/modalSlice";
+import Button from "../../Button";
+import SvgHeart from "../../Icons/Heart";
 import { convertToCamelize, formatFormGroups, setPersonPrefilledValues } from "./helper";
-import { addGroup } from "../../../../redux/slices/groupSlice";
 
 const _ = require("lodash");
 
