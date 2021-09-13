@@ -1,25 +1,16 @@
-import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../config/axios";
-import { createSectionData } from "./helper";
 import { setExpandView } from "../../redux/slices/viewSlice";
-import { personDetailsVariants } from "./animation";
-
-import Section from "./Section";
-import Summary from "./Summary";
 import IconButton from "../shared/IconButton";
-
-import SvgCake from "../shared/Icons/Cake";
-import SvgClipboard from "../shared/Icons/Clipboard";
-import SvgHome from "../shared/Icons/Home";
-import SvgMail from "../shared/Icons/Mail";
-import SvgMapPin from "../shared/Icons/MapPin";
 import SvgMaximize2 from "../shared/Icons/Maximize2";
 import SvgMinimize2 from "../shared/Icons/Minimize2";
-import SvgSmartphone from "../shared/Icons/Smartphone";
+import { personDetailsVariants } from "./animation";
+import { createSectionData } from "./helper";
+import Section from "./Section";
+import Summary from "./Summary";
 
 const PersonDetails = () => {
   const dispatch = useDispatch();
@@ -40,7 +31,7 @@ const PersonDetails = () => {
           },
         });
         setPerson(res.data);
-        // setSectionData(createSectionData(res.data));
+        // createSectionData(res.data);
       } catch (error) {
         console.error("error message: ", error.message);
       }
@@ -53,41 +44,41 @@ const PersonDetails = () => {
     dispatch(setExpandView());
   };
 
-  const sectionData = {
-    title: "About",
-    details: [
-      {
-        id: 1,
-        value: person.quickNote ? person.quickNote : "No notes provided.",
-        icon: SvgClipboard,
-      },
-      {
-        id: 2,
-        value: person.birthday ? person.birthday : "No birthday provided.",
-        icon: SvgCake,
-      },
-      {
-        id: 3,
-        value: person.location ? person.location : "No location provided",
-        icon: SvgMapPin,
-      },
-      {
-        id: 4,
-        value: person.address ? person.address : "No address provided",
-        icon: SvgHome,
-      },
-      {
-        id: 5,
-        value: person.phoneNumber ? person.phoneNumber : "No phone number provided",
-        icon: SvgSmartphone,
-      },
-      {
-        id: 6,
-        value: person.email ? person.email : "No email provided",
-        icon: SvgMail,
-      },
-    ],
-  };
+  // const sectionData = {
+  //   title: "About",
+  //   details: [
+  //     {
+  //       id: 1,
+  //       value: person.quickNote ? person.quickNote : "No notes provided.",
+  //       icon: SvgClipboard,
+  //     },
+  //     {
+  //       id: 2,
+  //       value: person.birthday ? person.birthday : "No birthday provided.",
+  //       icon: SvgCake,
+  //     },
+  //     {
+  //       id: 3,
+  //       value: person.location ? person.location : "No location provided",
+  //       icon: SvgMapPin,
+  //     },
+  //     {
+  //       id: 4,
+  //       value: person.address ? person.address : "No address provided",
+  //       icon: SvgHome,
+  //     },
+  //     {
+  //       id: 5,
+  //       value: person.phoneNumber ? person.phoneNumber : "No phone number provided",
+  //       icon: SvgSmartphone,
+  //     },
+  //     {
+  //       id: 6,
+  //       value: person.email ? person.email : "No email provided",
+  //       icon: SvgMail,
+  //     },
+  //   ],
+  // };
 
   return (
     <div className={`flex-1`}>
@@ -107,7 +98,7 @@ const PersonDetails = () => {
             </div>
           </div>
           <Summary person={person} />
-          <Section sectionData={sectionData} />
+          <Section sectionData={createSectionData(person)} />
         </motion.div>
       ) : (
         <div className="flex items-center justify-center min-h-screen text-xl font-bold uppercase">

@@ -138,9 +138,12 @@ const PersonForm = ({ handleModalClose }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <fieldset className="flex flex-col space-y-3 mb-12">
+      <fieldset className="flex flex-col mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">About</legend>
-        <label htmlFor="firstName" class="text-base leading-7 text-blueGray-500">
+        <label
+          htmlFor="firstName"
+          class="text-base leading-7 text-blueGray-500 mt-4 mt-2"
+        >
           First Name
         </label>
         {errors.firstName && (
@@ -153,6 +156,7 @@ const PersonForm = ({ handleModalClose }) => {
           id="firstName"
           name="firstName"
           type="text"
+          autoFocus
           placeholder={
             formType === "editPerson" && formData?.firstName ? formData.firstName : "John"
           }
@@ -162,7 +166,7 @@ const PersonForm = ({ handleModalClose }) => {
           })}
         />
 
-        <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500 mt-4">
           Last Name
         </label>
         {errors.lastName && (
@@ -182,7 +186,7 @@ const PersonForm = ({ handleModalClose }) => {
             pattern: { value: /^[A-Za-z]+$/i, message: "Invalid last name." },
           })}
         />
-        <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500 mt-4">
           Birthday
         </label>
         <input
@@ -197,7 +201,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("birthday")}
         />
-        <label htmlFor="email" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="email" class="text-base leading-7 text-blueGray-500 mt-4">
           Email
         </label>
         {errors.email && (
@@ -209,7 +213,7 @@ const PersonForm = ({ handleModalClose }) => {
           className="bg-blueGray-100 rounded px-4 py-2"
           id="email"
           name="email"
-          type="text"
+          type="email"
           placeholder={
             formType === "editPerson" && formData?.email
               ? formData.email
@@ -222,7 +226,7 @@ const PersonForm = ({ handleModalClose }) => {
             },
           })}
         />
-        <label htmlFor="location" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="location" class="text-base leading-7 text-blueGray-500 mt-4">
           Location
         </label>
         <input
@@ -237,7 +241,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("location")}
         />
-        <label htmlFor="address" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="address" class="text-base leading-7 text-blueGray-500 mt-4">
           Address
         </label>
         <input
@@ -252,7 +256,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("address")}
         />
-        <label htmlFor="phoneNumber" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="phoneNumber" class="text-base leading-7 text-blueGray-500 mt-4">
           Phone Number
         </label>
         <input
@@ -267,7 +271,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("phoneNumber")}
         />
-        <label htmlFor="group" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="group" class="text-base leading-7 text-blueGray-500 mt-4">
           Group
         </label>
         <AsyncCreatableSelect
@@ -278,11 +282,11 @@ const PersonForm = ({ handleModalClose }) => {
           loadOptions={getGroupOptions}
           value={formGroups && formGroups}
         />
-        <label htmlFor="quickNote" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="quickNote" class="text-base leading-7 text-blueGray-500 mt-4">
           Quick Note
         </label>
         <textarea
-          class="w-full h-32 px-4 py-2 mt-2 text-base rounded border text-blueGray-500 autoexpand"
+          class="w-full h-32 px-4 py-2 text-base rounded border text-blueGray-500 autoexpand"
           id="quickNote"
           type="text"
           name="quickNote"
@@ -328,9 +332,9 @@ const PersonForm = ({ handleModalClose }) => {
           </label>
         </div>
       </fieldset>
-      <fieldset className="flex flex-col space-y-3 mb-12">
+      <fieldset className="flex flex-col mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">Social</legend>
-        <label htmlFor="facebook" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="facebook" class="text-base leading-7 text-blueGray-500 mt-4">
           Facebook
         </label>
         <input
@@ -345,7 +349,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("facebook")}
         />
-        <label htmlFor="twitter" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="twitter" class="text-base leading-7 text-blueGray-500 mt-4">
           Twitter
         </label>
         <input
@@ -360,7 +364,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("twitter")}
         />
-        <label htmlFor="instagram" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="instagram" class="text-base leading-7 text-blueGray-500 mt-4">
           Instagram
         </label>
         <input
@@ -375,7 +379,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("instagram")}
         />
-        <label htmlFor="linkedin" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="linkedin" class="text-base leading-7 text-blueGray-500 mt-4">
           LinkedIn
         </label>
         <input
@@ -390,7 +394,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("linkedin")}
         />
-        <label htmlFor="website" class="text-base leading-7 text-blueGray-500">
+        <label htmlFor="website" class="text-base leading-7 text-blueGray-500 mt-4">
           Website
         </label>
         <input

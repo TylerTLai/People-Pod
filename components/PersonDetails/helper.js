@@ -1,8 +1,49 @@
-export const createSectionData = (personData) => {
-  const sectionData = {
-    title: "",
-    details: [{}],
-  };
+import { v4 as uuidv4 } from "uuid";
+import SvgCake from "../shared/Icons/Cake";
+import SvgClipboard from "../shared/Icons/Clipboard";
+import SvgHome from "../shared/Icons/Home";
+import SvgMail from "../shared/Icons/Mail";
+import SvgMapPin from "../shared/Icons/MapPin";
+import SvgSmartphone from "../shared/Icons/Smartphone";
+
+export const createSectionData = (person) => {
+  const sectionData = [];
+
+  sectionData.push({
+    title: "About",
+    details: [
+      {
+        id: uuidv4(),
+        value: person.quickNote ? person.quickNote : "No notes provided.",
+        icon: SvgClipboard,
+      },
+      {
+        id: uuidv4(),
+        value: person.birthday ? person.birthday : "No birthday provided.",
+        icon: SvgCake,
+      },
+      {
+        id: uuidv4(),
+        value: person.location ? person.location : "No location provided",
+        icon: SvgMapPin,
+      },
+      {
+        id: uuidv4(),
+        value: person.address ? person.address : "No address provided",
+        icon: SvgHome,
+      },
+      {
+        id: uuidv4(),
+        value: person.phoneNumber ? person.phoneNumber : "No phone number provided",
+        icon: SvgSmartphone,
+      },
+      {
+        id: uuidv4(),
+        value: person.email ? person.email : "No email provided",
+        icon: SvgMail,
+      },
+    ],
+  });
 
   // personData currently:
 
