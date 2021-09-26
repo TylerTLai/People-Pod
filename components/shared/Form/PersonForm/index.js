@@ -20,7 +20,7 @@ const _ = require("lodash");
 const PersonForm = ({ handleModalClose }) => {
   const dispatch = useDispatch();
   const { user } = useUser();
-  const userEmail = user.email;
+  const userEmail = user?.email;
 
   const formType = useSelector((state) => state.modalReducer.formType);
   const formData = useSelector((state) => state.modalReducer.formData);
@@ -137,12 +137,12 @@ const PersonForm = ({ handleModalClose }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} data-testid="add-person-form">
       <fieldset className="flex flex-col mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">About</legend>
         <label
           htmlFor="firstName"
-          class="text-base leading-7 text-blueGray-500 mt-4 mt-2"
+          className="text-base leading-7 text-blueGray-500 mt-4 mt-2"
         >
           First Name
         </label>
@@ -166,7 +166,7 @@ const PersonForm = ({ handleModalClose }) => {
           })}
         />
 
-        <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="lastName" className="text-base leading-7 text-blueGray-500 mt-4">
           Last Name
         </label>
         {errors.lastName && (
@@ -186,7 +186,7 @@ const PersonForm = ({ handleModalClose }) => {
             pattern: { value: /^[A-Za-z]+$/i, message: "Invalid last name." },
           })}
         />
-        <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="birthday" className="text-base leading-7 text-blueGray-500 mt-4">
           Birthday
         </label>
         <input
@@ -201,7 +201,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("birthday")}
         />
-        <label htmlFor="email" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="email" className="text-base leading-7 text-blueGray-500 mt-4">
           Email
         </label>
         {errors.email && (
@@ -226,7 +226,7 @@ const PersonForm = ({ handleModalClose }) => {
             },
           })}
         />
-        <label htmlFor="location" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="location" className="text-base leading-7 text-blueGray-500 mt-4">
           Location
         </label>
         <input
@@ -241,7 +241,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("location")}
         />
-        <label htmlFor="address" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="address" className="text-base leading-7 text-blueGray-500 mt-4">
           Address
         </label>
         <input
@@ -256,7 +256,10 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("address")}
         />
-        <label htmlFor="phoneNumber" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label
+          htmlFor="phoneNumber"
+          className="text-base leading-7 text-blueGray-500 mt-4"
+        >
           Phone Number
         </label>
         <input
@@ -271,7 +274,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("phoneNumber")}
         />
-        <label htmlFor="group" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="group" className="text-base leading-7 text-blueGray-500 mt-4">
           Group
         </label>
         <AsyncCreatableSelect
@@ -282,11 +285,11 @@ const PersonForm = ({ handleModalClose }) => {
           loadOptions={getGroupOptions}
           value={formGroups && formGroups}
         />
-        <label htmlFor="quickNote" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="quickNote" className="text-base leading-7 text-blueGray-500 mt-4">
           Quick Note
         </label>
         <textarea
-          class="w-full h-32 px-4 py-2 text-base rounded border text-blueGray-500 autoexpand"
+          className="w-full h-32 px-4 py-2 text-base rounded border text-blueGray-500 autoexpand"
           id="quickNote"
           type="text"
           name="quickNote"
@@ -320,21 +323,21 @@ const PersonForm = ({ handleModalClose }) => {
           </div>
         )} */}
 
-        <div class="flex">
-          <label class="flex items-center">
+        <div className="flex">
+          <label className="flex items-center">
             <input
               type="checkbox"
-              class="form-checkbox"
+              className="form-checkbox"
               placeholder="Favorite this person"
               {...register("favorite")}
             />
-            <span class="ml-2 text-blueGray-500">Favorite this person</span>
+            <span className="ml-2 text-blueGray-500">Favorite this person</span>
           </label>
         </div>
       </fieldset>
       <fieldset className="flex flex-col mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">Social</legend>
-        <label htmlFor="facebook" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="facebook" className="text-base leading-7 text-blueGray-500 mt-4">
           Facebook
         </label>
         <input
@@ -349,7 +352,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("facebook")}
         />
-        <label htmlFor="twitter" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="twitter" className="text-base leading-7 text-blueGray-500 mt-4">
           Twitter
         </label>
         <input
@@ -364,7 +367,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("twitter")}
         />
-        <label htmlFor="instagram" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="instagram" className="text-base leading-7 text-blueGray-500 mt-4">
           Instagram
         </label>
         <input
@@ -379,7 +382,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("instagram")}
         />
-        <label htmlFor="linkedin" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="linkedin" className="text-base leading-7 text-blueGray-500 mt-4">
           LinkedIn
         </label>
         <input
@@ -394,7 +397,7 @@ const PersonForm = ({ handleModalClose }) => {
           }
           {...register("linkedin")}
         />
-        <label htmlFor="website" class="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="website" className="text-base leading-7 text-blueGray-500 mt-4">
           Website
         </label>
         <input

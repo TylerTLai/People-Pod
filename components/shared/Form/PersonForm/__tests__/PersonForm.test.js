@@ -1,26 +1,35 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import Modal from "../../../Modal/index";
-import PersonForm from "../index";
-import Button from "../../../Button/index";
+import { UserProvider } from "@auth0/nextjs-auth0";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import { Provider } from "react-redux";
 import { store } from "../../../../../redux/store";
+import Button from "../../../Button/index";
+import PersonForm from "../../../Form/PersonForm/index";
 
 const jestMock = jest.fn();
+
 const MockButton = () => <Button onClick={jestMock}>Add Person</Button>;
-const MockModal = () => (
-  <Provider store={store}>
-    <Modal />
-  </Provider>
+const MockPersonForm = () => (
+  <UserProvider>
+    <Provider store={store}>
+      <PersonForm data-testid="modal" />
+    </Provider>
+  </UserProvider>
 );
+
 describe("PersonForm", () => {
-  it("should render PersonForm on Add Person button click", () => {
+  it("should render PersonForm when Add Person button is clicked", () => {
     render(<MockButton />);
     const button = screen.getByText(/add person/i);
     expect(button).toBeInTheDocument();
     fireEvent.click(button);
-    render(<MockModal />);
-    const modal = screen.getByTestId("modal");
-    // const form = screen.getByRole("form");
-    expect(modal).toBeInTheDocument();
+
+    act(() => {
+      render(<MockPersonForm />);
+    });
+
+    // render(<MockPersonForm />);
+    const form = screen.getByTestId("add-person-form");
+    expect(form).toBeInTheDocument();
   });
 });
