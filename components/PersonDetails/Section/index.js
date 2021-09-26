@@ -1,9 +1,9 @@
 const Section = ({ sectionData }) => {
   return (
     <div className="border border-gray-300 rounded-xl my-5 w-full p-5">
-      <h3 className="text-2xl mb-3">{sectionData.title}</h3>
+      <h3 className="text-2xl mb-3">{sectionData?.title}</h3>
       <ul className="flex flex-col space-y-4">
-        {sectionData.details.map((detail) => {
+        {sectionData?.details?.map((detail) => {
           const SectionIcon = detail.icon;
           return (
             <div key={detail.id}>

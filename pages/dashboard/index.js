@@ -34,7 +34,6 @@ const Dashboard = () => {
         dispatch(setAllPeople(res.data));
       } catch (error) {
         if (axios.isCancel(error)) {
-          console.log("axios request canceled");
         } else {
           console.error(error.message);
         }
@@ -52,7 +51,6 @@ const Dashboard = () => {
         dispatch(setAllGroups(res.data));
       } catch (error) {
         if (axios.isCancel(error)) {
-          console.log("axios request canceled");
         } else {
           console.error(error.message);
         }

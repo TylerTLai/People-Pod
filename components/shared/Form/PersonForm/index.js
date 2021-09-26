@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useUser } from "@auth0/nextjs-auth0";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import { v4 as uuidv4 } from "uuid";
 import axiosInstance from "../../../../config/axios";
-import Button from "../../Button";
-import SvgHeart from "../../Icons/Heart";
+import { addGroup } from "../../../../redux/slices/groupSlice";
+import { setFormType } from "../../../../redux/slices/modalSlice";
 import {
   addOnePerson,
   favoritePerson,
   updateOnePerson,
 } from "../../../../redux/slices/peopleSlice";
-import { setFormType } from "../../../../redux/slices/modalSlice";
+import Button from "../../Button";
 import { convertToCamelize, formatFormGroups, setPersonPrefilledValues } from "./helper";
-import { addGroup } from "../../../../redux/slices/groupSlice";
 
 const _ = require("lodash");
 
@@ -30,7 +29,12 @@ const PersonForm = ({ handleModalClose }) => {
   const [formGroups, setFormGroups] = useState([]);
   const { personId } = formData;
 
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
   const getGroupOptions = async () => {
     const res = await axiosInstance.get("groups", {
@@ -133,64 +137,285 @@ const PersonForm = ({ handleModalClose }) => {
   };
 
   return (
-    <form className="flex flex-col space-y-3 mb-5" onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="firstName">First Name</label>
-      <input
-        className="border border-gray-200 rounded pl-4 py-1"
-        id="firstName"
-        name="firstName"
-        type="text"
-        placeholder={
-          formType === "editPerson" && formData?.firstName
-            ? formData.firstName
-            : "First name..."
-        }
-        {...register("firstName")}
-      />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <fieldset className="flex flex-col mb-12">
+        <legend className="text-2xl font-bold uppercase text-gray-700">About</legend>
+        <label
+          htmlFor="firstName"
+          class="text-base leading-7 text-blueGray-500 mt-4 mt-2"
+        >
+          First Name
+        </label>
+        {errors.firstName && (
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.firstName?.message}
+          </span>
+        )}
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="firstName"
+          name="firstName"
+          type="text"
+          autoFocus
+          placeholder={
+            formType === "editPerson" && formData?.firstName ? formData.firstName : "John"
+          }
+          {...register("firstName", {
+            required: { value: true, message: "First name is required." },
+            pattern: { value: /^[A-Za-z]+$/i, message: "Invalid first name." },
+          })}
+        />
 
-      <label htmlFor="lastName">Last Name</label>
-      <input
-        className="border border-gray-200 rounded px-4 py-1"
-        id="lastName"
-        name="lastName"
-        type="text"
-        placeholder={
-          formType === "editPerson" && formData?.lastName
-            ? formData.lastName
-            : "Last name..."
-        }
-        {...register("lastName")}
-      />
-      <label htmlFor="group">Group</label>
-      <AsyncCreatableSelect
-        onChange={handleGroupChange}
-        isMulti
-        defaultOptions
-        placeholder={"Add person to a group..."}
-        loadOptions={getGroupOptions}
-        value={formGroups && formGroups}
-      />
-      <label htmlFor="quickNote">Quick Note</label>
-      <textarea
-        className="border border-gray-200 rounded pl-4 py-1"
-        id="quickNote"
-        name="quickNote"
-        type="text"
-        placeholder={
-          formType === "editPerson" && formData?.quickNote
-            ? formData.quickNote
-            : "Quick note..."
-        }
-        {...register("quickNote")}
-      />
-      {favorite ? (
-        <SvgHeart className="text-red-500 fill-current" onClick={handleFavoritePerson} />
-      ) : (
-        <SvgHeart className="text-gray-500" onClick={handleFavoritePerson} />
-      )}
+        <label htmlFor="lastName" class="text-base leading-7 text-blueGray-500 mt-4">
+          Last Name
+        </label>
+        {errors.lastName && (
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.lastName?.message}
+          </span>
+        )}
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="lastName"
+          name="lastName"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.lastName ? formData.lastName : "Smith"
+          }
+          {...register("lastName", {
+            pattern: { value: /^[A-Za-z]+$/i, message: "Invalid last name." },
+          })}
+        />
+        <label htmlFor="birthday" class="text-base leading-7 text-blueGray-500 mt-4">
+          Birthday
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="birthday"
+          name="birthday"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.birthday
+              ? formData.birthday
+              : "January 1, 1999"
+          }
+          {...register("birthday")}
+        />
+        <label htmlFor="email" class="text-base leading-7 text-blueGray-500 mt-4">
+          Email
+        </label>
+        {errors.email && (
+          <span className="text-red-500 text-xs tracking-wider">
+            {errors?.email?.message}
+          </span>
+        )}
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="email"
+          name="email"
+          type="email"
+          placeholder={
+            formType === "editPerson" && formData?.email
+              ? formData.email
+              : "john@smith.com"
+          }
+          {...register("email", {
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address.",
+            },
+          })}
+        />
+        <label htmlFor="location" class="text-base leading-7 text-blueGray-500 mt-4">
+          Location
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="location"
+          name="location"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.location
+              ? formData.location
+              : "San Francisco, California"
+          }
+          {...register("location")}
+        />
+        <label htmlFor="address" class="text-base leading-7 text-blueGray-500 mt-4">
+          Address
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="address"
+          name="address"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.address
+              ? formData.address
+              : "1111 John Street, San Francisco, CA, 94143"
+          }
+          {...register("address")}
+        />
+        <label htmlFor="phoneNumber" class="text-base leading-7 text-blueGray-500 mt-4">
+          Phone Number
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2 "
+          id="phoneNumber"
+          name="phoneNumber"
+          type="tel"
+          placeholder={
+            formType === "editPerson" && formData?.phoneNumber
+              ? formData.phoneNumber
+              : "123-456-7890"
+          }
+          {...register("phoneNumber")}
+        />
+        <label htmlFor="group" class="text-base leading-7 text-blueGray-500 mt-4">
+          Group
+        </label>
+        <AsyncCreatableSelect
+          onChange={handleGroupChange}
+          isMulti
+          defaltOptions
+          placeholder={"Add this person to a group..."}
+          loadOptions={getGroupOptions}
+          value={formGroups && formGroups}
+        />
+        <label htmlFor="quickNote" class="text-base leading-7 text-blueGray-500 mt-4">
+          Quick Note
+        </label>
+        <textarea
+          class="w-full h-32 px-4 py-2 text-base rounded border text-blueGray-500 autoexpand"
+          id="quickNote"
+          type="text"
+          name="quickNote"
+          placeholder={
+            formType === "editPerson" && formData?.quickNote
+              ? formData.quickNote
+              : "Likes to party like it's 1999."
+          }
+          {...register("quickNote")}
+        ></textarea>
+
+        {/* {favorite ? (
+          <div>
+            <Button
+              secondary
+              onClick={handleFavoritePerson}
+              icon={<SvgHeart className="text-red-500 fill-current" />}
+            >
+              <p>UnFavorite</p>
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <Button
+              secondary
+              onClick={handleFavoritePerson}
+              icon={<SvgHeart className="text-gray-500" />}
+            >
+              <p>Favorite</p>
+            </Button>
+          </div>
+        )} */}
+
+        <div class="flex">
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              class="form-checkbox"
+              placeholder="Favorite this person"
+              {...register("favorite")}
+            />
+            <span class="ml-2 text-blueGray-500">Favorite this person</span>
+          </label>
+        </div>
+      </fieldset>
+      <fieldset className="flex flex-col mb-12">
+        <legend className="text-2xl font-bold uppercase text-gray-700">Social</legend>
+        <label htmlFor="facebook" class="text-base leading-7 text-blueGray-500 mt-4">
+          Facebook
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="facebook"
+          name="facebook"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.facebook
+              ? formData.facebook
+              : "https://www.facebook.com/johndoe"
+          }
+          {...register("facebook")}
+        />
+        <label htmlFor="twitter" class="text-base leading-7 text-blueGray-500 mt-4">
+          Twitter
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="twitter"
+          name="twitter"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.twitter
+              ? formData.twitter
+              : "https://www.twitter.com/johndoe"
+          }
+          {...register("twitter")}
+        />
+        <label htmlFor="instagram" class="text-base leading-7 text-blueGray-500 mt-4">
+          Instagram
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="instagram"
+          name="instagram"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.instagram
+              ? formData.instagram
+              : "https://www.instagram.com/johndoe"
+          }
+          {...register("instagram")}
+        />
+        <label htmlFor="linkedin" class="text-base leading-7 text-blueGray-500 mt-4">
+          LinkedIn
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="linkedin"
+          name="linkedin"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.linkedin
+              ? formData.linkedin
+              : "https://www.linkedin.com/johndoe"
+          }
+          {...register("linkedin")}
+        />
+        <label htmlFor="website" class="text-base leading-7 text-blueGray-500 mt-4">
+          Website
+        </label>
+        <input
+          className="bg-blueGray-100 rounded px-4 py-2"
+          id="website"
+          name="website"
+          type="text"
+          placeholder={
+            formType === "editPerson" && formData?.website
+              ? formData.website
+              : "https://www.johndoe.com"
+          }
+          {...register("website")}
+        />
+      </fieldset>
+
       <div>
-        <Button primary type="submit">
-          {formType === "editPerson" ? "Save Changes" : "Add Person"}
+        <Button primary type="submit" className="w-full">
+          <p className="text-center w-full text-lg">
+            {formType === "editPerson" ? "Save Changes" : "Add Person"}
+          </p>
         </Button>
       </div>
     </form>

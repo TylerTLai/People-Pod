@@ -11,10 +11,22 @@ model Person {
   id                 Int         @id @default(autoincrement())
   personId           String      @unique
   firstName          String
-  lastName           String
+  lastName           String?
+  birthday           String?
+  email              String?
+  location           String?
+  address            String?
+  phoneNumber        String?
   quickNote          String?
-  favorite           Boolean     @default(false)
+  favorite           Boolean?     @default(false)
   groups             Group[]
+  facebookId         String?
+  twitterId          String?
+  instagramId        String?
+  linkedinId         String?
+  website            String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @default(now())
   userEmail          String
   user               User        @relation(fields: [userEmail], references: [email])
 }
