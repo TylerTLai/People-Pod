@@ -38,6 +38,7 @@
     "@testing-library/user-event": "^13.2.1",
     "autoprefixer": "^10.0.4",
     "babel-jest": "^27.1.0",
+    "cypress": "^8.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.1.0",
     "postcss": "^8.1.10",

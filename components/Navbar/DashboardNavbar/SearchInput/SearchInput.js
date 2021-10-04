@@ -9,6 +9,7 @@ const SearchInput = ({ handleInputChange }) => {
         type="text"
         placeholder="Find a person..."
         onChange={handleInputChange}
+        data-cy="search-input"
       />
     </div>
   );
