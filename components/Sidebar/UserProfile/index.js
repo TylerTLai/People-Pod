@@ -34,6 +34,7 @@ const UserProfile = () => {
       <img
         src="https://dummyimage.com/302x302/F3F4F7/8693ac"
         alt="user name"
+        data-cy="user-profile-image"
         className={`object-cover w-10 h-10 rounded-full border border-gray-500`}
       />
       <div className="hidden sm:inline-block">

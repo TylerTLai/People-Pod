@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-
+import Link from "next/link";
 import Button from "../../shared/Button";
 import SvgPeoplePodLogo from "../../shared/Icons/PeoplePodLogo";
 
@@ -15,7 +14,12 @@ const SiteNavbar = () => {
       <div className="flex items-center space-x-3">
         <SvgPeoplePodLogo width={36} height={36} />
         <Link href="/">
-          <a className="text-xl uppercase font-bold cursor-pointer w-64">People Pod</a>
+          <a
+            className="text-xl uppercase font-bold cursor-pointer w-64"
+            data-cy="people-pod-link"
+          >
+            People Pod
+          </a>
         </Link>
       </div>
       <div className="ml-auto">
@@ -23,7 +27,7 @@ const SiteNavbar = () => {
           {user && (
             <li>
               <Link href="/dashboard">
-                <a>
+                <a data-cy="dashboard-link">
                   <Button secondary>Dashboard</Button>
                 </a>
               </Link>
@@ -34,11 +38,11 @@ const SiteNavbar = () => {
             <Button primary>
               {user ? (
                 <Link href="/api/auth/logout">
-                  <a>Log out</a>
+                  <a data-cy="log-out-link">Log out</a>
                 </Link>
               ) : (
                 <Link href="/api/auth/login">
-                  <a>Log in</a>
+                  <a data-cy="log-in-link">Log in</a>
                 </Link>
               )}
             </Button>

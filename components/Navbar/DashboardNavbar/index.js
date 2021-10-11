@@ -25,7 +25,7 @@ const DashboardNavbar = () => {
       <div className="flex items-center w-64 space-x-3">
         <SvgPeoplePodLogo width={36} height={36} />
         <Link href="/">
-          <a className="text-xl font-bold uppercase cursor-pointer">People Pod</a>
+          <a className="text-xl font-bold uppercase cursor-pointer" data-cy="people-pod-link">People Pod</a>
         </Link>
       </div>
 
