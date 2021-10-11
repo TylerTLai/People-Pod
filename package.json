@@ -39,6 +39,7 @@
     "autoprefixer": "^10.0.4",
     "babel-jest": "^27.1.0",
     "cypress": "^8.5.0",
+    "cypress-nextjs-auth0": "^2.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.1.0",
     "postcss": "^8.1.10",
