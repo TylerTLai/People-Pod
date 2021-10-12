@@ -140,10 +140,7 @@ const PersonForm = ({ handleModalClose }) => {
     <form onSubmit={handleSubmit(onSubmit)} data-testid="add-person-form">
       <fieldset className="flex flex-col mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">About</legend>
-        <label
-          htmlFor="firstName"
-          className="text-base leading-7 text-blueGray-500 mt-4 mt-2"
-        >
+        <label htmlFor="firstName" className="text-base leading-7 text-blueGray-500 mt-4">
           First Name
         </label>
         {errors.firstName && (
@@ -337,65 +334,74 @@ const PersonForm = ({ handleModalClose }) => {
       </fieldset>
       <fieldset className="flex flex-col mb-12">
         <legend className="text-2xl font-bold uppercase text-gray-700">Social</legend>
-        <label htmlFor="facebook" className="text-base leading-7 text-blueGray-500 mt-4">
+        <label
+          htmlFor="facebookId"
+          className="text-base leading-7 text-blueGray-500 mt-4"
+        >
           Facebook
         </label>
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
-          id="facebook"
-          name="facebook"
+          id="facebookId"
+          name="facebookId"
           type="text"
           placeholder={
-            formType === "editPerson" && formData?.facebook
-              ? formData.facebook
+            formType === "editPerson" && formData?.facebookId
+              ? formData.facebookId
               : "https://www.facebook.com/johndoe"
           }
-          {...register("facebook")}
+          {...register("facebookId")}
         />
-        <label htmlFor="twitter" className="text-base leading-7 text-blueGray-500 mt-4">
+        <label htmlFor="twitterId" className="text-base leading-7 text-blueGray-500 mt-4">
           Twitter
         </label>
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
-          id="twitter"
-          name="twitter"
+          id="twitterId"
+          name="twitterId"
           type="text"
           placeholder={
-            formType === "editPerson" && formData?.twitter
-              ? formData.twitter
+            formType === "editPerson" && formData?.twitterId
+              ? formData.twitterId
               : "https://www.twitter.com/johndoe"
           }
-          {...register("twitter")}
+          {...register("twitterId")}
         />
-        <label htmlFor="instagram" className="text-base leading-7 text-blueGray-500 mt-4">
+        <label
+          htmlFor="instagramId"
+          className="text-base leading-7 text-blueGray-500 mt-4"
+        >
           Instagram
         </label>
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
-          id="instagram"
-          name="instagram"
+          id="instagramId"
+          name="instagramId"
           type="text"
           placeholder={
-            formType === "editPerson" && formData?.instagram
-              ? formData.instagram
+            formType === "editPerson" && formData?.instagramId
+              ? formData.instagramId
               : "https://www.instagram.com/johndoe"
           }
-          {...register("instagram")}
+          {...register("instagramId")}
         />
-        <label htmlFor="linkedin" className="text-base leading-7 text-blueGray-500 mt-4">
+        <label
+          htmlFor="linkedinId"
+          className="text-base leading-7 text-blueGray-500 mt-4"
+        >
           LinkedIn
         </label>
         <input
           className="bg-blueGray-100 rounded px-4 py-2"
-          id="linkedin"
-          name="linkedin"
+          id="linkedinId"
+          name="linkedinId"
           type="text"
           placeholder={
-            formType === "editPerson" && formData?.linkedin
-              ? formData.linkedin
+            formType === "editPerson" && formData?.linkedinId
+              ? formData.linkedinId
               : "https://www.linkedin.com/johndoe"
           }
-          {...register("linkedin")}
+          {...register("linkedinId")}
         />
         <label htmlFor="website" className="text-base leading-7 text-blueGray-500 mt-4">
           Website
