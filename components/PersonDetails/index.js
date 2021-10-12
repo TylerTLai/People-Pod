@@ -31,7 +31,6 @@ const PersonDetails = () => {
           },
         });
         setPerson(res.data);
-        // createSectionData(res.data);
       } catch (error) {
         console.error("error message: ", error.message);
       }
@@ -44,42 +43,6 @@ const PersonDetails = () => {
     dispatch(setExpandView());
   };
 
-  // const sectionData = {
-  //   title: "About",
-  //   details: [
-  //     {
-  //       id: 1,
-  //       value: person.quickNote ? person.quickNote : "No notes provided.",
-  //       icon: SvgClipboard,
-  //     },
-  //     {
-  //       id: 2,
-  //       value: person.birthday ? person.birthday : "No birthday provided.",
-  //       icon: SvgCake,
-  //     },
-  //     {
-  //       id: 3,
-  //       value: person.location ? person.location : "No location provided",
-  //       icon: SvgMapPin,
-  //     },
-  //     {
-  //       id: 4,
-  //       value: person.address ? person.address : "No address provided",
-  //       icon: SvgHome,
-  //     },
-  //     {
-  //       id: 5,
-  //       value: person.phoneNumber ? person.phoneNumber : "No phone number provided",
-  //       icon: SvgSmartphone,
-  //     },
-  //     {
-  //       id: 6,
-  //       value: person.email ? person.email : "No email provided",
-  //       icon: SvgMail,
-  //     },
-  //   ],
-  // };
-
   return (
     <div className={`flex-1`}>
       {personId ? (
@@ -87,7 +50,7 @@ const PersonDetails = () => {
           variants={personDetailsVariants}
           initial="initial"
           animate="show"
-          className="max-h-full px-5 overflow-y-auto border-l border-gray-200 py-7"
+          className="max-h-full px-5 overflow-y-auto py-7"
         >
           <div className="flex mt-1 mb-5">
             <div>
@@ -98,7 +61,14 @@ const PersonDetails = () => {
             </div>
           </div>
           <Summary person={person} />
-          <Section sectionData={createSectionData(person)} />
+          <Section
+            title={createSectionData(person)[0].aboutTitle}
+            details={createSectionData(person)[0].aboutDetails}
+          />
+          <Section
+            title={createSectionData(person)[0].socialTitle}
+            details={createSectionData(person)[0].socialDetails}
+          />
         </motion.div>
       ) : (
         <div className="flex items-center justify-center min-h-screen text-xl font-bold uppercase">
