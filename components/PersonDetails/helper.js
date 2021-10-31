@@ -78,5 +78,7 @@ export const createSectionData = (person) => {
     ],
   });
 
+  console.log(sectionData);
+
   return sectionData;
 };
